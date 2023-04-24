@@ -1,0 +1,22 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+      url: jdbc:oracle:thin:@211.38.173.250:1521:xe
+      username: caring
+      password: 1234
+      driver-class-name: oracle.jdbc.driver.OracleDriver 
+      
+  servlet:
+    multipart:
+      max-file-size:
+        10MB
+      max-request-size:
+        50MB
+      
+mybatis:
+#  config-location: classpath:config/mybatis-config.xml
+  type-aliases-package: com.example.board.model
+  mapper-locations:
+  - classpath:mapper/**/*.xml

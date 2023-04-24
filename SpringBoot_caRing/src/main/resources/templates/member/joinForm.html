@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
+
+        /* font-family: 'Zen Maru Gothic', sans-serif; */
+        @font-face {
+            font-family: 'ocr';
+            src: url('../OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        form {
+            width: 455px;
+            height: 100vh;
+            background-color: #dbcba0;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'ocr';
+            color: #6e7a77;
+        }
+
+        h1 {
+            padding-top: 80px;
+            margin-bottom: 50px;
+        }
+
+        .info {
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 290px;
+        }
+
+        input {
+            width: 350px;
+            height: 50px;
+            border-radius: 25px;
+            border: none;
+            margin-bottom: 10px;
+        }
+        .loginbt {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 500;
+            margin-top: 20px;
+            color: #6e7a77;
+        }
+        a {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 500;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <title>Join</title>
+</head>
+
+<body>
+    <form action="join" method="post">
+        <h1>join</h1>
+        <input type="text" placeholder="id" class="info"><br>
+        <input type="text" placeholder="password" class="info"><br>
+        <input type="text" placeholder="password 確認" class="info"><br>
+        <input type="text" placeholder="name" class="info"><br>
+        <input type="date" placeholder="birth" class="info"><br>
+        <input type="tel" placeholder="phone number" class="info"><br>
+        <input type="submit" value="会員登録" class="loginbt"><br>
+    </form>
+</body>
+
+</html>

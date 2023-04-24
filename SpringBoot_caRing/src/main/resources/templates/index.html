@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $(".lnb, .lnbclose").hide();
+            $(".user").click(function () {
+                $(".lnb, .lnbclose").toggle();
+            })
+
+            $('.lnbclose').click(function () {
+                $('.lnb, .lnbclose').hide();
+            })
+        })
+    </script>
+    <title>caRing</title>
+</head>
+
+<body>
+    <header>
+        <div class="hwrap">
+            <div class="logo">
+                <h1>
+                    <a href="#">
+                        <img src="img/logo.png" alt="caRing main logo">
+                    </a>
+                </h1>
+            </div><!--logo-->
+
+            <div class="user">
+                <a href="#">
+                    <img src="img/user.png" alt="userlogo">
+                </a>
+            </div><!--user-->
+        </div><!--hwrap-->
+
+        <div class="lnb-container">
+            <div class="lnbclose"></div>
+            <div class="lnb">
+                <ul>
+                    <li><a href="#">要約</a></li>
+                    <li><a href="#">メッセージ</a></li>
+                </ul>
+                <hr>
+                <ul>
+                    <li><a href="#">マイページ</a></li>
+                </ul>
+                <hr>
+                <ul>
+                    <li><a href="#">問い合わせ</a></li>
+                    <li><a href="#">ログイン／会員登録</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    
+    <div class="search">
+        <video muted loop autoplay>
+            <source src="img/road-42483.mp4">
+        </video>
+
+        <form action="#" class="carSearch">
+            <div class="where">
+                <label>どこで</label><br>
+                <input type="text" id="autocomplete" placeholder="city, airport, adress or hotel">
+            </div>
+            <div class="from">
+                <label>いつから</label><br>
+                <input type="date">
+            </div>
+            <div class="until">
+                <label>いつまで</label><br>
+                <input type="date">
+            </div>
+            <div class="searchbt">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        </form>
+    </div>
+
+    <div class="bodywrap">
+
+    </div>
+</body>
+
+</html>
