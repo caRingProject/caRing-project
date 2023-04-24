@@ -22,12 +22,12 @@ public class HostController {
 	
 	@GetMapping("join")
 	public String joinForm(Model model) {
-		model.addAttribute("joinForm", new HostJoinForm());
+		model.addAttribute("HostJoinForm", new HostJoinForm());
 		return "host/host_join";
 	}
 	@GetMapping("login")
 	public String loginForm(Model model) {
-		model.addAttribute("loginForm", new HostLoginForm());
+		model.addAttribute("HostLoginForm", new HostLoginForm());
 		return "host/host_login";
 	}
 	
