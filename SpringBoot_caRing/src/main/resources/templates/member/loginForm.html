@@ -27,10 +27,15 @@
             list-style: none;
         }
 
+        body {
+            
+            background-color: #dbcba0;
+        }
+
         form {
             width: 455px;
             height: 100vh;
-            background-color: #dbcba0;
+            background-color: #fff;
             margin: 0 auto;
             text-align: center;
             font-family: 'ocr';
@@ -45,6 +50,7 @@
         .info {
             padding-left: 30px;
             width: 320px;
+            box-shadow: 3px 3px 7px #999;
         }
 
         input {
@@ -63,10 +69,9 @@
         a {
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
+            display: block;
         }
     </style>
-    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Login</title>
 </head>
 
@@ -76,7 +81,8 @@
         <input type="text" placeholder="id" class="info"><br>
         <input type="text" placeholder="password" class="info"><br>
         <input type="submit" value="ログイン" class="loginbt"><br>
-        <a href="join">会員登録</a>
+        <a href="join">会員登録</a><br>
+        <a href="join">HOST ログイン／HOST 登録はこちら。</a>
     </form>
 </body>
 
