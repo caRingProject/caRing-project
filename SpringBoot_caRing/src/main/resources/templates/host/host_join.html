@@ -10,7 +10,7 @@
         /* font-family: 'Zen Maru Gothic', sans-serif; */
         @font-face {
             font-family: 'ocr';
-            src: url('../OCR-B\ 10\ BT.ttf') format('truetype');
+            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
         }
 
         * {
@@ -26,9 +26,9 @@
         ul {
             list-style: none;
         }
-
+        
         body {
-            background-color: #dbcba0;
+            background-color: #6e7a77;
         }
 
         form {
@@ -48,7 +48,8 @@
 
         .info {
             padding-left: 30px;
-            width: 320px;
+            padding-right: 30px;
+            width: 290px;
             border: 2px solid #6e7a77;
         }
 
@@ -57,31 +58,32 @@
             height: 50px;
             border-radius: 25px;
             border: none;
-            margin-bottom: 20px;
-            border: 2px solid #6e7a77;
+            margin-bottom: 10px;
         }
         .loginbt {
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
             margin-top: 20px;
             color: #6e7a77;
+            border: 2px solid #6e7a77;
         }
         a {
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
-            display: block;
         }
     </style>
-    <title>User Login</title>
+    <title>Host Join</title>
 </head>
 
 <body>
-    <form action="userLogin" method="post">
-        <h1>user login</h1>
+    <form action="host_join" method="post">
+        <h1>host join</h1>
         <input type="text" placeholder="id" class="info"><br>
         <input type="text" placeholder="password" class="info"><br>
-        <input type="submit" value="ログイン" class="loginbt"><br>
-        <a href="join">USER 登録</a><br>
+        <input type="text" placeholder="password 確認" class="info"><br>
+        <input type="text" placeholder="name" class="info"><br>
+        <input type="tel" placeholder="phone number" class="info"><br>
+        <input type="submit" value="会員登録" class="loginbt"><br>
     </form>
 </body>
 

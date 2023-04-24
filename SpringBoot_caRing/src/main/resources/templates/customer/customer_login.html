@@ -10,7 +10,7 @@
         /* font-family: 'Zen Maru Gothic', sans-serif; */
         @font-face {
             font-family: 'ocr';
-            src: url('../OCR-B\ 10\ BT.ttf') format('truetype');
+            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
         }
 
         * {
@@ -26,9 +26,9 @@
         ul {
             list-style: none;
         }
-        
+
         body {
-            background-color: #6e7a77;
+            background-color: #dbcba0;
         }
 
         form {
@@ -48,8 +48,7 @@
 
         .info {
             padding-left: 30px;
-            padding-right: 30px;
-            width: 290px;
+            width: 320px;
             border: 2px solid #6e7a77;
         }
 
@@ -58,33 +57,31 @@
             height: 50px;
             border-radius: 25px;
             border: none;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #6e7a77;
         }
         .loginbt {
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
             margin-top: 20px;
             color: #6e7a77;
-            border: 2px solid #6e7a77;
         }
         a {
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
+            display: block;
         }
     </style>
-    <title>Host Join</title>
+    <title>User Login</title>
 </head>
 
 <body>
-    <form action="host_join" method="post">
-        <h1>host join</h1>
+    <form action="userLogin" method="post">
+        <h1>user login</h1>
         <input type="text" placeholder="id" class="info"><br>
         <input type="text" placeholder="password" class="info"><br>
-        <input type="text" placeholder="password 確認" class="info"><br>
-        <input type="text" placeholder="name" class="info"><br>
-        <input type="button" onclick="execDaumPostcode()" value="주소"><br>
-        <input type="tel" placeholder="phone number" class="info"><br>
-        <input type="submit" value="会員登録" class="loginbt"><br>
+        <input type="submit" value="ログイン" class="loginbt"><br>
+        <a href="join">USER 登録</a><br>
     </form>
 </body>
 
