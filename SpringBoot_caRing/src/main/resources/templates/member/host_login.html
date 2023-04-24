@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
+
+        /* font-family: 'Zen Maru Gothic', sans-serif; */
+        @font-face {
+            font-family: 'ocr';
+            src: url('../OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        body {
+            
+            background-color: #6e7a77;
+        }
+
+        form {
+            width: 455px;
+            height: 100vh;
+            background-color: #fff;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'ocr';
+            color: #6e7a77;
+        }
+
+        h1 {
+            padding-top: 80px;
+            margin-bottom: 50px;
+        }
+
+        .info {
+            padding-left: 30px;
+            width: 320px;
+            border: 2px solid #6e7a77;
+        }
+
+        input {
+            width: 350px;
+            height: 50px;
+            border-radius: 25px;
+            border: none;
+            margin-bottom: 20px;
+            border: 2px solid #6e7a77;
+        }
+        .loginbt {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 500;
+            margin-top: 20px;
+            color: #6e7a77;
+        }
+        a {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 500;
+            display: block;
+        }
+    </style>
+    <title>Host Login</title>
+</head>
+
+<body>
+    <form action="hostLogin" method="post">
+        <h1>host login</h1>
+        <input type="text" placeholder="id" class="info"><br>
+        <input type="text" placeholder="password" class="info"><br>
+        <input type="submit" value="ログイン" class="loginbt"><br>
+        <a href="join">HOST 登録</a><br>
+    </form>
+</body>
+
+</html>
