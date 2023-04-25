@@ -1,5 +1,6 @@
 package com.example.caRing.model.host;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -11,7 +12,7 @@ import lombok.Data;
 @Data
 public class HostJoinForm {
 	
-	@NotBlank
+	@Email
 	private String host_email;
 	@Size(min = 4 , max = 20)
 	private String host_password;
@@ -22,6 +23,7 @@ public class HostJoinForm {
 	
 	public static Host toHost(HostJoinForm hostJoinForm) {
         Host host = new Host();
+        host.setHost_email(hostJoinForm.getHost_email());
         host.setHost_password(hostJoinForm.getHost_password());
         host.setHost_name(hostJoinForm.getHost_name());
         host.setHost_phone(hostJoinForm.getHost_phone());

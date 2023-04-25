@@ -71,21 +71,39 @@
         a {
             font-weight: 500;
         }
+        .error {
+        	color: red;
+        }
     </style>
     <title>User Join</title>
 </head>
 
 <body>
-    <form action="user_join" method="post">
-        <h1>user join</h1>
-        <input type="text" placeholder="email" class="info"><br>
-        <input type="text" placeholder="password" class="info"><br>
-        <input type="text" placeholder="password확인" class="info"><br>
-        <input type="text" placeholder="name" class="info"><br>
-        <input type="tel" placeholder="phone number (하이픈 포함 13자리)" class="info"><br>
-        <input type="text" placeholder="면허증 번호 (하이픈 포함 15자리)" class="info"><br>
-        <input type="submit" value="会員登録" class="loginbt"><br>
-    </form>
+   <form action="/customer/join" method="post" th:object="${customerJoinForm}">
+      
+      <h1>user join</h1>
+      <div th:if="${#fields.hasGlobalErrors()}">
+         <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+      </div>
+      <div th:errors="*{customer_email}" class="error"></div>
+      <input type="text" placeholder="email" class="info" th:field="*{customer_email}"><br>
+      
+      <div th:errors="*{customer_password}" class="error"></div>
+      <input type="text" placeholder="password" class="info" th:field="*{customer_password}"><br>
+   
+      <input type="text" placeholder="password확인" class="info"><br>
+      
+      <div th:errors="*{customer_name}" class="error"></div>
+      <input type="text" placeholder="name" class="info" th:field="*{customer_name}"><br>
+      
+      <div th:errors="*{customer_phone}" class="error"></div>
+      <input type="tel" placeholder="phone number (하이픈 제외 11자리)" class="info" th:field="*{customer_phone}"><br>
+      
+      <div th:errors="*{license}" class="error"></div>
+      <input type="text" placeholder="면허증 번호 (하이픈 제외 12자리)" class="info" th:field="*{license}"><br>
+      
+      <input type="submit" value="회원가입" class="loginbt"><br>
+   </form>
 </body>
 
 </html>

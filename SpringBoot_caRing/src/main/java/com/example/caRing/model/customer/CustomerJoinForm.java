@@ -2,6 +2,7 @@ package com.example.caRing.model.customer;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -12,7 +13,7 @@ import lombok.Data;
 
 @Data
 public class CustomerJoinForm {
-	@NotBlank
+	@Email
 	private String customer_email;
 	@Size(min = 4 , max = 20)
 	private String customer_password;
@@ -25,6 +26,7 @@ public class CustomerJoinForm {
 	
 	public static Customer toCustomer(CustomerJoinForm customerJoinForm) {
         Customer customer = new Customer();
+        customer.setCustomer_email(customerJoinForm.getCustomer_email());
         customer.setCustomer_password(customerJoinForm.getCustomer_password());
         customer.setCustomer_name(customerJoinForm.getCustomer_name());
         customer.setCustomer_phone(customerJoinForm.getCustomer_phone());

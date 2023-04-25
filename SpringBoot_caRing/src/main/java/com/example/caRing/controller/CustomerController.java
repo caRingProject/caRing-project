@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.caRing.model.customer.Customer;
 import com.example.caRing.model.customer.CustomerJoinForm;
 import com.example.caRing.model.customer.CustomerLoginForm;
 import com.example.caRing.repository.CustomerMapper;
@@ -43,26 +44,19 @@ class CustomerController {
         if (result.hasErrors()) {
             return "customer/customer_join";
         }
-//        // 이메일 주소에 '@' 문자가 포함되어 있는지 확인한다.
-//        if (!joinForm.getEmail().contains("@")) {
-//            // BindingResult 객체에 GlobalError 를 추가한다.
-//            result.reject("emailError", "이메일 형식이 잘못되었습니다.");
-//            // member/joinForm.html 페이지를 리턴한다.
-//            return "member/joinForm";
-//        }
-//        // 사용자로부터 입력받은 아이디로 데이터베이스에서 Member 를 검색한다.
-//        Member member = memberMapper.findMember(joinForm.getMember_id());
-//        // 사용자 정보가 존재하면
-//        if (member != null) {
-//            log.info("이미 가입된 아이디 입니다.");
-//            // BindingResult 객체에 GlobalError 를 추가한다.
-//            result.reject("duplicate ID", "이미 가입된 아이디 입니다.");
-//            // member/joinForm.html 페이지를 리턴한다.
-//            return "member/joinForm";
-//        }
+        
+        // 사용자로부터 입력받은 아이디로 데이터베이스에서 customer 를 검색한다.
+        Customer customer = customerMapper.findCustomer(customerJoinForm.getCustomer_email());
+        
+        if (customer != null) {
+        	result.reject("duplicate ID", "이미 가입된 아이디 입니다.");
+            return "customer/customer_join";
+        }
+        
         // MemberJoinForm 객체를 Member 타입으로 변환하여 데이터베이스에 저장한다.
         customerMapper.saveCustomer(customerJoinForm.toCustomer(customerJoinForm));
+        
         // 메인 페이지로 리다이렉트한다.
-        return "redirect:/";
+        return "redirect:/#";
     }
 }

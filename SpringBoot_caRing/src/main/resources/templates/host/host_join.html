@@ -71,19 +71,33 @@
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
         }
+        .error {
+        	color: red;
+        }
     </style>
     <title>Host Join</title>
 </head>
 
 <body>
-    <form action="host_join" method="post">
+    <form action="/host/join" method="post" th:object="${hostJoinForm}">
         <h1>host join</h1>
-        <input type="text" placeholder="email" class="info"><br>
-        <input type="text" placeholder="password" class="info"><br>
+      <div th:if="${#fields.hasGlobalErrors()}">
+         <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+      </div>
+        <div th:errors="*{host_email}" class="error"></div>
+        <input type="text" placeholder="email" class="info" th:field="*{host_email}"><br>
+        
+        <div th:errors="*{host_password}" class="error"></div>
+        <input type="text" placeholder="password" class="info" th:field="*{host_password}"><br>
+        
         <input type="text" placeholder="password 確認" class="info"><br>
-        <input type="text" placeholder="name" class="info"><br>
-        <input type="tel" placeholder="phone number" class="info"><br>
-        <input type="submit" value="会員登録" class="loginbt"><br>
+        
+        <div th:errors="*{host_name}" class="error"></div>
+        <input type="text" placeholder="name" class="info" th:field="*{host_name}"><br>
+        
+        <div th:errors="*{host_phone}" class="error"></div>
+        <input type="tel" placeholder="phone number" class="info" th:field="*{host_phone}"><br>
+        <input type="submit" value="회원가입" class="loginbt"><br>
     </form>
 </body>
 

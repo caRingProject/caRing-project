@@ -16,4 +16,10 @@
             #{host_phone}
         )
     </insert>
+    	
+    <select id="findHost" resultType="host">
+        select * from host where host_email = #{host_email}
+    </select>
+    	
+    	
 </mapper>
