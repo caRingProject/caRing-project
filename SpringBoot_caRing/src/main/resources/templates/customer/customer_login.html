@@ -72,15 +72,25 @@
             display: block;
             font-family: 'Pretendard-Regular';
         }
+        .error {
+        	color: red;
+            font-family: 'Pretendard-Regular';
+            margin-bottom: 10px;
+        }
     </style>
     <title>User Login</title>
 </head>
 
 <body>
-    <form action="/customer/login" method="post">
+    <form action="/customer/login" method="post" th:object="${customerLoginForm}">
+    	<div th:if="${#fields.hasGlobalErrors()}">
+	       <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+	    </div>
         <h1>user login</h1>
-        <input type="text" placeholder="id" class="info"><br>
-        <input type="password" placeholder="password" class="info"><br>
+        <input type="text" placeholder="id" class="info" th:field="*{customer_email}"><br>
+        <div th:errors="*{customer_email}" class="error"></div>
+        <input type="password" placeholder="password" class="info" th:field="*{customer_password}"><br>
+        <div th:errors="*{customer_password}" class="error"></div>
         <input type="submit" value="login" class="loginbt"><br>
         <a href="/customer/join">회원가입</a><br>
     </form>

@@ -78,10 +78,15 @@
 </head>
 
 <body>
-    <form action="/host/login" method="post">
+    <form action="/host/login" method="post" th:object="${hostLoginForm}">
+    	<div th:if="${#fields.hasGlobalErrors()}">
+	       <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+	    </div>
         <h1>host login</h1>
-        <input type="text" placeholder="id" class="info"><br>
-        <input type="password" placeholder="password" class="info"><br>
+        <input type="text" placeholder="id" class="info" th:field="*{host_email}"><br>
+        <div th:errors="*{host_email}" class="error"></div>
+        <input type="password" placeholder="password" class="info" th:field="*{host_password}"><br>
+        <div th:errors="*{host_password}" class="error"></div>
         <input type="submit" value="login" class="loginbt"><br>
         <a href="/host/join">회원가입</a><br>
     </form>
