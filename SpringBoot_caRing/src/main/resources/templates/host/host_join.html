@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
-
-        /* font-family: 'Zen Maru Gothic', sans-serif; */
-        @font-face {
+    	@font-face {
             font-family: 'ocr';
             src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
         }
+        @font-face {
+		    font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+		}
 
         * {
             margin: 0;
@@ -61,18 +64,34 @@
             margin-bottom: 10px;
         }
         .loginbt {
-            font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
             margin-top: 20px;
             color: #6e7a77;
             border: 2px solid #6e7a77;
-        }
-        a {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 500;
+            font-family: 'Pretendard-Regular';
         }
         .error {
         	color: red;
+            font-family: 'Pretendard-Regular';
+            margin-bottom: 10px;
+        }
+        .emailwrap {
+            width: 380px;
+            height: 50px;
+            border-radius: 25px;
+            margin: 0 auto;
+            margin-bottom: 15px;
+        }
+        .email {
+            width: 238px;
+            border: 2px solid #6e7a77;
+            padding-left: 30px;
+        }
+        .bt {
+            width: 70px;
+            border: 2px solid #6e7a77;
+            color: #6e7a77;
+            font-family: 'Pretendard-Regular';
         }
     </style>
     <title>Host Join</title>
@@ -81,16 +100,19 @@
 <body>
     <form action="/host/join" method="post" th:object="${hostJoinForm}">
         <h1>host join</h1>
-      <div th:if="${#fields.hasGlobalErrors()}">
-         <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
-      </div>
+      	<div th:if="${#fields.hasGlobalErrors()}">
+         	<p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+      	</div>
         <div th:errors="*{host_email}" class="error"></div>
-        <input type="text" placeholder="email" class="info" th:field="*{host_email}"><br>
+	    <div class="emailwrap">
+	        <input type="text" placeholder="email" class="email" th:field="*{host_email}">
+	        <input type="button" value="중복확인" class="bt"><br>
+	    </div>
         
         <div th:errors="*{host_password}" class="error"></div>
-        <input type="text" placeholder="password" class="info" th:field="*{host_password}"><br>
+        <input type="password" placeholder="password" class="info" th:field="*{host_password}"><br>
         
-        <input type="text" placeholder="password 確認" class="info"><br>
+        <input type="password" placeholder="password 확인" class="info"><br>
         
         <div th:errors="*{host_name}" class="error"></div>
         <input type="text" placeholder="name" class="info" th:field="*{host_name}"><br>

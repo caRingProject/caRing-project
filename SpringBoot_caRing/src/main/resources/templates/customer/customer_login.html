@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
-
-        /* font-family: 'Zen Maru Gothic', sans-serif; */
         @font-face {
             font-family: 'ocr';
             src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
         }
+        @font-face {
+		    font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+		}
 
         * {
             margin: 0;
@@ -61,15 +64,13 @@
             border: 2px solid #6e7a77;
         }
         .loginbt {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 500;
             margin-top: 20px;
             color: #6e7a77;
         }
         a {
-            font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
             display: block;
+            font-family: 'Pretendard-Regular';
         }
     </style>
     <title>User Login</title>
@@ -79,9 +80,9 @@
     <form action="userLogin" method="post">
         <h1>user login</h1>
         <input type="text" placeholder="id" class="info"><br>
-        <input type="text" placeholder="password" class="info"><br>
-        <input type="submit" value="ログイン" class="loginbt"><br>
-        <a href="/customer/join">USER 登録</a><br>
+        <input type="password" placeholder="password" class="info"><br>
+        <input type="submit" value="login" class="loginbt"><br>
+        <a href="/customer/join">회원가입</a><br>
     </form>
 </body>
 

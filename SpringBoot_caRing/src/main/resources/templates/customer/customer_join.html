@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
-
-        /* font-family: 'Zen Maru Gothic', sans-serif; */
         @font-face {
             font-family: 'ocr';
             src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
         }
+        @font-face {
+		    font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+		}
 
         * {
             margin: 0;
@@ -29,7 +32,7 @@
 
         body {
             background-color: #dbcba0;
-            font-family: 'Zen Maru Gothic', sans-serif;
+            color: #6e7a77;
         }
 
         form {
@@ -65,14 +68,35 @@
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
             margin-top: 20px;
-            color: #6e7a77;
             border: 2px solid #6e7a77;
+            color: #6e7a77;
+            font-family: 'Pretendard-Regular';
         }
         a {
             font-weight: 500;
         }
         .error {
         	color: red;
+            font-family: 'Pretendard-Regular';
+            margin-bottom: 10px;
+        }
+        .emailwrap {
+            width: 380px;
+            height: 50px;
+            border-radius: 25px;
+            margin: 0 auto;
+            margin-bottom: 15px;
+        }
+        .email {
+            width: 238px;
+            border: 2px solid #6e7a77;
+            padding-left: 30px;
+        }
+        .bt {
+            width: 70px;
+            border: 2px solid #6e7a77;
+            color: #6e7a77;
+            font-family: 'Pretendard-Regular';
         }
     </style>
     <title>User Join</title>
@@ -85,22 +109,25 @@
       <div th:if="${#fields.hasGlobalErrors()}">
          <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
       </div>
+      <div class="emailwrap">
+            <input type="text" placeholder="email" class="email" th:field="*{customer_email}">
+            <input type="button" value="중복확인" class="bt"><br>
+      </div>
       <div th:errors="*{customer_email}" class="error"></div>
-      <input type="text" placeholder="email" class="info" th:field="*{customer_email}"><br>
       
+      <input type="password" placeholder="password" class="info" th:field="*{customer_password}"><br>
       <div th:errors="*{customer_password}" class="error"></div>
-      <input type="text" placeholder="password" class="info" th:field="*{customer_password}"><br>
    
-      <input type="text" placeholder="password확인" class="info"><br>
+      <input type="password" placeholder="password 확인" class="info"><br>
       
-      <div th:errors="*{customer_name}" class="error"></div>
       <input type="text" placeholder="name" class="info" th:field="*{customer_name}"><br>
+      <div th:errors="*{customer_name}" class="error"></div>
       
-      <div th:errors="*{customer_phone}" class="error"></div>
       <input type="tel" placeholder="phone number (하이픈 제외 11자리)" class="info" th:field="*{customer_phone}"><br>
+      <div th:errors="*{customer_phone}" class="error"></div>
       
-      <div th:errors="*{license}" class="error"></div>
       <input type="text" placeholder="면허증 번호 (하이픈 제외 12자리)" class="info" th:field="*{license}"><br>
+      <div th:errors="*{license}" class="error"></div>
       
       <input type="submit" value="회원가입" class="loginbt"><br>
    </form>
