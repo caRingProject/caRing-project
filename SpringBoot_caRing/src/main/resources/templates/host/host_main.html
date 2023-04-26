@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'ocr';
+            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+            unicode-range: U+AC00-D7A3;
+		}
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        img {
+            vertical-align: top;
+        }
+        button {
+            border: none;
+            background-color: transparent;
+            color: #dbcba0;
+        }
+        body {
+            font-family: 'ocr', 'Pretendard-Regular';
+        }
+        
+        header {
+            display: flex;
+            height: 70px;
+            background-color: #6e7a77;
+            justify-content: space-between;
+            color: #dbcba0;
+        }
+        .mainlogo {
+            text-align: center;
+            font-family: 'ocr';
+            margin-left: 20px;
+            padding-top: 10px;
+        }
+
+        .profile {
+            display: flex;
+            margin-right: 20px;
+            padding-top: 15px;
+        }
+        .profileImg img {
+            width: 40px;
+        }
+        .profile button {
+            font-size: 16px;
+        }
+
+        .mainwrap {
+            display: flex;
+            justify-content: space-between;
+            color: #6e7a77;
+        }
+        .carList, .resList {
+            width: 850px;
+            height: 800px;
+            border: 3px solid #6e7a77;
+            margin-top: 30px;
+            border-radius: 30px;
+        }
+        .carList {
+            margin-left: 80px;
+        }
+        .resList {
+            margin-right: 80px;
+        }
+        .detailwrap {
+            width: 800px;
+            height: 700px;
+            overflow: auto;
+            margin: 0 auto;
+        }
+        .title {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+        }
+        .car, .res {
+            width: 770px;
+            height: 250px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 5px 5px 10px #ccc;
+            border: 1px solid #ccc;
+        }
+        .carwrap, .reswrap {
+            display: flex;
+            padding: 24px;
+        }
+        
+        .img {
+            width: 300px;
+            height: 200px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .img img {
+            width: 100%;
+        }
+        .carInfo, .resInfo {
+            margin-left: 30px;
+            width: 380px;
+        }
+        .resProfile, .resInfoTitle {
+            display: flex;
+            justify-content: space-between;
+        }
+        h3 {
+            margin-bottom: 30px;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <title>Host Main</title>
+</head>
+
+<body>
+    <header>
+        <div class="mainlogo">
+            <a href="#">
+                <img src="img/logo ver2.png" alt="main logo ver.2">
+                <p>Host Page</p>
+            </a>
+        </div><!--mainlogo-->
+        <div class="profile">
+            <button>
+                <i class="fa-solid fa-pen-to-square"></i>&nbsp
+            </button>
+            <div class="profileImg">
+                <img src="img/userlogo.png" alt="user logo ver.2">
+            </div>
+        </div><!--profile-->
+    </header>
+
+    <div class="mainwrap">
+        <div class="carList">
+            <div class="title">
+                <h2>Car List</h2>
+                <a href="#">more</a>
+            </div>
+            
+            <div class="detailwrap">
+                <div class="car">
+                    <div class="carwrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="img/mercedes-benz-3395531_640.jpg" alt="car1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="carInfo">
+                            <h3>car 1</h3>
+                            <p>explanation</p>
+                            <div class="carBt">
+                                <input type="button" value="수정">
+                                <input type="button" value="삭제">
+                            </div><!--button-->
+                        </div><!--carInfo-->
+                    </div><!--carwrap-->
+                </div><!--car-->
+
+                <div class="car">
+                    <div class="carwrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="img/mercedes-benz-3395531_640.jpg" alt="car1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="carInfo">
+                            <h3>car 1</h3>
+                            <p>explanation</p>
+                            <div class="carBt">
+                                <input type="button" value="수정">
+                                <input type="button" value="삭제">
+                            </div><!--button-->
+                        </div><!--carInfo-->
+                    </div><!--carwrap-->
+                </div><!--car-->
+
+                <div class="car">
+                    <div class="carwrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="img/mercedes-benz-3395531_640.jpg" alt="car1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="carInfo">
+                            <h3>car 1</h3>
+                            <p>explanation</p>
+                            <div class="carBt">
+                                <input type="button" value="수정">
+                                <input type="button" value="삭제">
+                            </div><!--button-->
+                        </div><!--carInfo-->
+                    </div><!--carwrap-->
+                </div><!--car-->
+            </div><!--detailwrap-->
+        </div><!--carList-->
+
+        <div class="resList">
+            <div class="title">
+                <h2>Reservation List</h2>
+                <a href="#">more</a>
+            </div>
+
+            <div class="detailwrap">
+                <div class="res">
+                    <div class="reswrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="img/mercedes-benz-3395531_640.jpg" alt="res1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="resInfo">
+                            <div class="resInfoTitle">
+                                <h3>reservation 1</h3>
+                                <span>요청</span>
+                            </div>
+                            <div class="resProfile">
+                                <div class="userInfo">
+                                    <div class="userImg"></div>
+                                    <p>username</p>
+                                </div><!--userInfo-->
+                                <div class="resDate">
+                                    <p><span class="start">2023/04/30</span> ~ <br>
+                                    <span class="end">2023/05/03</span></p>
+                                </div>
+                                <div class="chat">
+                                    <i class="fa-solid fa-comments"></i>
+                                </div>
+                            </div><!--resProfile-->
+                        </div><!--resInfo-->
+                    </div><!--reswrap-->
+                </div><!--res-->
+
+                <div class="res">
+                    <div class="reswrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="img/mercedes-benz-3395531_640.jpg" alt="res1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="resInfo">
+                            <div class="resInfoTitle">
+                                <h3>reservation 1</h3>
+                                <span>요청</span>
+                            </div>
+                            <div class="resProfile">
+                                <div class="userInfo">
+                                    <div class="userImg"></div>
+                                    <p>username</p>
+                                </div><!--userInfo-->
+                                <div class="resDate">
+                                    <p><span class="start">2023/04/30</span> ~ <br>
+                                    <span class="end">2023/05/03</span></p>
+                                </div>
+                                <div class="chat">
+                                    <i class="fa-solid fa-comments"></i>
+                                </div>
+                            </div><!--resProfile-->
+                        </div><!--resInfo-->
+                    </div><!--reswrap-->
+                </div><!--res-->
+
+                <div class="res">
+                    <div class="reswrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="img/mercedes-benz-3395531_640.jpg" alt="res1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="resInfo">
+                            <div class="resInfoTitle">
+                                <h3>reservation 1</h3>
+                                <span>요청</span>
+                            </div>
+                            <div class="resProfile">
+                                <div class="userInfo">
+                                    <div class="userImg"></div>
+                                    <p>username</p>
+                                </div><!--userInfo-->
+                                <div class="resDate">
+                                    <p><span class="start">2023/04/30</span> ~ <br>
+                                    <span class="end">2023/05/03</span></p>
+                                </div>
+                                <div class="chat">
+                                    <i class="fa-solid fa-comments"></i>
+                                </div>
+                            </div><!--resProfile-->
+                        </div><!--resInfo-->
+                    </div><!--reswrap-->
+                </div><!--res-->
+            </div>
+        </div><!--resList-->
+    </div><!--mainwrap-->
+</body>
+
+</html>
