@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.caRing.model.host1.Host;
-import com.example.caRing.model.host1.HostJoinForm;
-import com.example.caRing.model.host1.HostLoginForm;
+import com.example.caRing.model.host.Host;
+import com.example.caRing.model.host.HostJoinForm;
+import com.example.caRing.model.host.HostLoginForm;
 import com.example.caRing.repository.HostMapper;
 
 import lombok.RequiredArgsConstructor;
