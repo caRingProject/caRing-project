@@ -103,6 +103,11 @@ public class HostController {
 		public String hostMain(Model model) {
 			return "host/host_main";
 		}
+		
+		@GetMapping("main")
+		public String hostMain(Model model) {
+			return "host/host_main";
+		}
 }
 
 
