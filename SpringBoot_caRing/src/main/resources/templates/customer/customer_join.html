@@ -99,6 +99,31 @@
             font-family: 'Pretendard-Regular';
         }
     </style>
+    <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    	<script>
+    	function emailCheck() {
+    		var id = $('#customer_email').val();
+            $.ajax({
+                url:"/customer/emailCheck",
+                type:"post",
+                data:{'customer_email':id},
+                success:function(cnt){ 
+                	console.log(cnt);
+                    if(cnt == 0){  
+                    	alert("사용 가능한 이메일 입니다.");
+                    } else { 
+                      	alert("사용 중인 이메일이 있습니다. 다시 입력해주세요");
+                        $('#customer_email').val('');
+                    }
+                },
+                error:function(){
+                    alert("에러입니다");
+                }
+            	});
+            };
+    	</script>
+    
     <title>User Join</title>
 </head>
 
@@ -111,7 +136,7 @@
       </div>
       <div class="emailwrap">
             <input type="text" placeholder="email" class="email" th:field="*{customer_email}">
-            <input type="button" value="중복확인" class="bt"><br>
+            <input type="button" value="중복확인" onclick="emailCheck()" class="bt"><br>
       </div>
       <div th:errors="*{customer_email}" class="error"></div>
       
@@ -123,6 +148,9 @@
       <input type="text" placeholder="name" class="info" th:field="*{customer_name}"><br>
       <div th:errors="*{customer_name}" class="error"></div>
       
+      <div th:if="${#fields.hasGlobalErrors()}">
+         <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+      </div>
       <input type="tel" placeholder="phone number (하이픈 제외 11자리)" class="info" th:field="*{customer_phone}"><br>
       <div th:errors="*{customer_phone}" class="error"></div>
       

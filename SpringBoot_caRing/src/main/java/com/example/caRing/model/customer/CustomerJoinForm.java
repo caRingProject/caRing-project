@@ -19,9 +19,9 @@ public class CustomerJoinForm {
 	private String customer_password;
 	@NotBlank
 	private String customer_name;
-	@NotBlank
+	@Size(min = 11, max = 11, message = "\"-\" 제외 11자리 숫자로 입력해주세요.")
 	private String customer_phone;
-	@NotBlank
+	@Size(min = 12, max = 12, message = "\"-\" 제외 12자리 숫자로 입력해주세요.")
 	private String license;
 	
 	public static Customer toCustomer(CustomerJoinForm customerJoinForm) {

@@ -8,6 +8,7 @@ import com.example.caRing.model.host.Host;
 public interface HostMapper {
 	void saveHost(Host host);
 	Host findHost(String host_email);
+	int hostEmailCheck(String host_email);
 }
 
 

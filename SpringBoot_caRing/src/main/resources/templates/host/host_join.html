@@ -94,6 +94,31 @@
             font-family: 'Pretendard-Regular';
         }
     </style>
+     <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    	<script>
+    	function emailCheck() {
+    		var id = $('#host_email').val();
+            $.ajax({
+                url:"/host/emailCheck",
+                type:"post",
+                data:{'host_email':id},
+                success:function(cnt){ 
+                    if(cnt == 0){  
+                    	alert("사용 가능한 이메일 입니다.");
+                    } else { 
+                      	alert("사용 중인 이메일이 있습니다. 다시 입력해주세요");
+                        $('#host_email').val('');
+                    }
+                },
+                error:function(id){
+                	if(id == ''){
+                    alert("이메일을 입력해주세요.");
+                	}
+                }
+            });
+         };
+    	</script>
     <title>Host Join</title>
 </head>
 
@@ -106,7 +131,7 @@
         <div th:errors="*{host_email}" class="error"></div>
 	    <div class="emailwrap">
 	        <input type="text" placeholder="email" class="email" th:field="*{host_email}">
-	        <input type="button" value="중복확인" class="bt"><br>
+	        <input type="button" value="중복확인" onclick="emailCheck()"class="bt"><br>
 	    </div>
         
         <div th:errors="*{host_password}" class="error"></div>

@@ -22,6 +22,10 @@
     <select id="findCustomer" resultType="customer">
         select * from customer where customer_email = #{customer_email}
     </select>
+    
+    <select id="customerEmailCheck" resultType="int">
+        select count(customer_email) from customer where customer_email = #{customer_email}
+    </select>
  
  </mapper>
 	

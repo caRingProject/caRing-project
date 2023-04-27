@@ -20,6 +20,9 @@
     <select id="findHost" resultType="host">
         select * from host where host_email = #{host_email}
     </select>
-    	
+    
+     <select id="hostEmailCheck" resultType="int">
+        select count(host_email) from host where host_email = #{host_email}
+    </select>
     	
 </mapper>
