@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'ocr';
+            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            unicode-range: U+AC00-D7A3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        button {
+            border: none;
+            background-color: transparent;
+            color: #dbcba0;
+        }
+
+        body {
+            font-family: 'ocr', 'Pretendard-Regular';
+        }
+
+        header {
+            display: flex;
+            height: 70px;
+            background-color: #6e7a77;
+            justify-content: space-between;
+            color: #dbcba0;
+        }
+
+        .mainlogo {
+            text-align: center;
+            font-family: 'ocr';
+            margin-left: 20px;
+            padding-top: 10px;
+        }
+
+        .profile {
+            display: flex;
+            margin-right: 20px;
+            padding-top: 15px;
+        }
+
+        .profileImg img {
+            width: 40px;
+        }
+
+        .profile button {
+            font-size: 16px;
+        }
+
+        h1 {
+            margin-bottom: 36px;
+        }
+
+        h2 {
+            margin-bottom: 24px;
+        }
+
+        .wrap {
+            width: 1200px;
+            margin: 0 auto;
+            padding-top: 60px;
+            border: 3px solid #363636;
+        }
+
+        .carImgwrap {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .carPreview {
+            width: 330px;
+            height: 330px;
+            border-radius: 30px;
+            border: 3px solid #363636;
+            overflow: hidden;
+            color: #6e7a77;
+            font-size: 50px;
+            position: relative;
+        }
+
+        .carPreview i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn {
+            width: 50px;
+            height: 50px;
+            background-color: tomato;
+            cursor: pointer;
+            margin-bottom: 36px;
+        }
+
+        #carUpload {
+            display: none;
+        }
+
+        .carPreview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .closebtn {
+            color: #363636;
+            display: none;
+            font-size: 25px;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+        
+        .brand {
+            margin-top: 50px;
+            width: 20%;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        var sel_files = [];
+
+        $(document).ready(function () {
+            $("#carUpload").on("change", handleImgsFilesSelect);
+        });
+
+        function handleImgsFilesSelect(e) {
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+
+            if (filesArr.length > 3) {
+                alert("사진은 최대 3장까지 등록 가능합니다.");
+                return;
+            }
+
+            filesArr.forEach(function (f, index) {
+                if (!f.type.match("image.*")) {
+                    alert("확장자는 이미지 확장자만 가능합니다.");
+                    return;
+                }
+
+                sel_files.push(f);
+
+                console.log(f);
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img_html = "<img src=\"" + e.target.result + "\" />";
+                    $(".img" + (index + 1)).append(img_html).find(".noImage").hide().end()
+                        .find(".closebtn").show();
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+
+        function imgDelete(index) {
+            $(".img" + index).empty(); // 해당 index의 이미지를 삭제
+            sel_files.splice(index - 1, 1); // sel_files 배열에서 해당 index의 이미지를 제거
+
+            // 화면에 남아있는 이미지를 출력
+            for (var i = 0; i < sel_files.length; i++) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img_html = "<img src=\"" + e.target.result + "\" />";
+                    $(".img" + (i + 1)).html(img_html).find(".noImage").hide().end()
+                        .find(".closebtn").show();
+                }
+                reader.readAsDataURL(sel_files[i]);
+            }
+        }
+    </script>
+    <title>car register</title>
+</head>
+
+<body>
+    <header>
+        <div class="mainlogo">
+            <a href="#">
+                <img src="/img/logo ver2.png" alt="main logo ver.2">
+                <p>Host Page</p>
+            </a>
+        </div><!--mainlogo-->
+        <div class="profile">
+            <button>
+                <i class="fa-solid fa-pen-to-square"></i>&nbsp
+            </button>
+            <div class="profileImg">
+                <img src="/img/userlogo.png" alt="user logo ver.2">
+            </div>
+        </div><!--profile-->
+    </header>
+
+    <form class="wrap">
+        <h1>차량 등록</h1>
+        <h2>사진</h2>
+        <label for="carUpload">
+            <div class="btn"></div>
+        </label>
+        <input type="file" name="carUpload" id="carUpload" accept="image/*" multiple>
+        <div class="carImgwrap">
+            <div class="carPreview img1">
+                <i class="fa-solid fa-images noImage"></i>
+                <button class="closebtn" onclick="imgDelete()"><i
+                        class="fa-sharp fa-regular fa-circle-xmark"></i></button>
+            </div><!--carPreview-->
+            <div class="carPreview img2">
+                <i class="fa-solid fa-images noImage"></i>
+                <button class="closebtn"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
+            </div><!--carPreview-->
+            <div class="carPreview img3">
+                <i class="fa-solid fa-images noImage"></i>
+                <button class="closebtn"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
+            </div><!--carPreview-->
+        </div><!--carImgwrap-->
+        
+            <h2>제조사</h2>
+        <span class="brand" th:each="brand: ${brands}">
+            <label th:text="${brand.brand_name}"></label>
+            <input type="radio" name="selectedBrand" th:value="${brand.brand_id}">
+        </span><!-- brand -->
+    </form><!--wrap-->
+</body>
+
+</html>

@@ -8,4 +8,6 @@ public class Host {
 	private String host_password;
 	private String host_name;
 	private String host_phone;
+	
+	private String host;
 }
