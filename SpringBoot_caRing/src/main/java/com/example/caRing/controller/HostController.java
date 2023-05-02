@@ -100,9 +100,15 @@ public class HostController {
 		// 메인 페이지로 리다이렉트 한다.
 		return "redirect:" + redirectURL;
 	}
+	
+	@GetMapping("profile")
+	public String hostProfile(Model model) {
+		return "host/host_profile";
+	}
 
 	@GetMapping("main")
 	public String hostMain(Model model) {
 		return "host/host_main";
 	}
+	
 }

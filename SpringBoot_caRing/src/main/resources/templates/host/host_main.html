@@ -66,25 +66,26 @@
         }
 
         .mainwrap {
+        	width: 100%;
             display: flex;
             justify-content: space-between;
             color: #6e7a77;
         }
-        .carList, .resList {
-            width: 850px;
+        .list {
+            width: 600px;
             height: 800px;
             border: 3px solid #6e7a77;
             margin-top: 30px;
             border-radius: 30px;
         }
         .carList {
-            margin-left: 80px;
+            margin-left: 20px;
         }
         .resList {
-            margin-right: 80px;
+            margin-right: 20px;
         }
         .detailwrap {
-            width: 800px;
+            width: 600px;
             height: 700px;
             overflow: auto;
             margin: 0 auto;
@@ -141,7 +142,7 @@
             </a>
         </div><!--mainlogo-->
         <div class="profile">
-            <button>
+            <button onclick = "location.href = '/host/profile'">
                 <i class="fa-solid fa-pen-to-square"></i>&nbsp
             </button>
             <div class="profileImg">
@@ -151,10 +152,10 @@
     </header>
 
     <div class="mainwrap">
-        <div class="carList">
+        <div class="carList list">
             <div class="title">
                 <h2>Car List</h2>
-                <a href="#">more</a>
+                <a href="/board/car_registration">more</a>
             </div>
             
             <div class="detailwrap">
@@ -216,8 +217,76 @@
                 </div><!--car-->
             </div><!--detailwrap-->
         </div><!--carList-->
+        
+        
+        <div class="boardList list">
+            <div class="title">
+                <h2>Board List</h2>
+                <a href="/board/write">more</a>
+            </div>
+            
+            <div class="detailwrap">
+                <div class="car">
+                    <div class="carwrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="/img/mercedes-benz-3395531_640.jpg" alt="car1">
+                            </a>
+                        </div><!--carImg-->
 
-        <div class="resList">
+                        <div class="carInfo">
+                            <h3>board 1</h3>
+                            <p>explanation</p>
+                            <div class="carBt">
+                                <input type="button" value="수정">
+                                <input type="button" value="삭제">
+                            </div><!--button-->
+                        </div><!--carInfo-->
+                    </div><!--carwrap-->
+                </div><!--car-->
+
+                <div class="car">
+                    <div class="carwrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="/img/mercedes-benz-3395531_640.jpg" alt="car1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="carInfo">
+                            <h3>car 1</h3>
+                            <p>explanation</p>
+                            <div class="carBt">
+                                <input type="button" value="수정">
+                                <input type="button" value="삭제">
+                            </div><!--button-->
+                        </div><!--carInfo-->
+                    </div><!--carwrap-->
+                </div><!--car-->
+
+                <div class="car">
+                    <div class="carwrap">
+                        <div class="img">
+                            <a href="#">
+                                <img src="/img/mercedes-benz-3395531_640.jpg" alt="car1">
+                            </a>
+                        </div><!--carImg-->
+
+                        <div class="carInfo">
+                            <h3>car 1</h3>
+                            <p>explanation</p>
+                            <div class="carBt">
+                                <input type="button" value="수정">
+                                <input type="button" value="삭제">
+                            </div><!--button-->
+                        </div><!--carInfo-->
+                    </div><!--carwrap-->
+                </div><!--car-->
+            </div><!--detailwrap-->
+        </div><!--carList-->
+
+
+        <div class="resList list">
             <div class="title">
                 <h2>Reservation List</h2>
                 <a href="#">more</a>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'ocr';
+            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            unicode-range: U+AC00-D7A3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        button {
+            border: none;
+            background-color: transparent;
+            color: #dbcba0;
+        }
+
+        body {
+            font-family: 'ocr', 'Pretendard-Regular';
+            background-color: #b6bebc;
+        }
+
+        header {
+            display: flex;
+            height: 70px;
+            background-color: #6e7a77;
+            justify-content: space-between;
+            color: #dbcba0;
+        }
+
+        .mainlogo {
+            text-align: center;
+            font-family: 'ocr';
+            margin-left: 20px;
+            padding-top: 10px;
+        }
+
+        .profile {
+            display: flex;
+            margin-right: 20px;
+            padding-top: 15px;
+        }
+
+        .profileImg img {
+            width: 40px;
+        }
+
+        .profile button {
+            font-size: 16px;
+        }
+
+        form {
+            width: 800px;
+            height: 750px;
+            margin: 50px auto;
+            background-color: white;
+            box-shadow: 5px 10px 20px grey;
+            border-radius: 5% 5%;
+        }
+
+        h2 {
+            margin-top: 50px;
+            padding-top: 10px;
+            padding-left: 50px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 4px -4px grey;
+        }
+
+        .hostImg {
+            width: 300px;
+            height: 300px;
+            background-color: #dbcba0;
+            border-radius: 50%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .hostImg Img {
+            width: 100%;
+        }
+
+        .hostImgwrap {
+            width: 300px;
+            height: 300px;
+            text-align: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hostImgwrap #Imgfile {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .infowrap {
+            margin-left: 45px;
+            display: flex;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .label {
+            width: 300px;
+        }
+
+        .input {
+            width: 500px;
+        }
+
+        #hostname {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .username {
+            margin: 30px auto;
+            width: fit-content;
+        }
+
+        #info {
+            text-align: center;
+        }
+
+        .btwrap {
+            margin: 30px auto;
+            width: fit-content;
+            /* padding-top: 1em; */
+            margin-top: 0;
+        }
+
+        .btwrap input {
+            margin: 35px;
+            width: 200px;
+            height: 50px;
+            border-radius: 15px;
+            background-color: #b6bebc;
+            box-shadow: 3px 3px 3px grey;
+            transition-duration: 0.3s;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <title>Host Main</title>
+</head>
+
+<body>
+    <header>
+        <div class="mainlogo">
+            <a href="/host/main">
+                <img src="/img/logo ver2.png" alt="main logo ver.2">
+                <p>Host Page</p>
+            </a>
+        </div><!--mainlogo-->
+        <div class="profile">
+            <button>
+                <i class="fa-solid fa-pen-to-square"></i>&nbsp
+            </button>
+            <div class="profileImg">
+                <img src="/img/userlogo.png" alt="user logo ver.2">
+            </div>
+        </div><!--profile-->
+    </header>
+
+    <form action="#">
+        <h2>프로필 편집</h2>
+        <div class="hostImgwrap">
+            <div class="hostImg">
+                <img src="/HTML/img.jpg" alt="profile Img">
+            </div><!--hostImg-->
+            <input type="file" name="" id="Imgfile">
+        </div><!--hostImgwrap-->
+
+        <div class="username">
+            <input type="text" id="hostname" value="username">
+        </div>
+
+        <div class="infowrap">
+            <div class="label">
+                <label>email</label>
+            </div>
+            <div class="input">
+                <p>nb242@naver.com</p>
+            </div>
+        </div>
+
+        <div class="infowrap">
+            <div class="label">
+                <label>password</label>
+            </div>
+            <div class="input">
+                <input type="password" id="info" value="12345">
+            </div>
+        </div>
+
+        <div class="infowrap">
+            <div class="label">
+                <label>phone number</label>
+            </div>
+            <div class="input">
+                <input type="text" id="info" value="01011111111">
+            </div>
+        </div>
+
+        <div class="btwrap">
+            <input type="submit" value="수정하기">
+            <input type="button" value="회원탈퇴">
+            </div>
+    </form>
+
+</body>
+
+</html>
