@@ -6,6 +6,8 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.caRing.model.board.Board;
+import com.example.caRing.model.board.BoardWriteForm;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Brand;
 import com.example.caRing.model.board.car.Car;
@@ -62,7 +66,7 @@ public class BoardControlller {
 
 	// 차량 등록
 	@PostMapping("car_registration")
-	public String carSave(@ModelAttribute Car car, @ModelAttribute AttachedFile attachedFile, 
+	public String carSave(@ModelAttribute Car car, @ModelAttribute AttachedFile attachedFile,
 			@SessionAttribute(name = "loginHost", required = true) Host loginHost,
 			@RequestParam List<MultipartFile> carUpload, OptionList optionList) {
 		log.info("loginHost: {}", loginHost);
@@ -71,12 +75,12 @@ public class BoardControlller {
 		log.info("optionList: {}", optionList);
 		car.setHost_email(loginHost.getHost_email());
 		boardMapper.saveCar(car);
-		
+
 		optionList.setCarInfo_id(car.getCarInfo_id());
 		log.info("car.getCarInfo_id(): {}", car.getCarInfo_id());
 		boardMapper.saveOption(optionList);
-		
-		for (MultipartFile file: carUpload) {
+
+		for (MultipartFile file : carUpload) {
 			AttachedFile saveFile = fileService.saveFile(file);
 			log.info("saveFile.getOriginal_filename: {}", saveFile.getOriginal_filename());
 			log.info("saveFile.getFile_size: {}", saveFile.getFile_size());
@@ -86,13 +90,42 @@ public class BoardControlller {
 			saveFile.setCarInfo_id(car.getCarInfo_id());
 			boardMapper.saveFile(saveFile);
 		}
-		
+
 		return "board/car_registration";
 	}
 
-	// 게시글 등록
+	// 게시글 등록 페이지 이동
 	@GetMapping("write")
-	public String boardWrite(Model model) {
+	public String boardWriteForm(Model model, @SessionAttribute(name = "loginHost", required = true) Host loginHost) {
+		model.addAttribute("boardWriteForm", new BoardWriteForm());
+		Car carInfo = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
+		model.addAttribute("carInfo", carInfo);
 		return "board/board_write";
+	}
+
+	// 게시글 등록
+	@PostMapping("write")
+	public String boardWrite(@SessionAttribute(value = "loginHost", required = false) Host loginHost,
+			@Validated @ModelAttribute("baordWriteForm") BoardWriteForm boardWriteForm, BindingResult result) {
+		if (loginHost == null) {
+			return "redirect:/host/login";
+		}
+
+		if (result.hasErrors()) {
+			return "board/write";
+		}
+
+		Board board = BoardWriteForm.toBoard(boardWriteForm);
+		board.setHost_email(loginHost.getHost_email());
+		String title = boardMapper.setTitle(board.getCarInfo_id());
+		board.setTitle(title);
+		boardMapper.saveBoard(board);
+
+		return "redirect:/host/main";
+	}
+
+	@GetMapping("list")
+	public String boardList(Model model) {
+		return "board/board_list";
 	}
 }

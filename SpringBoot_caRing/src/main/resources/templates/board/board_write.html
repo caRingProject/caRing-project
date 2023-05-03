@@ -1,227 +1,332 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            @font-face {
-                font-family: 'ocr';
-                src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
-            }
-            @font-face {
-                font-family: 'Pretendard-Regular';
-                src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-                font-weight: 400;
-                font-style: normal;
-                unicode-range: U+AC00-D7A3;
-            }
-            #lastbutton {
-                padding:10px;
-                background-color: #dbcba0;
-                border:none;
-            }
-            * {
-                margin: 0;
-                padding: 0;
-            }
-            a {
-                text-decoration: inherit;
-                color: inherit;
-            }
-            ul {
-                list-style: none;
-            }
-            img {
-                vertical-align: top;
-            }
-            button {
-                border: none;
-                background-color: transparent;
-                color: #dbcba0;
-            }
-            body {
-                font-family: 'ocr', 'Pretendard-Regular';
-            }
-            
-            header {
-                display: flex;
-                height: 70px;
-                background-color: #6e7a77;
-                justify-content: space-between;
-                color: #dbcba0;
-            }
-            .mainlogo {
-                text-align: center;
-                font-family: 'ocr';
-                margin-left: 20px;
-                padding-top: 10px;
-            }
-    
-            .profile {
-                display: flex;
-                margin-right: 20px;
-                padding-top: 15px;
-            }
-            .profileImg img {
-                width: 40px;
-            }
-            .profile button {
-                font-size: 16px;
-            }
-    
-            .mainwrap {
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@font-face {
+   font-family: 'ocr';
+   src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+}
+
+@font-face {
+   font-family: 'Pretendard-Regular';
+   src:
+      url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+      format('woff');
+   font-weight: 400;
+   font-style: normal;
+   unicode-range: U+AC00-D7A3;
+}
+
+#lastbutton {
+   padding: 10px;
+   background-color: #dbcba0;
+   border: none;
+}
+
+* {
+   margin: 0;
+   padding: 0;
+}
+
+a {
+   text-decoration: inherit;
+   color: inherit;
+}
+
+ul {
+   list-style: none;
+}
+
+img {
+   vertical-align: top;
+}
+
+button {
+   border: none;
+   background-color: transparent;
+   color: #dbcba0;
+}
+
+body {
+   font-family: 'ocr', 'Pretendard-Regular';
+}
+
+header {
+   display: flex;
+   height: 70px;
+   background-color: #6e7a77;
+   justify-content: space-between;
+   color: #dbcba0;
+}
+
+.mainlogo {
+   text-align: center;
+   font-family: 'ocr';
+   margin-left: 20px;
+   padding-top: 10px;
+}
+
+.profile {
+   display: flex;
+   margin-right: 20px;
+   padding-top: 15px;
+}
+
+.profileImg img {
+   width: 40px;
+}
+
+.profile button {
+   font-size: 16px;
+}
+
+.mainwrap {
+   justify-content: space-between;
+   color: #6e7a77;
+}
+
+.carList, .resList {
+   width: 100%;
+   height: 100%;
+   margin-top: 20px;
+   border-radius: 30px;
+   padding-left: 100px;
+}
+
+.detailwrap {
+   width: 800px;
+   height: 700px;
+   overflow: auto;
+   margin: 0 auto;
+}
+
+.title {
+   justify-content: space-between;
+   padding: 20px 30px;
+}
+
+.car, .res {
+   width: 770px;
+   height: 250px;
+   border-radius: 30px;
+   margin-bottom: 20px;
+   box-shadow: 5px 5px 10px #ccc;
+   border: 1px solid #ccc;
+}
+
+.carwrap, .reswrap {
+   display: flex;
+   padding: 24px;
+}
+
+.boardheader {
+   margin: 20px;
+   display: flex;
+   padding-left: 100px;
+}
+
+.img {
+   width: 300px;
+   height: 200px;
+   border-radius: 20px;
+   overflow: hidden;
+}
+
+.img img {
+   width: 100%;
+}
+
+.carInfo, .resInfo {
+   margin-left: 30px;
+   width: 380px;
+}
+
+.resProfile, .resInfoTitle {
+   display: flex;
+   justify-content: space-between;
+}
+
+h3 {
+   margin-bottom: 30px;
+}
+
+textarea {
+   border: 1px solid black;
+   outline-color: #FE6B8B;
+}
+
+.center {
+   text-align: center;
+}
+</style>
+<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+   $(function(){
+       $(".flatpickr").flatpickr({
+           mode: "range",
+            wrap: true
+       });
+   });    
+</script>
+<script>
+   function myMap(){
+       var mapOptions = { 
+           center:new google.maps.LatLng(51.508742, -0.120850),
+            zoom:5
+          };
+ 
+         var map = new google.maps.Map(document.getElementById('googleMap'), {
+            center: {lat: 37.5400456, lng: 126.9921017},
+            zoom: 10,
+      });
+         
+         var geocoder = new google.maps.Geocoder();
+         
+         document.getElementById('submit').addEventListener('change', function() {
+             geocodeAddress(geocoder, map);
+         });
+
+   function geocodeAddress(geocoder, resultMap) {
+
+         var address = document.getElementById('submit').value;
+         console.log(address);
+
+         geocoder.geocode({'address': address}, function(result, status) {
+            console.log(result);
+            console.log(status);
+
+            if (status === 'OK') {
+               resultMap.setCenter(result[0].geometry.location);
+                resultMap.setZoom(18);
                 
-                justify-content: space-between;
-                color: #6e7a77;
-            }
-            .carList, .resList {
-                width: 100%;
-                height: 100%;
-                margin-top: 20px;
-                border-radius: 30px;
-                padding-left: 100px;
-            }
-            
-            .detailwrap {
-                width: 800px;
-                height: 700px;
-                overflow: auto;
-                margin: 0 auto;
-            }
-            .title {
-                justify-content: space-between;
-                padding: 20px 30px;
-            }
-            .car, .res {
-                width: 770px;
-                height: 250px;
-                border-radius: 30px;
-                margin-bottom: 20px;
-                box-shadow: 5px 5px 10px #ccc;
-                border: 1px solid #ccc;
-            }
-            .carwrap, .reswrap {
-                display: flex;
-                padding: 24px;
-            }
+                var marker = new google.maps.Marker({
+                   map: resultMap,
+                    position: result[0].geometry.location
+                });
 
-            .boardheader {
-                margin: 20px;
-                display: flex;
-                padding-left: 100px;
+                console.log('위도(latitude) : ' + marker.position.lat());
+                console.log('경도(longitude) : ' + marker.position.lng());
+            } else {
+               alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
             }
-            
-            .img {
-                width: 300px;
-                height: 200px;
-                border-radius: 20px;
-                overflow: hidden;
-            }
-            .img img {
-                width: 100%;
-            }
-            .carInfo, .resInfo {
-                margin-left: 30px;
-                width: 380px;
-            }
-            .resProfile, .resInfoTitle {
-                display: flex;
-                justify-content: space-between;
-            }
-            h3 {
-                margin-bottom: 30px;
-            }
-            textarea {
-               border: 1px solid black;
-                outline-color: #FE6B8B;
-            }
-            .center {
-                text-align: center;
-            }
-            
-        </style>
-        <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script>
-            $(function(){
-                $(".flatpickr").flatpickr({
-                         mode: "range",
-                         wrap: true
-                        });
-            });    
-        </script>
-        <title>Board Write Form</title>
-    </head>
-    
-    <body>
-        <header>
-            <div class="mainlogo">
-                <a href="/host/main">
-                    <img src="/img/logo ver2.png" alt="main logo ver.2">
-                    <p>SHARE YOUR DRIVING</p>
-                </a>
-            </div><!--mainlogo-->
-            <div class="profile">
-                <button>
-                    <a href="#">
-                    <i class="fa-solid fa-pen-to-square"></i>&nbsp
-                    </a>
-                </button>
-                <div class="profileImg">
-                    <img src="/img/userlogo.png" alt="user logo ver.2">
-                </div>
-            </div><!--profile-->
-        </header>
-        <div class="boardheader">
-            <h2>게시글</h2>
-        </div>
-        
-        <div class="mainwrap">
-            <div class="carList">
-                <div class="title">
-                    <a href="#">보유 자동차 목록</a><br>
-                    <select name="carlist" id="carlist">
-                        <option>렌트 할 차량을 골라주세요</option>
-                        <option>보유한 차량</option>
-                    </select>
-                </div>    
+       });
+   }
+};
+
+   function test() {
+      alert('test');
+   }
+   
+   function findAddr() {
+      new daum.Postcode({
+           oncomplete: function(data) {
+                var addr = '';
+                
+                if (data.userSelectedType === 'R') { 
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }                
+                $(".address").val(addr);
+                // test();
+                // 혹시 하려면 geocoder, map를 전역변수로 뺴서 해주는 function를 만들어야됨
+           }
+        }).open();
+   }
+   
+</script>
+<title>Board Write Form</title>
+</head>
+
+<body>
+   <header>
+      <div class="mainlogo">
+         <a href="/host/main"> <img src="/img/logo ver2.png"
+            alt="main logo ver.2">
+            <p>SHARE YOUR DRIVING</p>
+         </a>
+      </div>
+      <!--mainlogo-->
+      <div class="profile">
+         <button>
+            <a href="#"> <i class="fa-solid fa-pen-to-square"></i>&nbsp
+            </a>
+         </button>
+         <div class="profileImg">
+            <img src="/img/userlogo.png" alt="user logo ver.2">
+         </div>
+      </div>
+      <!--profile-->
+   </header>
+   <div class="boardheader">
+      <h2>게시글</h2>
+   </div>
+   <form action="/board/write" method="post" th:object="${boardWriteForm}">
+   <div class="mainwrap">
+      <div class="carList">
+         <div class="title">
+            <a href="#">보유 자동차 목록</a><br> 
+            <select name="carlist" id="carlist">
+               <option>렌트 할 차량을 골라주세요</option>
+               <option>보유한 차량</option>
+            </select>
+         </div>
+      </div>
+      
+      <!-- <div id="googleMap" style="width: 45%; height: 400px;"></div>
+         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&callback=myMap"></script>
+       -->
+       <div class="carList">
+         <div class="title">
+             <label for="findAddress">주소</label><br>
+             <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요">
+            <button type="button" id="addressSearch" onclick="findAddr()">주소 검색</button>
+         </div>
+      </div>
+      
+      <!-- <div id="search-panel">
+           <button id="submit1" type="button" value="Geocode">지도 검색</button>
+       </div>  -->
+     
+      <div class="carList">
+         <div class="title">
+            <a href="#">예약 가능한 날짜</a><br>
+            <div class="flatpickr">
+               <input type="text" placeholder="날짜를 선택해주세요" data-input> <a
+                  class="input-button" title="toggle" data-toggle> <i
+                  class="fa-solid fa-calendar-days"></i>
+               </a> <a class="input-button" title="clear" data-clear> <i
+                  class="fa-regular fa-circle-xmark"></i>
+               </a>
             </div>
+         </div>
+      </div>
 
-            <div class="carList">
-                <div class="title">
-                    <a href="#">예약 가능한 날짜</a><br>
-                    <div class="flatpickr">
-                    <input type="text" placeholder="날짜를 선택해주세요" data-input>
-                    <a class="input-button" title="toggle" data-toggle>
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </a>
-                    <a class="input-button" title="clear" data-clear>
-                        <i class="fa-regular fa-circle-xmark"></i>
-                    </a>
-                    </div>
-                </div>
-            </div>
+      <div class="carList">
+         <div class="title">
+            <a href="#">추가 설명</a><br>
+            <textarea rows="20" cols="100"></textarea>
+         </div>
+      </div>
 
-            <div class="carList">
-                <div class="title">
-                    <a href="#">추가 설명</a><br>
-                    <textarea rows="20" cols="100"></textarea>
-                </div>    
-            </div>
+      <div class="carList">
+         <div class="title">
+            <a href="#">금액을 설정해주세요(일일 금액)</a><br> <input type="text"
+               placeholder="10원 단위로 적어주세요.">
+         </div>
+      </div>
 
-            <div class="carList">
-                <div class="title">
-                    <a href="#">금액을 설정해주세요(일일 금액)</a><br>
-                    <input type="text" placeholder="10원 단위로 적어주세요.">
-                </div>    
-            </div><!--resList-->
-
-            <div class="center">
-                <input id="lastbutton" type="button" value="수정하기">
-                <input id="lastbutton" type="button" value="삭제하기">
-            </div>
-        </div><!--mainwrap-->
-    </body>
-    
+      <div class="center">
+         <input id="lastbutton" type="submit" value="등록하기"> 
+         <input id="lastbutton" type="button" value="삭제하기">
+      </div>
+      </div>
+   </form>
+</body>
+</html>

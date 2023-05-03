@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Brand;
 import com.example.caRing.model.board.car.Car;
@@ -23,5 +24,10 @@ public interface BoardMapper {
 	void saveCar(Car car);
 	void saveOption(OptionList optionList);
 	void saveFile(AttachedFile file);
+	
+    void saveBoard(Board board);
+    String setTitle(Long carInfo_id);	
+    
+    Car findCarInfoByEmail(String host_email);
 	
 }

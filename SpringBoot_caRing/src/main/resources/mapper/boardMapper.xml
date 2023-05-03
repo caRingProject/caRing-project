@@ -66,4 +66,47 @@
 			#{file_size}
 		)
 	</insert>
+	
+	<!-- 게시글 저장 -->
+	<insert id="saveBoard">
+     <selectKey keyProperty="board_id" resultType="long" order="BEFORE">
+            select seq_board.nextval from dual
+     </selectKey>
+       insert into board (
+         board_id,
+         host_email,
+         title,
+         board_contents,
+         price,
+         area,
+         carInfo_id,
+         rent_start,
+         rent_end      
+       ) values (
+          #{board_id},
+          #{host_email},
+          #{title},
+          #{board_contents},
+          #{price},
+          #{area},
+          #{carInfo_id},
+          #{rent_start},
+          #{rent_end}
+       )
+    </insert>
+    
+    <!-- 타이틀 출력 -->
+    <select id="setTitle" resultType="string">
+       select 
+              b.brand_name ||' '|| c.car_name ||' '|| c.car_year 
+           from 
+              carInfo c join brand b on (c.brand_id = b.brand_id) 
+           where 
+              carInfo_id = #{carInfo_id}
+    </select>
+    
+    <!-- 호스트 이메일로 차 리스트 출력 -->
+    <select id="findCarInfoByEmail">
+    	select * from carInfo where host_email = #{host_email}
+    </select>
 </mapper>

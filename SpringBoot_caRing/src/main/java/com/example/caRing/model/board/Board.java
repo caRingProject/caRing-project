@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Board {
    private Long board_id;
-   private Long host_id;
+   private String host_email;
    private String title;
    private String board_contents;
    private LocalDateTime created_time;
