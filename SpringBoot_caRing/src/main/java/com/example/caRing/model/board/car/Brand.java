@@ -1,4 +1,4 @@
-package com.example.caRing.model.board;
+package com.example.caRing.model.board.car;
 
 import lombok.Data;
 

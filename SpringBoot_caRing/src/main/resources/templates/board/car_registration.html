@@ -4,147 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        @font-face {
-            font-family: 'ocr';
-            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'Pretendard-Regular';
-            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-            font-weight: 400;
-            font-style: normal;
-            unicode-range: U+AC00-D7A3;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        a {
-            text-decoration: inherit;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            vertical-align: top;
-        }
-
-        button {
-            border: none;
-            background-color: transparent;
-            color: #dbcba0;
-        }
-
-        body {
-            font-family: 'ocr', 'Pretendard-Regular';
-        }
-
-        header {
-            display: flex;
-            height: 70px;
-            background-color: #6e7a77;
-            justify-content: space-between;
-            color: #dbcba0;
-        }
-
-        .mainlogo {
-            text-align: center;
-            font-family: 'ocr';
-            margin-left: 20px;
-            padding-top: 10px;
-        }
-
-        .profile {
-            display: flex;
-            margin-right: 20px;
-            padding-top: 15px;
-        }
-
-        .profileImg img {
-            width: 40px;
-        }
-
-        .profile button {
-            font-size: 16px;
-        }
-
-        h1 {
-            margin-bottom: 36px;
-        }
-
-        h2 {
-            margin-bottom: 24px;
-        }
-
-        .wrap {
-            width: 1200px;
-            margin: 0 auto;
-            padding-top: 60px;
-            border: 3px solid #363636;
-        }
-
-        .carImgwrap {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .carPreview {
-            width: 330px;
-            height: 330px;
-            border-radius: 30px;
-            border: 3px solid #363636;
-            overflow: hidden;
-            color: #6e7a77;
-            font-size: 50px;
-            position: relative;
-        }
-
-        .carPreview i {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .btn {
-            width: 50px;
-            height: 50px;
-            background-color: tomato;
-            cursor: pointer;
-            margin-bottom: 36px;
-        }
-
-        #carUpload {
-            display: none;
-        }
-
-        .carPreview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .closebtn {
-            color: #363636;
-            display: none;
-            font-size: 25px;
-            position: absolute;
-            top: 30px;
-            right: 30px;
-        }
-        
-        .brand {
-            margin-top: 50px;
-            width: 20%;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/car_resi.css">
     <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
@@ -152,6 +12,18 @@
 
         $(document).ready(function () {
             $("#carUpload").on("change", handleImgsFilesSelect);
+            
+            var yearList = [];
+            for (var year = 1990; year <= 2023; year++) {
+              yearList.push(year);
+            }
+
+            var options = '';
+            $.each(yearList, function(index, value) {
+              options += '<option value="' + value + '">' + value + '</option>';
+            });
+
+            $('#carYears').html(options);
         });
 
         function handleImgsFilesSelect(e) {
@@ -198,6 +70,7 @@
                 reader.readAsDataURL(sel_files[i]);
             }
         }
+        
     </script>
     <title>car register</title>
 </head>
@@ -220,7 +93,7 @@
         </div><!--profile-->
     </header>
 
-    <form class="wrap">
+    <form action="car_registration" method="post" class="wrap" enctype="multipart/form-data">
         <h1>차량 등록</h1>
         <h2>사진</h2>
         <label for="carUpload">
@@ -243,11 +116,62 @@
             </div><!--carPreview-->
         </div><!--carImgwrap-->
         
-            <h2>제조사</h2>
-        <span class="brand" th:each="brand: ${brands}">
-            <label th:text="${brand.brand_name}"></label>
-            <input type="radio" name="selectedBrand" th:value="${brand.brand_id}">
-        </span><!-- brand -->
+        <h2>제조사</h2>
+        <div class="carInfowrap">
+	        <div class="brand" th:each="brand: ${brands}">
+	            <input type="radio" name="brand_id" th:value="${brand.brand_id}">
+	            <label th:text="${brand.brand_name}"></label>
+	        </div><!-- brand -->
+        </div><!-- carInfowrap -->
+        
+        <h2>차종</h2>
+        <div class="carInfowrap">
+	        <div class="carType" th:each="carType: ${carTypes}">
+	            <input type="radio" name="carType_id" th:value="${carType.carType_id}">
+	            <label th:text="${carType.carType_name}"></label>
+	        </div><!-- carType -->
+        </div><!-- carInfowrap -->
+        
+        <h2>차 모델명</h2>
+        <div class="carInfowrap">
+	        <input type="text" name="car_name">
+        </div><!-- carInfowrap -->
+        
+        <h2>연식</h2>
+        <div class="carYearwrap">
+	        <label>연도:</label>
+	        <select id="carYears" name="car_year">
+			        
+	        </select>
+        </div><!-- carYearwrap -->
+        
+        <h2>좌석</h2>
+        <div class="carYearwrap">
+	        <input type="radio" name="seat" value="3~5인승">
+	        <label>3~5인승</label>
+	        <input type="radio" name="seat" value="6인 이상">
+	        <label>6인 이상</label>
+        </div><!-- carYearwrap -->
+        
+        <h2>유종</h2>
+        <div class="carInfowrap">
+	        <div class="fuel" th:each="fuel: ${fuels}">
+	            <input type="radio" name="fuel_id" th:value="${fuel.fuel_id}">
+	            <label th:text="${fuel.fuel_name}"></label>
+	        </div><!-- fuel -->
+        </div><!-- carInfowrap -->
+        
+        <h2>특징</h2>
+        <div class="carInfowrap">
+	        <div class="feature" th:each="feature: ${features}">
+	            <input type="checkbox" name="option_value" th:value="${feature.feature_id}">
+	            <label th:text="${feature.feature_name}"></label>
+	        </div><!-- feature -->
+        </div><!-- carInfowrap -->
+        
+        <div class="submit">
+	        <input type="submit" value="등록하기">
+        </div>
     </form><!--wrap-->
 </body>
 

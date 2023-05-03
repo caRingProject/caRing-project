@@ -4,8 +4,66 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.caRing.repository.BoardMapper">
     
+    <!-- 브랜드 출력 -->
     <select id="findBrand" resultType="brand">
     	select * from brand
     </select>
+    
+    <!-- 차종 출력 -->
+    <select id="findCarType" resultType="carType">
+    	select * from carType
+    </select>
+    
+    <!-- 유종 출력 -->
+    <select id="findFuel" resultType="fuel">
+    	select * from fuel
+    </select>
+    
+    <!-- 특징 출력 -->
+    <select id="findFeature" resultType="feature">
+    	select * from feature
+    </select>
+    
+    <!-- 차 저장 -->
+    <insert id="saveCar">
+    	<selectKey keyProperty="carInfo_id" resultType="long" order="BEFORE">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into carInfo values (
+			#{carInfo_id},
+			#{brand_id},
+			#{carType_id},
+			#{car_name},
+			#{car_year},
+			#{seat},
+			#{fuel_id},
+			#{host_email}
+		)
+    </insert>
+    
+    <!-- 옵션 저장 -->
+    <insert id="saveOption">
+    	<selectKey keyProperty="optionList_id" resultType="long" order="BEFORE">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into optionList values (
+			#{optionList_id},
+			#{carInfo_id},
+			#{option_value}
+		)
+    </insert>
     	
+    <!-- 사진 저장 -->
+    <insert id="saveFile">
+		<selectKey keyProperty="attachedFile_id" resultType="long" order="BEFORE">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into attached_file values (
+			#{attachedFile_id},
+			#{carInfo_id},
+			#{original_filename},
+			#{saved_filename},
+			#{file_size}
+		)
+	</insert>
 </mapper>
