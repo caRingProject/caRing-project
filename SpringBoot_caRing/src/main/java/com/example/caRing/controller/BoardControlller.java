@@ -96,36 +96,55 @@ public class BoardControlller {
 
 	// 게시글 등록 페이지 이동
 	@GetMapping("write")
-	public String boardWriteForm(Model model, @SessionAttribute(name = "loginHost", required = true) Host loginHost) {
+	public String boardWriteForm(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
 		model.addAttribute("boardWriteForm", new BoardWriteForm());
-		Car carInfo = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
+		String host_email = loginHost.getHost_email();
+		
+		List<Car> carInfo = boardMapper.findCarInfoByEmail(host_email);
 		model.addAttribute("carInfo", carInfo);
+		
 		return "board/board_write";
 	}
 
 	// 게시글 등록
 	@PostMapping("write")
-	public String boardWrite(@SessionAttribute(value = "loginHost", required = false) Host loginHost,
-			@Validated @ModelAttribute("baordWriteForm") BoardWriteForm boardWriteForm, BindingResult result) {
+	public String boardWrite(@ModelAttribute("carInfo") Car car, BindingResult result, @SessionAttribute(value = "loginHost", required = false) Host loginHost,
+							 @Validated @ModelAttribute("boardWriteForm") BoardWriteForm boardWriteForm,
+							 @RequestParam Long carlist
+							 ) {
+		
+		log.info("carlist: {}", carlist);
 		if (loginHost == null) {
-			return "redirect:/host/login";
+			return "redirect:/host/host_login";
 		}
-
+		
 		if (result.hasErrors()) {
-			return "board/write";
+			return "board/board_write";
 		}
-
+		
+		
+		
 		Board board = BoardWriteForm.toBoard(boardWriteForm);
 		board.setHost_email(loginHost.getHost_email());
-		String title = boardMapper.setTitle(board.getCarInfo_id());
+		board.setCarInfo_id(carlist);
+		
+		System.out.println(board);
+		
+		String title = boardMapper.setTitle(carlist);
+		System.out.println(title);
 		board.setTitle(title);
+		
 		boardMapper.saveBoard(board);
+		
 
-		return "redirect:/host/main";
+		return "redirect:/host/host_main";
 	}
 
 	@GetMapping("list")
 	public String boardList(Model model) {
+		List<Board> boards = boardMapper.findAllBoards();
+		
+		model.addAttribute("boards", boards);
 		return "board/board_list";
 	}
 }

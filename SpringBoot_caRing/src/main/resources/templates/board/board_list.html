@@ -157,22 +157,58 @@ h1 {
    $(function(){
        $(".flatpickr").flatpickr({
            mode: "range",
+           onChange: function(selectedDates){
+				$('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
+				$('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
+			},
             wrap: true
         });
      });    
 </script>
 <script>
+var geocoder;
+var map;
    function myMap(){
-       var mapOptions = { 
-           center:new google.maps.LatLng(51.508742, -0.120850),
-            zoom:5
-            };
- 
-         var map = new google.maps.Map(document.getElementById('googleMap'), {
+	   	geocoder = new google.maps.Geocoder();
+        
+	    map = new google.maps.Map(document.getElementById('googleMap'), {
                   center: {lat: 37.5400456, lng: 126.9921017},
                   zoom: 10,
-                        });
+                  });
+	   	/* 
+        for (var i = 0; i < locations.length; i++) {
+             var marker = new google.maps.Marker({
+                 map: map,
+                 label: locations[i].place,
+                 position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
+             });
+         	}
+    
          };
+         const locations = [
+             { place:"건대입구역", lat: 37.539922, lng: 127.070609 },
+             { place:"어린이대공원역", lat: 37.547263, lng: 127.074181 },
+         ]; */
+         };         
+         function codeAddress() {
+        	 var address = []
+        	 	for(i = 0; i < 3; i++) {
+        	    	let address = document.getElementsByName('address')[i].value
+        	    	//address.push(address);
+        	    	geocoder.geocode( { 'address': address}, function(results, status) {
+        	 			if (status == 'OK') {
+        	 				var marker = new google.maps.Marker({
+        	 					map: map,
+        	 					position: results[0].geometry.location
+        	 				});
+        	 			} else {
+        	 				alert('Geocode was not successful for the following reason: ' + status);
+        	 			}
+        	 		});
+        	 		}
+        	 		console.log(address);
+       	 	}
+    
 </script>
 
 
@@ -196,7 +232,8 @@ h1 {
             </div>
             
             <div class="flatpickr">
-               <input type="text" placeholder="날짜를 선택해주세요" data-input> 
+               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input>
+               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input>
                <a class="input-button" title="toggle" data-toggle> 
                <i class="fa-solid fa-calendar-days"></i></a>
                
@@ -215,39 +252,31 @@ h1 {
    <div class="carwrap">
       <div id="googleMap" style="width: 45%; height: 700px;"></div>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&callback=myMap"></script>
+     
       
       <div class="carlist">
+      <th:block th:each="boards: ${boards}">
          <a href="#">
             <div class="car">
                <div class="carImage">
                   <img src="img/mercedes-benz-3395531_640.jpg" alt="car list 1">
                </div>
                <div class="carInfo">
-                  <p class="carName">Mercedes Benz G 350 d 2019</p>
+                  <p class="carName" th:text="*{boards.title}"></p>
                   <div class="carDetail">
                      <p>★4.8</p>
-                     <p><span class="won">\ </span><span>210,000</span>/1day</p>
-                  </div>
+                     <p><span class="won">\ </span><span th:text="*{boards.price}"></span>/ 1-day</p>
+                     <input name="address" type="hidden" th:value="*{boards.area}" value = "d">
+                  </div>   
                </div>
             </div>
          </a>
-   
-         <a href="#">
-            <div class="car">
-               <div class="carImage">
-                  <img src="img/mercedes-benz-3395531_640.jpg" alt="car list 1">
-               </div>
-               
-               <div class="carInfo">
-                  <p class="carName">Mercedes Benz G 350 d 2019</p>
-                  <div class="carDetail">
-                     <p>★4.8</p>
-                     <p><span class="won">\ </span><span>210,000</span>/1day</p>      
-                  </div>
-               </div>
-            </div>
-         </a>
-      </div>   <!--carlist-->
+         </th:block> 
+      </div>
+        <!--carlist-->
    </div> <!--carwrap-->
+   <script>
+   codeAddress();
+   </script>
 </body>
 </html>

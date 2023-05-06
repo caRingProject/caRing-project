@@ -168,11 +168,16 @@ textarea {
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
    $(function(){
-       $(".flatpickr").flatpickr({
-           mode: "range",
-            wrap: true
-       });
-   });    
+	   $(".flatpickr").flatpickr({
+		   mode: "range",
+		   onChange: function(selectedDates){
+				$('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
+				$('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
+			},
+		   wrap: true
+	   });
+   });
+
 </script>
 <script>
    function myMap(){
@@ -268,14 +273,18 @@ textarea {
       <h2>게시글</h2>
    </div>
    <form action="/board/write" method="post" th:object="${boardWriteForm}">
+   <div th:if="${#fields.hasGlobalErrors()}">
+         <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+      </div>
    <div class="mainwrap">
       <div class="carList">
          <div class="title">
-            <a href="#">보유 자동차 목록</a><br> 
+            <h3>보유 자동차 목록</h3> 
             <select name="carlist" id="carlist">
                <option>렌트 할 차량을 골라주세요</option>
-               <option>보유한 차량</option>
+               <option th:each="carInfo: ${carInfo}" th:text="${carInfo.car_name}" th:value="${carInfo.carInfo_id}" th:field="*{carInfo_id}"></option>
             </select>
+            <div th:errors="*{carInfo_id}" class="error"></div>
          </div>
       </div>
       
@@ -285,8 +294,9 @@ textarea {
        <div class="carList">
          <div class="title">
              <label for="findAddress">주소</label><br>
-             <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요">
+             <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요" th:field="*{area}">
             <button type="button" id="addressSearch" onclick="findAddr()">주소 검색</button>
+            <div th:errors="*{area}" class="error"></div>
          </div>
       </div>
       
@@ -298,12 +308,14 @@ textarea {
          <div class="title">
             <a href="#">예약 가능한 날짜</a><br>
             <div class="flatpickr">
-               <input type="text" placeholder="날짜를 선택해주세요" data-input> <a
-                  class="input-button" title="toggle" data-toggle> <i
+               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_start}">
+               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_end}">
+                <a class="input-button" title="toggle" data-toggle> <i
                   class="fa-solid fa-calendar-days"></i>
                </a> <a class="input-button" title="clear" data-clear> <i
                   class="fa-regular fa-circle-xmark"></i>
                </a>
+               <div th:errors="*{rent_start}" class="error"></div>
             </div>
          </div>
       </div>
@@ -311,14 +323,16 @@ textarea {
       <div class="carList">
          <div class="title">
             <a href="#">추가 설명</a><br>
-            <textarea rows="20" cols="100"></textarea>
+            <textarea rows="20" cols="100" th:field="*{board_contents}"></textarea>
+            <div th:errors="*{board_contents}" class="error"></div>
          </div>
       </div>
 
       <div class="carList">
          <div class="title">
             <a href="#">금액을 설정해주세요(일일 금액)</a><br> <input type="text"
-               placeholder="10원 단위로 적어주세요.">
+               placeholder="10원 단위로 적어주세요." th:field="*{price}">
+               <div th:errors="*{price}" class="error"></div>
          </div>
       </div>
 

@@ -60,7 +60,7 @@ public class HostController {
 		// MemberJoinForm 객체를 Member 타입으로 변환하여 데이터베이스에 저장한다.
 		hostMapper.saveHost(hostJoinForm.toHost(hostJoinForm));
 		// 메인 페이지로 리다이렉트한다.
-		return "redirect:/#";
+		return "redirect:/host/login";
 	}
 
 	@ResponseBody

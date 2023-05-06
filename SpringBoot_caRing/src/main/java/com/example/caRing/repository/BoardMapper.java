@@ -1,6 +1,7 @@
 package com.example.caRing.repository;
 
-import java.util.*;
+import java.util.List;
+
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -28,6 +29,6 @@ public interface BoardMapper {
     void saveBoard(Board board);
     String setTitle(Long carInfo_id);	
     
-    Car findCarInfoByEmail(String host_email);
-	
+    List<Board>findAllBoards();
+    List<Car> findCarInfoByEmail(String host_email);
 }

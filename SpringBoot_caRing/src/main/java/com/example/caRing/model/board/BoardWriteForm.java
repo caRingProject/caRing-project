@@ -1,19 +1,22 @@
 package com.example.caRing.model.board;
 
-import lombok.Data;
-
-import org.springframework.web.multipart.MultipartFile;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+
+import lombok.Data;
 
 @Data
 public class BoardWriteForm {
 	
 	private Long carInfo_id;
-	private LocalDateTime rent_start;
-	private LocalDateTime rent_end;
+	
+	private String rent_start;
+	private String rent_end;
+	@NotBlank
 	private String board_contents;
+	@NotBlank
 	private String area;
 	private Long price;
 

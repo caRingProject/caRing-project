@@ -1,6 +1,7 @@
 package com.example.caRing.model.board;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -14,6 +15,6 @@ public class Board {
    private Long price;
    private String area;
    private Long carInfo_id;
-   private LocalDateTime rent_start;
-   private LocalDateTime rent_end;
+   private String rent_start;
+   private String rent_end;
 }

@@ -6,5 +6,6 @@
     <typeAliases>
         <typeAlias type="com.example.caRing.model.customer.Customer" alias="customer"/>
         <typeAlias type="com.example.caRing.model.host.Host" alias="host"/>
+        <typeAlias type="com.example.caRing.model.car.Car" alias="car"/>
     </typeAliases>
 </configuration>
