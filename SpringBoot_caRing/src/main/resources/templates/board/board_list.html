@@ -143,6 +143,38 @@ h1 {
 .carlist{
    width: 45%;
 }
+.serachFilterBar{
+    display: flex;
+    height: 64px;
+    padding: 16px 24px;
+    position: relateive;
+    top: 80px;
+    z-index: 1;
+} 
+.searchFilter{
+   background-color: #fff;
+    color: #231f20;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    height: 34px;
+    line-height: 33px;
+    outline: none;
+    padding: 0 14px;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+}
+.buttontogle{
+border: 1px solid #e7e7e8;
+    border-radius: 8px;
+    height: 32px;
+    line-height: 12px;
+    margin-right: 16px;
+    padding: 8px 16px;
+}
+
 .carSearch label {
    margin-left: 20px;
    margin-right: 20px;
@@ -158,59 +190,13 @@ h1 {
        $(".flatpickr").flatpickr({
            mode: "range",
            onChange: function(selectedDates){
-				$('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
-				$('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
-			},
+            $('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
+            $('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
+         },
             wrap: true
         });
      });    
 </script>
-<script>
-var geocoder;
-var map;
-   function myMap(){
-	   	geocoder = new google.maps.Geocoder();
-        
-	    map = new google.maps.Map(document.getElementById('googleMap'), {
-                  center: {lat: 37.5400456, lng: 126.9921017},
-                  zoom: 10,
-                  });
-	   	/* 
-        for (var i = 0; i < locations.length; i++) {
-             var marker = new google.maps.Marker({
-                 map: map,
-                 label: locations[i].place,
-                 position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
-             });
-         	}
-    
-         };
-         const locations = [
-             { place:"건대입구역", lat: 37.539922, lng: 127.070609 },
-             { place:"어린이대공원역", lat: 37.547263, lng: 127.074181 },
-         ]; */
-         };         
-         function codeAddress() {
-        	 var address = []
-        	 	for(i = 0; i < 3; i++) {
-        	    	let address = document.getElementsByName('address')[i].value
-        	    	//address.push(address);
-        	    	geocoder.geocode( { 'address': address}, function(results, status) {
-        	 			if (status == 'OK') {
-        	 				var marker = new google.maps.Marker({
-        	 					map: map,
-        	 					position: results[0].geometry.location
-        	 				});
-        	 			} else {
-        	 				alert('Geocode was not successful for the following reason: ' + status);
-        	 			}
-        	 		});
-        	 		}
-        	 		console.log(address);
-       	 	}
-    
-</script>
-
 
 <title>Car Search</title>
 </head>
@@ -248,12 +234,24 @@ var map;
       </div>
    </header>
    
-   
+   <div class="serachFilterBar">
+         <div class="searchFilter">
+            <button class="buttontogle" type="button">
+               <span>정렬</span>
+            </button>
+         </div>
+         <div class="searchFilter">
+            <button class="buttontogle" type="button">
+               <span>가격</span>
+            </button>
+         </div>
+         <div class="searchFilter">
+            <button class="buttontogle" type="button">
+               <span>필터</span>
+            </button>
+         </div>
+   </div>
    <div class="carwrap">
-      <div id="googleMap" style="width: 45%; height: 700px;"></div>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&callback=myMap"></script>
-     
-      
       <div class="carlist">
       <th:block th:each="boards: ${boards}">
          <a th:href="@{/board/read(board_id=${boards.board_id})}">
@@ -273,10 +271,56 @@ var map;
          </a>
          </th:block> 
       </div>
-        <!--carlist-->
-   </div> <!--carwrap-->
-   <script>
-   codeAddress();
-   </script>
+      <script>
+      var map
+      var geocoder;
+         function myMap(){
+            var map = new google.maps.Map(document.getElementById('googleMap'), {
+                 center: {lat: 37.5400456, lng: 126.9921017},
+                  zoom: 12,
+            });
+            
+         for(i = 0; i < document.getElementsByName('address').length; i++) {
+              let address = document.getElementsByName('address')[i].value
+                 geocoder = new google.maps.Geocoder();
+                
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                    if (status == 'OK') {
+                       var marker = new google.maps.Marker({
+                          map: map,
+                          position: results[0].geometry.location,
+                       });
+                       
+                    const contentString =
+                   '<div id="content">' +
+                   '<div id="siteNotice">' +
+                   "</div>" +
+                   '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
+                   '<div id="bodyContent">' +
+                   "<p><b>Uluru</b> d </p>" +
+                   "</div>" +
+                   "</div>";
+
+               const infowindow = new google.maps.InfoWindow({
+                  content: contentString,
+               });
+               
+               marker.addListener("click", function() {
+                  infowindow.open({
+                      anchor: marker,
+                      map,
+                  });
+               });
+                    } else {
+                       alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+         }   
+   }
+         
+      </script>
+       <div id="googleMap" style="width: 45%; height: 700px;"></div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&callback=myMap"></script>
+   </div> 
 </body>
 </html>
