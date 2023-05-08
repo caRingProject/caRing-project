@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
       url: jdbc:oracle:thin:@localhost:1521:xe
-      username: caringtest
+      username: car
       password: 1234
       driver-class-name: oracle.jdbc.driver.OracleDriver 
       
@@ -14,7 +14,7 @@ spring:
         10MB
       max-request-size:
         50MB
-      
+        
 mybatis:
 #  config-location: classpath:config/mybatis-config.xml
   type-aliases-package: com.example.caRing.model

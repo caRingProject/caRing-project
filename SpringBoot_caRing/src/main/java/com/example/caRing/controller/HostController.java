@@ -1,5 +1,8 @@
 package com.example.caRing.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,10 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.example.caRing.model.board.Board;
+import com.example.caRing.model.board.car.AttachedFile;
+import com.example.caRing.model.board.car.Car;
 import com.example.caRing.model.host.Host;
 import com.example.caRing.model.host.HostJoinForm;
 import com.example.caRing.model.host.HostLoginForm;
+import com.example.caRing.repository.BoardMapper;
 import com.example.caRing.repository.HostMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HostController {
 
 	private final HostMapper hostMapper;
+	private final BoardMapper boardMapper;
 
 	@GetMapping("join")
 	public String hostJoinForm(Model model) {
@@ -107,7 +116,28 @@ public class HostController {
 	}
 
 	@GetMapping("main")
-	public String hostMain(Model model) {
+	public String hostMain(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
+		List<Car> cars = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
+		model.addAttribute("cars", cars);
+		List<String> thumbnailPaths1 = new ArrayList<>();
+		for (Car car: cars) {
+			List<AttachedFile> attachedFiles = boardMapper.findFileByAttachedFileId(car.getCarInfo_id());
+			String fullPath = "/uploadImg/" + attachedFiles.get(0).getSaved_filename();
+			thumbnailPaths1.add(fullPath);
+		}
+		log.info("thumbnailPaths1: {}", thumbnailPaths1);
+		model.addAttribute("thumbnailPaths1", thumbnailPaths1);
+		List<Board> boards = boardMapper.findBoardsByEmail(loginHost.getHost_email());
+		model.addAttribute("boards", boards);
+		List<String> thumbnailPaths2 = new ArrayList<>();
+		for (Board board: boards) {
+			Car carSearchBoard = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+			List<AttachedFile> attachedFiles = boardMapper.findFileByAttachedFileId(carSearchBoard.getCarInfo_id());
+			String fullPath = "/uploadImg/" + attachedFiles.get(0).getSaved_filename();
+			thumbnailPaths2.add(fullPath);
+		}
+		model.addAttribute("thumbnailPaths2", thumbnailPaths2);
+		
 		return "host/host_main";
 	}
 	

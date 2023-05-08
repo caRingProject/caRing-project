@@ -256,7 +256,7 @@ var map;
       
       <div class="carlist">
       <th:block th:each="boards: ${boards}">
-         <a href="#">
+         <a th:href="@{/board/read(board_id=${boards.board_id})}">
             <div class="car">
                <div class="carImage">
                   <img src="img/mercedes-benz-3395531_640.jpg" alt="car list 1">

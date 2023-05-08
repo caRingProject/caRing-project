@@ -168,7 +168,7 @@ textarea {
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
    $(function(){
-	   $(".flatpickr").flatpickr({
+       $(".flatpickr").flatpickr({
 		   mode: "range",
 		   onChange: function(selectedDates){
 				$('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
@@ -176,8 +176,7 @@ textarea {
 			},
 		   wrap: true
 	   });
-   });
-
+   });   
 </script>
 <script>
    function myMap(){

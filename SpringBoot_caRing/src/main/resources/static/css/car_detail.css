@@ -1,0 +1,222 @@
+@font-face {
+    font-family: 'ocr';
+    src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src:
+        url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background-color: transparent;
+    border: 0;
+}
+
+body {
+    font-family: 'ocr', 'Pretendard-Regular';
+}
+
+img {
+    vertical-align: top;
+}
+
+header {
+    height: 70px;
+    border-bottom: 3px solid #6e7a77;
+    display: flex;
+    justify-content: space-between;
+    line-height: 70px;
+    color: #6e7a77;
+}
+
+h1 {
+    padding-top: 15px;
+    margin-left: 20px;
+}
+
+.usermenu img {
+    width: 70px;
+    padding-top: 15px;
+    margin-right: 20px;
+}
+
+.carSearch {
+    font-weight: 700;
+    width: 900px;
+    height: 70px;
+    border-radius: 50px;
+    display: flex;
+    position: absolute;
+    transform: translate(-50%, 0);
+    font-size: 14px;
+}
+
+
+.imgwrap button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+}
+.imgwrap button:first-child {
+    left: 20px;
+    z-index: 10;
+}
+.imgwrap button:last-child {
+    right: 20px;
+}
+.imgwrap {
+    width: 100%;
+    height: 900px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.slide {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.imgitem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.btnwrap {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.btnwrap i {
+    font-size: 30px;
+    padding: 0 20px;
+}
+
+.mainwrap {
+    width: 1200px;
+    margin: 0 auto;
+}
+.carwrap {
+    display: flex;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    justify-content: space-between;
+}
+.calendar, .carInfo {
+    width: 550px;
+    /* border: 3px solid #363636; */
+    border-radius: 30px;
+}
+.titleh3 {
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+.featureh3 {
+    font-size: 30px;
+    margin: 50px 0;
+}
+.infowrap {
+    display: flex;
+    margin: 0 20px;
+    justify-content: space-between;
+}
+.info {
+    width: 80px;
+    height: 80px;
+    text-align: center;
+}
+.brand, .seat {
+    line-height: 80px;
+}
+
+.fuel img, .carType img {
+    width: 50px;
+}
+.fuel p, .carType p {
+    font-size: 12px;
+}
+
+.featurewrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 200px;
+}
+.feature {
+    width: 130px;
+    height: 80px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 40px;
+}
+.feature img {
+    width: 40px;
+    margin-top: 8px;
+}
+
+.feature5 {
+    flex-wrap: wrap;
+}
+.featurePlus {
+    width: 170px;
+
+}
+
+.explanation, .review {
+    width: 1200px;
+    margin: 0 auto;
+    height: 200px;
+    border-radius: 30px;
+    background-color: aliceblue;
+}
+
+.explanation h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+.hostInfo {
+    width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 60px;
+}
+.hostProfile {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: tomato;
+    margin-bottom: 32px;
+}
+.hostInfo p {
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.review {
+    margin-bottom: 50px;
+}

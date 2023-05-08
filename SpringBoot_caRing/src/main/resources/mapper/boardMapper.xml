@@ -13,10 +13,18 @@
     <select id="findCarType" resultType="carType">
     	select * from carType
     </select>
+    <!-- 차종 id로  차종 출력 -->
+    <select id="findCarTypeById" resultType="carType">
+    	select * from carType where carType_id = #{carType_id}
+    </select>
     
     <!-- 유종 출력 -->
     <select id="findFuel" resultType="fuel">
     	select * from fuel
+    </select>
+    <!-- 유종 출력 -->
+    <select id="findFuelById" resultType="fuel">
+    	select * from fuel where fuel_id = #{fuel_id}
     </select>
     
     <!-- 특징 출력 -->
@@ -52,6 +60,10 @@
 			#{option_value}
 		)
     </insert>
+    <!-- 차 id로 옵션 리스트 출력 -->
+    <select id="findOptionListById" resultType="string">
+    	select option_value from optionList where carInfo_id = #{carInfo_id}
+    </select>
     	
     <!-- 사진 저장 -->
     <insert id="saveFile">
@@ -110,8 +122,28 @@
     	select * from carInfo where host_email = #{host_email}
     </select>
     
+     <!-- carInfo id로 차 출력 -->
+    <select id="findCarInfoByCarInfoId" resultType="car">
+    	select * from carInfo where carInfo_id = #{carInfo_id}
+    </select>
+    
+    <!-- 호스트 이메일로 게시글 리스트 출력 -->
+    <select id="findBoardsByEmail" resultType="board">
+    	select * from board where host_email = #{host_email}
+    </select>
+    
+    <!-- 보드 아이디로 게시글 출력 -->
+    <select id="findBoard" resultType="board">
+    	select * from board where board_id = #{board_id} 
+    </select>
+    
     <!-- 모든 게시글 출력 -->
     <select id="findAllBoards" resultType="board">
     	select * from board
+    </select>
+    
+    <!-- 사진 출력 -->
+    <select id="findFileByAttachedFileId" resultType="attachedFile">
+    	select * from attached_file where carInfo_id = #{carInfo_id}
     </select>
 </mapper>
