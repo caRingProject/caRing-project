@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.caRing.model.board.Board;
+import com.example.caRing.model.board.BoardDTO;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Car;
 import com.example.caRing.model.host.Host;
@@ -119,26 +120,20 @@ public class HostController {
 
 	@GetMapping("main")
 	public String hostMain(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
+		
 		List<Car> cars = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
 		model.addAttribute("cars", cars);
-		List<String> thumbnailPaths1 = new ArrayList<>();
-		for (Car car: cars) {
-			List<AttachedFile> attachedFiles = boardMapper.findFileByAttachedFileId(car.getCarInfo_id());
-			String fullPath = "/uploadImg/" + attachedFiles.get(0).getSaved_filename();
-			thumbnailPaths1.add(fullPath);
-		}
-		log.info("thumbnailPaths1: {}", thumbnailPaths1);
-		model.addAttribute("thumbnailPaths1", thumbnailPaths1);
+		
 		List<Board> boards = boardMapper.findBoardsByEmail(loginHost.getHost_email());
-		model.addAttribute("boards", boards);
-		List<String> thumbnailPaths2 = new ArrayList<>();
-		for (Board board: boards) {
-			Car carSearchBoard = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
-			List<AttachedFile> attachedFiles = boardMapper.findFileByAttachedFileId(carSearchBoard.getCarInfo_id());
-			String fullPath = "/uploadImg/" + attachedFiles.get(0).getSaved_filename();
-			thumbnailPaths2.add(fullPath);
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for (Board board : boards) {
+			Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(board);
+			dto.setCar(car);
+			boardDTOs.add(dto);
 		}
-		model.addAttribute("thumbnailPaths2", thumbnailPaths2);
+		model.addAttribute("boardDTOs", boardDTOs);
 		
 		return "host/host_main";
 	}

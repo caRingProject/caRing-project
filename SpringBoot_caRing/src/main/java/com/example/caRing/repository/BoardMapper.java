@@ -24,6 +24,7 @@ public interface BoardMapper {
 	List<Fuel> findFuel();
 	Fuel findFuelById(Long fuel_id);
 	List<Feature> findFeature();
+	void updateCar(Car car);
 	
 	void saveCar(Car car);
 	void saveOption(OptionList optionList);
