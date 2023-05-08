@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
 import com.example.caRing.model.board.Board;
+import com.example.caRing.model.board.BoardDTO;
 import com.example.caRing.model.board.BoardWriteForm;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Brand;
@@ -92,31 +94,33 @@ public class BoardControlller {
 	}
 
 	// 차량 등록
+	@Transactional(readOnly = true)
 	@PostMapping("car_registration")
 	public String carSave(@ModelAttribute Car car, @ModelAttribute AttachedFile attachedFile,
 			@SessionAttribute(name = "loginHost", required = true) Host loginHost,
 			@RequestParam List<MultipartFile> carUpload, OptionList optionList) {
-		log.info("loginHost: {}", loginHost);
-		log.info("carUpload: {}", carUpload);
-		log.info("car: {}", car);
-		log.info("optionList: {}", optionList);
+		
+		
 		car.setHost_email(loginHost.getHost_email());
 		boardMapper.saveCar(car);
 
+		for (int i = 0; i < carUpload.size(); i++) {
+			AttachedFile saveFile = fileService.saveFile(carUpload.get(i));
+			saveFile.setCarInfo_id(car.getCarInfo_id());
+			
+			boardMapper.saveFile(saveFile);
+			if (i == 0) {
+				String fullPath = "/uploadImg/" + saveFile.getSaved_filename();
+				log.info("fullPath: {}", fullPath);
+				car.setThumbnail(fullPath);
+				log.info("car: {}", car);
+			}
+		}
+		boardMapper.updateCar(car);
+		
 		optionList.setCarInfo_id(car.getCarInfo_id());
-		log.info("car.getCarInfo_id(): {}", car.getCarInfo_id());
 		boardMapper.saveOption(optionList);
 
-		for (MultipartFile file : carUpload) {
-			AttachedFile saveFile = fileService.saveFile(file);
-			log.info("saveFile.getOriginal_filename: {}", saveFile.getOriginal_filename());
-			log.info("saveFile.getFile_size: {}", saveFile.getFile_size());
-			log.info("saveFile.getFile_size: {}", saveFile.getOriginal_filename());
-			log.info("saveFile.getFile_size: {}", saveFile.getSaved_filename());
-			saveFile.setCarInfo_id(car.getCarInfo_id());
-			saveFile.setCarInfo_id(car.getCarInfo_id());
-			boardMapper.saveFile(saveFile);
-		}
 
 		return "redirect:/host/main";
 	}
@@ -167,8 +171,15 @@ public class BoardControlller {
 	@GetMapping("list")
 	public String boardList(Model model) {
 		List<Board> boards = boardMapper.findAllBoards();
-		
-		model.addAttribute("boards", boards);
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for (Board board : boards) {
+			Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(board);
+			dto.setCar(car);
+			boardDTOs.add(dto);
+		}
+		model.addAttribute("boardDTOs", boardDTOs);
 		return "board/board_list";
 	}
 	

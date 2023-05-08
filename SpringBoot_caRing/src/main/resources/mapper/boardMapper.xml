@@ -37,7 +37,16 @@
     	<selectKey keyProperty="carInfo_id" resultType="long" order="BEFORE">
 			select seq_board.nextval from dual
 		</selectKey>
-		insert into carInfo values (
+		insert into carInfo (
+			carInfo_id,
+			brand_id,
+			carType_id,
+			car_name,
+			car_year,
+			seat,
+			fuel_id,
+			host_email
+		) values (
 			#{carInfo_id},
 			#{brand_id},
 			#{carType_id},
@@ -48,6 +57,10 @@
 			#{host_email}
 		)
     </insert>
+    
+    <update id="updateCar">
+    	update carInfo set thumbnail = #{thumbnail} where carInfo_id = #{carInfo_id}
+    </update>
     
     <!-- 옵션 저장 -->
     <insert id="saveOption">
