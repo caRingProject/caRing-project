@@ -1,192 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-@import
-   url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css')
-   ;
-
-/* font-family: 'Pretendard'; */
-@font-face {
-   font-family: 'ocr';
-   src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
-}
-
-@font-face {
-   font-family: 'ChosunGu';
-   src:
-      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff')
-      format('woff');
-   font-weight: normal;
-   font-style: normal;
-}
-
-* {
-   margin: 0;
-   padding: 0;
-}
-
-a {
-   color: inherit;
-   text-decoration: none;
-}
-
-ul {
-   list-style: none;
-}
-
-button {
-   background-color: transparent;
-   border: 0;
-}
-
-html {
-   font-family: 'ocr';
-}
-
-.korean {
-   font-family: 'Pretendard';
-}
-
-img {
-   vertical-align: top;
-}
-
-header {
-   height: 70px;
-   border-bottom: 3px solid #6e7a77;
-   display: flex;
-   justify-content: space-between;
-   line-height: 70px;
-   color: #6e7a77;
-}
-
-#googleMap {
-   width: 45%;
-}
-
-h1 {
-   padding-top: 15px;
-   margin-left: 20px;
-}
-
-.usermenu img {
-   width: 70px;
-   padding-top: 15px;
-   margin-right: 20px;
-}
-
-.carwrap {
-   width: 1420px;
-   margin: 0 auto;
-   padding-top: 36px;
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
-}
-
-.car {
-   width: 650px;
-   height: 240px;
-   border-radius: 30px;
-   overflow: hidden;
-   box-shadow: 5px 5px 10px #ccc;
-   margin-bottom: 30px;
-   display: flex;
-}
-
-.carImage {
-   height: 100%;
-   width: 250px;
-   
-}
-
-.carInfo {
-   height: 100%;
-   width: 400px;
-}
-
-.carDetail {
-   display: flex;
-   justify-content: space-between;
-   margin-left: 20px;
-   margin-right: 20px;
-   line-height: 30px;
-}
-
-.carName {
-   font-size: 20px;
-   line-height: 30px;
-   margin-top: 12px;
-   margin-left: 20px;
-}
-
-.won {
-   font-family: 'ChosunGu';
-   font-size: 14px;
-}
-
-.carSearch {
-   font-family: 'Zen Maru Gothic', sans-serif;
-   font-weight: 700;
-   width: 900px;
-   height: 70px;
-   border-radius: 50px;
-   display: flex;
-   position: absolute;
-   transform: translate(-50%, 0);
-   font-size: 14px;
-}
-.carlist{
-   width: 45%;
-}
-.serachFilterBar{
-    display: flex;
-    height: 64px;
-    padding: 16px 24px;
-    position: relateive;
-    top: 80px;
-    z-index: 1;
-} 
-.searchFilter{
-   background-color: #fff;
-    color: #231f20;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 700;
-    height: 34px;
-    line-height: 33px;
-    outline: none;
-    padding: 0 14px;
-    position: relative;
-    text-align: center;
-    vertical-align: top;
-}
-.buttontogle{
-border: 1px solid #e7e7e8;
-    border-radius: 8px;
-    height: 32px;
-    line-height: 12px;
-    margin-right: 16px;
-    padding: 8px 16px;
-}
-
-.carSearch label {
-   margin-left: 20px;
-   margin-right: 20px;
-}
-</style>
-<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/board_list.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
 <script>
-   $(function(){
+   	$(function(){
        $(".flatpickr").flatpickr({
            mode: "range",
            onChange: function(selectedDates){
@@ -198,6 +25,51 @@ border: 1px solid #e7e7e8;
      });    
 </script>
 
+ <script>
+        $(function () {
+            $(".lnb, .lnbclose").hide();
+            $(".sorttoggle").click(function () {
+                $(".lnb, .lnbclose").toggle();
+            })
+
+            $('.lnbclose').click(function () {
+                $('.lnb, .lnbclose').hide();
+            })
+        })
+            
+            $(function () {
+                $(".lnb1, .lnbclose1").hide();
+            	$(".pricetoggle").click(function () {
+                	$(".lnb1, .lnbclose1").toggle(function() {
+                		$("#slider-range").slider({
+                        	range: true,
+                        	min: 1000,
+                        	max: 200000,
+                        	step: 1000,
+                        	values: [20000, 50000],
+                        	slide: function(event, ui) {
+                            	$("#amount2").val(ui.values[0] + "원" +  " - " + ui.values[1] + "원");
+                        	}
+                    	});
+                    	$("#amount2").val($("#slider-range").slider("values", 0) + "원" + " - " + $("#slider-range").slider("values", 1) + "원");
+                	});
+            	})
+
+            	$('.lnbclose1').click(function () {
+                	$('.lnb1, .lnbclose1').hide();
+            	})
+        })
+          $(function () {
+            $(".lnb2, .lnbclose2").hide();
+            $(".filtertoggle").click(function () {
+                $(".lnb2, .lnbclose2").toggle();
+            })
+
+            $('.lnbclose2').click(function () {
+                $('.lnb2, .lnbclose2').hide();
+            })
+        })
+</script>
 <title>Car Search</title>
 </head>
 
@@ -233,38 +105,104 @@ border: 1px solid #e7e7e8;
          <a href="#"><img src="/img/user.png" alt="user logo"></a>
       </div>
    </header>
-   
+  
    <div class="serachFilterBar">
          <div class="searchFilter">
-            <button class="buttontogle" type="button">
+            <button class="sorttoggle" type="button">
                <span>정렬</span>
             </button>
+            <div class="lnb-container">
+            	<div class="lnbclose"></div>
+            	<div class="lnb">
+                    <a href="./list">낮은가격순</a><br>
+                    <a href="./list">높은가격순</a><br>
+                    <a href="./list">거리순</a>
+            	</div> 
+            </div>
          </div>
          <div class="searchFilter">
-            <button class="buttontogle" type="button">
+            <button class="pricetoggle" type="button">
                <span>가격</span>
             </button>
+            <div class="lnb-container">
+            	<div class="lnbclose1"></div>
+            	<div class="lnb1">
+               
+                   		<p><input type="text" id="amount2">
+    					</p>
+    				<div id="slider-range"></div>
+    				<input type="button" value="적용하기">
+            	</div>
+            </div>
          </div>
          <div class="searchFilter">
-            <button class="buttontogle" type="button">
+            <button class="filtertoggle" type="button">
                <span>필터</span>
             </button>
+            <div class="lnb-container">
+            	<div class="lnbclose2"></div>
+            	<div class="lnb2">
+                	<h3>제조사</h3>
+        			<div class="carInfowrap">
+	        			<div class="brand" th:each="brand: ${brands}">
+	            		<input type="checkbox" name="brand_id" th:value="${brand.brand_id}">
+	            		<label th:text="${brand.brand_name}"></label>
+	        			</div><!-- brand -->
+        			</div><!-- carInfowrap -->
+        
+        			<h3>차종</h3>
+        			<div class="carInfowrap">
+	        			<div class="carType" th:each="carType: ${carTypes}">
+	            		<input type="checkbox" name="carType_id" th:value="${carType.carType_id}">
+	            		<label th:text="${carType.carType_name}"></label>
+	        			</div><!-- carType -->
+        			</div><!-- carInfowrap -->
+
+        			<h3>좌석</h3>
+        			<div class="carInfowrap">
+	        			<input type="radio" name="seat" value="3~5인승">
+	        			<label>3~5인승</label>
+	        			<input type="radio" name="seat" value="6인 이상">
+	        			<label>6인 이상</label>
+        			</div><!-- carYearwrap -->
+        
+        			<h3>유종</h3>
+        			<div class="carInfowrap">
+	        			<div class="fuel" th:each="fuel: ${fuels}">
+	            		<input type="checkbox" name="fuel_id" th:value="${fuel.fuel_id}">
+	            		<label th:text="${fuel.fuel_name}"></label>
+	        			</div><!-- fuel -->
+        			</div><!-- carInfowrap -->
+        
+        			<h3>특징</h3>
+        			<div class="carInfowrap">
+	        			<div class="feature" th:each="feature: ${features}">
+	            		<input type="checkbox" name="option_value" th:value="${feature.feature_id}">
+	            		<label th:text="${feature.feature_name}"></label>
+	        			</div><!-- feature -->
+        			</div><!-- carInfowrap -->
+        			<input type="button" value="적용하기">
+            	</div>
+            </div>
          </div>
-   </div>
+   	</div>
    <div class="carwrap">
       <div class="carlist">
-      <th:block th:each="boards: ${boards}">
-         <a th:href="@{/board/read(board_id=${boards.board_id})}">
+      <th:block th:each="boardDTO: ${boardDTOs}">
+         <a th:href="@{/board/read(board_id=${boardDTO.board.board_id})}">
             <div class="car">
-               <div class="carImage">
-                  <img src="img/mercedes-benz-3395531_640.jpg" alt="car list 1">
+               <div class="img">
+                  <img th:src="${boardDTO.car.thumbnail}" alt="car list 1">
                </div>
                <div class="carInfo">
-                  <p class="carName" th:text="*{boards.title}"></p>
+                  <p class="carName" th:text="*{boardDTO.board.title}"></p>
                   <div class="carDetail">
                      <p>★4.8</p>
-                     <p><span class="won">\ </span><span th:text="*{boards.price}"></span>/ 1-day</p>
-                     <input name="address" type="hidden" th:value="*{boards.area}" value = "d">
+                     <p><span class="won">\ </span>
+                     <span th:text="*{boardDTO.board.price}"></span>/ 1-day</p>
+                     <input name="address" type="hidden" th:value="*{boardDTO.board.area}">
+                     <input name="price" type="hidden" th:value="*{boardDTO.board.price}">
+                     <input name="title" type="hidden" th:value="*{boardDTO.board.title}">
                   </div>   
                </div>
             </div>
@@ -281,8 +219,23 @@ border: 1px solid #e7e7e8;
             });
             
          for(i = 0; i < document.getElementsByName('address').length; i++) {
-              let address = document.getElementsByName('address')[i].value
-                 geocoder = new google.maps.Geocoder();
+              var address = document.getElementsByName('address')[i].value
+              var price = document.getElementsByName('price')[i].value
+              var title = document.getElementsByName('title')[i].value
+              const detail =
+                  '<div id="detailBox">' +
+                  '<div id="detailPhoto" th:object="boardDTO: ${boardDTOs}">' +
+                  		'<img th:src="${boardDTO.car.thumbnail}" alt="car list 1">' +
+                  '</div>'	+
+                 
+                  '<div class="carDetail" id="detailContent" th:object="boardDTO: ${boardDTOs}">' +
+                  	'<p>' + 4.8 + '</p>' + '<p>' + '<span class="won">' + " " + "</span>" + 
+                  	'<span>' + title + '</span>' + '</p>' +  
+                  "</div>" +
+                  '<div>' + "1 - Day : " + " " + price + "원" + '</div>' +
+                  '</div>';
+                  
+              geocoder = new google.maps.Geocoder();
                 
                 geocoder.geocode( { 'address': address}, function(results, status) {
                     if (status == 'OK') {
@@ -291,18 +244,10 @@ border: 1px solid #e7e7e8;
                           position: results[0].geometry.location,
                        });
                        
-                    const contentString =
-                   '<div id="content">' +
-                   '<div id="siteNotice">' +
-                   "</div>" +
-                   '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
-                   '<div id="bodyContent">' +
-                   "<p><b>Uluru</b> d </p>" +
-                   "</div>" +
-                   "</div>";
+                   
 
                const infowindow = new google.maps.InfoWindow({
-                  content: contentString,
+                  content: detail,
                });
                
                marker.addListener("click", function() {

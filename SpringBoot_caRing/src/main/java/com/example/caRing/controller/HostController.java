@@ -134,7 +134,6 @@ public class HostController {
 			boardDTOs.add(dto);
 		}
 		model.addAttribute("boardDTOs", boardDTOs);
-		
 		return "host/host_main";
 	}
 	

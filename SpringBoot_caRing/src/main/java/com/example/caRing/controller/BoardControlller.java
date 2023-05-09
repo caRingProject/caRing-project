@@ -138,11 +138,14 @@ public class BoardControlller {
 	}
 
 	// 게시글 등록
+	
 	@PostMapping("write")
 	public String boardWrite(@ModelAttribute("carInfo") Car car, BindingResult result, @SessionAttribute(value = "loginHost", required = false) Host loginHost,
 			 @Validated @ModelAttribute("boardWriteForm") BoardWriteForm boardWriteForm,
-			 @RequestParam Long carlist
+			 @RequestParam Long carlist, String lat, String lng
 			 ) {
+		log.info("lat: {}", lat);
+		log.info("lng: {}", lng);
 		log.info("carlist: {}", carlist);
 		if (loginHost == null) {
 			return "redirect:/host/host_login";
@@ -179,6 +182,19 @@ public class BoardControlller {
 			dto.setCar(car);
 			boardDTOs.add(dto);
 		}
+		// 브랜드 출력
+				List<Brand> brands = boardMapper.findBrand();
+//				log.info("brands: {}", brands);
+				model.addAttribute("brands", brands);
+				// 차종 출력
+				List<CarType> carTypes = boardMapper.findCarType();
+				model.addAttribute("carTypes", carTypes);
+				// 유종 출력
+				List<Fuel> fuels = boardMapper.findFuel();
+				model.addAttribute("fuels", fuels);
+				// 특징 출력
+				List<Feature> features = boardMapper.findFeature();
+				model.addAttribute("features", features);
 		model.addAttribute("boardDTOs", boardDTOs);
 		return "board/board_list";
 	}

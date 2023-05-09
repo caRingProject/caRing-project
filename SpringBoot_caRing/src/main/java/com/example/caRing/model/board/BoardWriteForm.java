@@ -16,8 +16,10 @@ public class BoardWriteForm {
 	private String rent_end;
 	@NotBlank
 	private String board_contents;
-	@NotBlank
-	private String area;
+	
+	private Long lat;
+	
+	private Long lng;
 	private Long price;
 
 	public static Board toBoard(BoardWriteForm boardWriteForm) {
@@ -26,7 +28,8 @@ public class BoardWriteForm {
 		board.setRent_start(boardWriteForm.getRent_start());
 		board.setRent_end(boardWriteForm.getRent_end());
 		board.setBoard_contents(boardWriteForm.getBoard_contents());
-		board.setArea(boardWriteForm.getArea());
+		board.setLat(boardWriteForm.getLat());
+		board.setLng(boardWriteForm.getLng());
 		board.setPrice(boardWriteForm.getPrice());
 		return board;
 

@@ -179,54 +179,6 @@ textarea {
    });   
 </script>
 <script>
-   function myMap(){
-       var mapOptions = { 
-           center:new google.maps.LatLng(51.508742, -0.120850),
-            zoom:5
-          };
- 
-         var map = new google.maps.Map(document.getElementById('googleMap'), {
-            center: {lat: 37.5400456, lng: 126.9921017},
-            zoom: 10,
-      });
-         
-         var geocoder = new google.maps.Geocoder();
-         
-         document.getElementById('submit').addEventListener('change', function() {
-             geocodeAddress(geocoder, map);
-         });
-
-   function geocodeAddress(geocoder, resultMap) {
-
-         var address = document.getElementById('submit').value;
-         console.log(address);
-
-         geocoder.geocode({'address': address}, function(result, status) {
-            console.log(result);
-            console.log(status);
-
-            if (status === 'OK') {
-               resultMap.setCenter(result[0].geometry.location);
-                resultMap.setZoom(18);
-                
-                var marker = new google.maps.Marker({
-                   map: resultMap,
-                    position: result[0].geometry.location
-                });
-
-                console.log('위도(latitude) : ' + marker.position.lat());
-                console.log('경도(longitude) : ' + marker.position.lng());
-            } else {
-               alert('지오코드가 다음의 이유로 성공하지 못했습니다 : ' + status);
-            }
-       });
-   }
-};
-
-   function test() {
-      alert('test');
-   }
-   
    function findAddr() {
       new daum.Postcode({
            oncomplete: function(data) {
@@ -238,13 +190,11 @@ textarea {
                     addr = data.jibunAddress;
                 }                
                 $(".address").val(addr);
-                // test();
-                // 혹시 하려면 geocoder, map를 전역변수로 뺴서 해주는 function를 만들어야됨
            }
         }).open();
    }
-   
 </script>
+
 <title>Board Write Form</title>
 </head>
 
@@ -293,15 +243,36 @@ textarea {
        <div class="carList">
          <div class="title">
              <label for="findAddress">주소</label><br>
-             <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요" th:field="*{area}">
+             <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요">
             <button type="button" id="addressSearch" onclick="findAddr()">주소 검색</button>
-            <div th:errors="*{area}" class="error"></div>
+            <input type="hidden" class="lat" name="lat">
+            <input type="hidden" class="lng" name="lng">
          </div>
       </div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM"></script>
+      <script>
+     var geocoder = new google.maps.Geocoder();
+	 var address;
+     $("#submit").keyup(function (){
+    	 	address = document.getElementById('submit').value;
+	        geocodeAddress(geocoder);
+     });
+	 
+     function geocodeAddress(geocoder) {
+		geocoder.geocode({'address': address}, function(result, status) {
+	    	const lat = result[0].geometry.location.lat();
+	    	const lng = result[0].geometry.location.lng();
+	    	
+	    	let elementlat = document.getElementsByClassName("lat");
+	    	elementlat.value = lat;
+	    	console.log(lat);	
+	    	let elementlng = document.getElementsByClassName("lng");
+	    	elementlng.value = lng;
+	    	console.log(elementlng.value);
+	    });
+	  }; 
+	   </script>
       
-      <!-- <div id="search-panel">
-           <button id="submit1" type="button" value="Geocode">지도 검색</button>
-       </div>  -->
      
       <div class="carList">
          <div class="title">
