@@ -192,6 +192,7 @@ textarea {
                 $(".address").val(addr);
            }
         }).open();
+      $(".address").focus();
    }
 </script>
 
@@ -245,15 +246,15 @@ textarea {
              <label for="findAddress">주소</label><br>
              <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요">
             <button type="button" id="addressSearch" onclick="findAddr()">주소 검색</button>
-            <input type="hidden" class="lat" name="lat">
-            <input type="hidden" class="lng" name="lng">
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="lng" name="lng">
          </div>
       </div>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM"></script>
       <script>
      var geocoder = new google.maps.Geocoder();
 	 var address;
-     $("#submit").keyup(function (){
+     $("#submit").focus(function (){
     	 	address = document.getElementById('submit').value;
 	        geocodeAddress(geocoder);
      });
@@ -263,12 +264,13 @@ textarea {
 	    	const lat = result[0].geometry.location.lat();
 	    	const lng = result[0].geometry.location.lng();
 	    	
-	    	let elementlat = document.getElementsByClassName("lat");
+	    	let elementlat = document.getElementById("lat");
 	    	elementlat.value = lat;
-	    	console.log(lat);	
-	    	let elementlng = document.getElementsByClassName("lng");
+	    	console.log(elementlat);
+	    	
+	    	let elementlng = document.getElementById("lng");
 	    	elementlng.value = lng;
-	    	console.log(elementlng.value);
+	    	
 	    });
 	  }; 
 	   </script>

@@ -142,11 +142,9 @@ public class BoardControlller {
 	@PostMapping("write")
 	public String boardWrite(@ModelAttribute("carInfo") Car car, BindingResult result, @SessionAttribute(value = "loginHost", required = false) Host loginHost,
 			 @Validated @ModelAttribute("boardWriteForm") BoardWriteForm boardWriteForm,
-			 @RequestParam Long carlist, String lat, String lng
+			 @RequestParam Long carlist, @RequestParam Double lat, @RequestParam Double lng
 			 ) {
-		log.info("lat: {}", lat);
-		log.info("lng: {}", lng);
-		log.info("carlist: {}", carlist);
+		
 		if (loginHost == null) {
 			return "redirect:/host/host_login";
 		}
@@ -156,13 +154,13 @@ public class BoardControlller {
 		}
 
 		Board board = BoardWriteForm.toBoard(boardWriteForm);
+		board.setLat(lat);
+		board.setLng(lng);
 		board.setHost_email(loginHost.getHost_email());
 		board.setCarInfo_id(carlist);
 		
-		System.out.println(board);
 		
 		String title = boardMapper.setTitle(carlist);
-		System.out.println(title);
 		board.setTitle(title);
 		
 		boardMapper.saveBoard(board);

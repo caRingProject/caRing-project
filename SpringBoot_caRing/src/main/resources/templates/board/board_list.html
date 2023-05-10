@@ -200,7 +200,8 @@
                      <p>★4.8</p>
                      <p><span class="won">\ </span>
                      <span th:text="*{boardDTO.board.price}"></span>/ 1-day</p>
-                     <input name="address" type="hidden" th:value="*{boardDTO.board.area}">
+                     <input name="lat" type="hidden" th:value="*{boardDTO.board.lat}">
+                     <input name="lng" type="hidden" th:value="*{boardDTO.board.lng}">
                      <input name="price" type="hidden" th:value="*{boardDTO.board.price}">
                      <input name="title" type="hidden" th:value="*{boardDTO.board.title}">
                   </div>   
@@ -218,8 +219,11 @@
                   zoom: 12,
             });
             
-         for(i = 0; i < document.getElementsByName('address').length; i++) {
-              var address = document.getElementsByName('address')[i].value
+         for(i = 0; i < document.getElementsByName('lat').length; i++) {
+              const lat = document.getElementsByName('lat')[i].value
+              const lng = document.getElementsByName('lng')[i].value
+              
+              
               var price = document.getElementsByName('price')[i].value
               var title = document.getElementsByName('title')[i].value
               const detail =
@@ -235,19 +239,17 @@
                   '<div>' + "1 - Day : " + " " + price + "원" + '</div>' +
                   '</div>';
                   
-              geocoder = new google.maps.Geocoder();
                 
-                geocoder.geocode( { 'address': address}, function(results, status) {
-                    if (status == 'OK') {
-                       var marker = new google.maps.Marker({
-                          map: map,
-                          position: results[0].geometry.location,
-                       });
+               var marker = new google.maps.Marker({
+                        map: map,
+                        position: new google.maps.LatLng(lat, lng),
+                   });
                        
                    
 
                const infowindow = new google.maps.InfoWindow({
                   content: detail,
+                  maxWidth: 300,
                });
                
                marker.addListener("click", function() {
@@ -256,10 +258,7 @@
                       map,
                   });
                });
-                    } else {
-                       alert('Geocode was not successful for the following reason: ' + status);
-                    }
-                });
+                    
          }   
    }
          
