@@ -13,7 +13,8 @@ public class Board {
    private String board_contents;
    private LocalDateTime created_time;
    private Long price;
-   private String area;
+   private Double lat;
+   private Double lng;
    private Long carInfo_id;
    private String rent_start;
    private String rent_end;

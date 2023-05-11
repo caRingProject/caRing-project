@@ -3,26 +3,45 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.caRing.repository.HostMapper">
-    <insert id="saveHost">
-        insert into Host (
-            host_email,
-            host_password,
-            host_name,
-            host_phone
-        ) values (
-            #{host_email},
-            #{host_password},
-            #{host_name},
-            #{host_phone}
-        )
-    </insert>
-    	
-    <select id="findHost" resultType="host">
-        select * from host where host_email = #{host_email}
-    </select>
-    
-     <select id="hostEmailCheck" resultType="int">
-        select count(host_email) from host where host_email = #{host_email}
-    </select>
-    	
+	<insert id="saveHost">
+		insert into Host (
+		host_email,
+		host_password,
+		host_name,
+		host_phone
+		) values (
+		#{host_email},
+		#{host_password},
+		#{host_name},
+		#{host_phone}
+		)
+	</insert>
+
+	<select id="findHost" resultType="host">
+		select * from host where
+		host_email = #{host_email}
+	</select>
+
+	<select id="hostEmailCheck" resultType="int">
+		select count(host_email)
+		from host where host_email = #{host_email}
+	</select>
+
+	<update id="updateHost" parameterType="host">
+		update host
+		<set>
+			host_password = #{host_password},
+			host_name = #{host_name},
+			host_phone = #{host_phone},
+			<if test="host_img != null">
+				host_img = #{host_img},
+			</if>
+		</set>
+		where host_email = #{host_email}
+	</update>
+
+	<delete id="removeHost">
+		delete from host where host_email = #{host_email}
+	</delete>
+
 </mapper>

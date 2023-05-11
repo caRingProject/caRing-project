@@ -1,7 +1,7 @@
 package com.example.caRing.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -112,4 +112,13 @@ class CustomerController {
         // 메인 페이지로 리다이렉트 한다.
         return "redirect:" + redirectURL;
     }
+    
+    // 로그아웃
+ 	@GetMapping("logout")
+ 	public String logout(HttpServletRequest request) {
+ 		// 세션
+ 		HttpSession session = request.getSession();
+ 		session.invalidate();
+ 		return "redirect:/";
+ 	}
 }

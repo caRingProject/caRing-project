@@ -123,7 +123,6 @@ public class HostController {
 
 	@GetMapping("main")
 	public String hostMain(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
-
 		
 		Host host = hostMapper.findHost(loginHost.getHost_email());
 		model.addAttribute("host", host);

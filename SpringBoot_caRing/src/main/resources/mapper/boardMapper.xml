@@ -103,20 +103,22 @@
          title,
          board_contents,
          price,
-         area,
          carInfo_id,
          rent_start,
-         rent_end      
+         rent_end,
+         lat,
+         lng     
        ) values (
           #{board_id},
           #{host_email},
           #{title},
           #{board_contents},
           #{price},
-          #{area},
           #{carInfo_id},
           #{rent_start},
-          #{rent_end}
+          #{rent_end},
+          #{lat},
+          #{lng}
        )
     </insert>
     

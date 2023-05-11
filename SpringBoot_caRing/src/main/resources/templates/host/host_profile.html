@@ -2,238 +2,360 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        @font-face {
-            font-family: 'ocr';
-            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@font-face {
+	font-family: 'ocr';
+	src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+}
 
-        @font-face {
-            font-family: 'Pretendard-Regular';
-            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-            font-weight: 400;
-            font-style: normal;
-            unicode-range: U+AC00-D7A3;
-        }
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
+	unicode-range: U+AC00-D7A3;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
+* {
+	margin: 0;
+	padding: 0;
+}
 
-        a {
-            text-decoration: inherit;
-            color: inherit;
-        }
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
 
-        ul {
-            list-style: none;
-        }
+ul {
+	list-style: none;
+}
 
-        img {
-            vertical-align: top;
-        }
+img {
+	vertical-align: top;
+}
 
-        button {
-            border: none;
-            background-color: transparent;
-            color: #dbcba0;
-        }
+button {
+	border: none;
+	background-color: transparent;
+	color: #dbcba0;
+}
 
-        body {
-            font-family: 'ocr', 'Pretendard-Regular';
-            background-color: #b6bebc;
-        }
+body {
+	font-family: 'ocr', 'Pretendard-Regular';
+	background-color: #b6bebc;
+}
 
-        header {
-            display: flex;
-            height: 70px;
-            background-color: #6e7a77;
-            justify-content: space-between;
-            color: #dbcba0;
-        }
+header {
+	position: relative;
+	background-color: #6e7a77;
+	color: #dbcba0;
+}
 
-        .mainlogo {
-            text-align: center;
-            font-family: 'ocr';
-            margin-left: 20px;
-            padding-top: 10px;
-        }
+.hwrap {
+	height: 70px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
 
-        .profile {
-            display: flex;
-            margin-right: 20px;
-            padding-top: 15px;
-        }
+h1 {
+	font-size: 12px;
+}
 
-        .profileImg img {
-            width: 40px;
-        }
+.mainlogo {
+	text-align: center;
+	font-family: 'ocr';
+	margin-left: 20px;
+}
 
-        .profile button {
-            font-size: 16px;
-        }
+.profile {
+	display: flex;
+	margin-right: 20px;
+}
 
-        form {
-            width: 800px;
-            height: 750px;
-            margin: 50px auto;
-            background-color: white;
-            box-shadow: 5px 10px 20px grey;
-            border-radius: 5% 5%;
-        }
+.profileImg img {
+	width: 40px;
+}
 
-        h2 {
-            margin-top: 50px;
-            padding-top: 10px;
-            padding-left: 50px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 4px -4px grey;
-        }
+.profile button {
+	font-size: 16px;
+}
 
-        .hostImg {
-            width: 300px;
-            height: 300px;
-            background-color: #dbcba0;
-            border-radius: 50%;
-            margin: 0 auto;
-            overflow: hidden;
-        }
+.lnb-container {
+	position: relative;
+}
 
-        .hostImg Img {
-            width: 100%;
-        }
+.lnb {
+	width: 400px;
+	background-color: white;
+	border-radius: 30px;
+	position: absolute;
+	top: -10px;
+	right: 20px;
+	border: 3px solid #6e7a77;
+	font-weight: 700;
+	color: #6e7a77;
+}
 
-        .hostImgwrap {
-            width: 300px;
-            height: 300px;
-            text-align: center;
-            margin: 0 auto;
-            position: relative;
-        }
+.lnb ul {
+	margin-left: 15px;
+	padding: 27px;
+	padding-bottom: 0;
+}
 
-        .hostImgwrap #Imgfile {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-        }
+.lnb ul li {
+	margin-bottom: 27px;
+}
 
-        .infowrap {
-            margin-left: 45px;
-            display: flex;
-            text-align: center;
-            line-height: 50px;
-        }
+.lnb span {
+	display: block;
+	width: 300px;
+	height: 3px;
+}
 
-        .label {
-            width: 300px;
-        }
+.lnbclose {
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
 
-        .input {
-            width: 500px;
-        }
+hr {
+	width: 350px;
+	margin-left: 22px;
+}
 
-        #hostname {
-            text-align: center;
-            font-size: 30px;
-        }
 
-        .username {
-            margin: 30px auto;
-            width: fit-content;
-        }
+form {
+	width: 800px;
+	height: 750px;
+	margin: 50px auto;
+	background-color: white;
+	box-shadow: 5px 10px 20px grey;
+	border-radius: 5% 5%;
+}
 
-        #info {
-            text-align: center;
-        }
+h2 {
+	margin-top: 50px;
+	padding-top: 10px;
+	padding-left: 50px;
+	margin-bottom: 25px;
+	box-shadow: 0 4px 4px -4px grey;
+}
 
-        .btwrap {
-            margin: 30px auto;
-            width: fit-content;
-            /* padding-top: 1em; */
-            margin-top: 0;
-        }
+.hostImg {
+	width: 300px;
+	height: 300px;
+	background-color: #dbcba0;
+	border-radius: 50%;
+	margin: 0 auto;
+	overflow: hidden;
+}
 
-        .btwrap input {
-            margin: 35px;
-            width: 200px;
-            height: 50px;
-            border-radius: 15px;
-            background-color: #b6bebc;
-            box-shadow: 3px 3px 3px grey;
-            transition-duration: 0.3s;
-        }
-    </style>
-    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-    <title>Host Main</title>
+.hostImg Img {
+	width: 100%;
+	height: 100%;
+    object-fit: cover;
+}
+
+.hostImgwrap {
+	width: 300px;
+	height: 300px;
+	text-align: center;
+	margin: 0 auto;
+	position: relative;
+}
+
+.hostImgwrap #Imgfile {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+.infowrap {
+	margin-left: 45px;
+	display: flex;
+	text-align: center;
+	line-height: 50px;
+}
+
+.label {
+	width: 300px;
+}
+
+.input {
+	width: 500px;
+}
+
+#hostname {
+	text-align: center;
+	font-size: 30px;
+}
+
+.username {
+	margin: 30px auto;
+	width: fit-content;
+}
+
+#info {
+	text-align: center;
+}
+
+.btwrap {
+	margin: 30px auto;
+	width: fit-content;
+	/* padding-top: 1em; */
+	margin-top: 0;
+}
+
+.btwrap input {
+	margin: 35px;
+	width: 200px;
+	height: 50px;
+	border-radius: 15px;
+	background-color: #b6bebc;
+	box-shadow: 3px 3px 3px grey;
+	transition-duration: 0.3s;
+}
+</style>
+<title>Host Main</title>
 </head>
 
 <body>
-    <header>
-        <div class="mainlogo">
-            <a href="/host/main">
-                <img src="/img/logo ver2.png" alt="main logo ver.2">
-                <p>Host Page</p>
-            </a>
-        </div><!--mainlogo-->
-        <div class="profile">
-            <button>
-                <i class="fa-solid fa-pen-to-square"></i>&nbsp
-            </button>
-            <div class="profileImg">
-                <img src="/img/userlogo.png" alt="user logo ver.2">
+	<header>
+        <div class="hwrap">
+            <div class="mainlogo">
+                <h1>
+                    <a href="#">
+                        <img src="/img/logo ver2.png" alt="main logo ver.2">
+                        <p>Host Page</p>
+                    </a>
+                </h1>
+            </div><!--mainlogo-->
+
+            <div class="profile">
+                <div class="profileImg" th:unless=${session.loginHost.host_img}>
+                    <img src="/img/userlogo.png" alt="user logo ver.2">
+                </div>
+                <div class="profileImg" th:if="${session.loginHost.host_img}">
+					<img th:src="${session.loginHost.host_img}" alt="profile Img">
+				</div>
+            </div><!--profile-->
+        </div><!--hwrap-->
+
+        <div class="lnb-container">
+            <div class="lnbclose"></div>
+            <div class="lnb">
+                <ul>
+                    <li><a href="#">메시지</a></li>
+                    <li><a href="/host/profile">마이페이지</a></li>
+                </ul>
+                <hr>
+                <ul>
+                    <li><a href="/host/login">로그아웃</a></li>
+                </ul>
             </div>
-        </div><!--profile-->
+        </div><!--lnb-container-->
     </header>
 
-    <form action="#">
-        <h2>프로필 편집</h2>
-        <div class="hostImgwrap">
-            <div class="hostImg">
-                <img src="/HTML/img.jpg" alt="profile Img">
-            </div><!--hostImg-->
-            <input type="file" name="" id="Imgfile">
-        </div><!--hostImgwrap-->
+	<form th:object="${host}" method="post" id="hostForm" enctype="multipart/form-data">
+		<h2>프로필 편집</h2>
+		<div class="hostImgwrap">
+			<div class="hostImg" th:unless="*{host_img}">
+				<img src="/HTML/img.jpg" alt="profile Img">
+			</div>
+			<!--hostImg-->
+			<div class="hostImg" th:if="*{host_img}">
+				<img th:src="*{host_img}" alt="profile Img">
+			</div>
+			<!--hostImg-->
+			<input type="file" name="img" id="Imgfile">
+		</div>
+		<!--hostImgwrap-->
 
-        <div class="username">
-            <input type="text" id="hostname" value="username">
-        </div>
+		<div class="username">
+			<input type="text" id="hostname" name="host_name" th:value="*{host_name}">
+		</div>
 
-        <div class="infowrap">
-            <div class="label">
-                <label>email</label>
-            </div>
-            <div class="input">
-                <p>nb242@naver.com</p>
-            </div>
-        </div>
+		<div class="infowrap">
+			<div class="label">
+				<label>email</label>
+			</div>
+			<div class="input">
+				<p th:text="*{host_email}"></p>
+				<input type="hidden" name="host_email" th:value="*{host_email}">
+			</div>
+		</div>
 
-        <div class="infowrap">
-            <div class="label">
-                <label>password</label>
-            </div>
-            <div class="input">
-                <input type="password" id="info" value="12345">
-            </div>
-        </div>
+		<div class="infowrap">
+			<div class="label">
+				<label>password</label>
+			</div>
+			<div class="input">
+				<input type="password" class="info" name="host_password" id="host_password" th:value="*{host_password}">
+			</div>
+		</div>
 
-        <div class="infowrap">
-            <div class="label">
-                <label>phone number</label>
-            </div>
-            <div class="input">
-                <input type="text" id="info" value="01011111111">
-            </div>
-        </div>
+		<div class="infowrap">
+			<div class="label">
+				<label>phone number</label>
+			</div>
+			<div class="input">
+				<input type="text" class="info" name="host_phone" id="host_phone" th:value="*{host_phone}">
+			</div>
+		</div>
 
-        <div class="btwrap">
-            <input type="submit" value="수정하기">
-            <input type="button" value="회원탈퇴">
-            </div>
-    </form>
+		<div class="btwrap">
+			<input type="submit" value="수정하기" th:formaction="@{/host/update(host=${host})}"> 
+			<input type="submit" value="회원탈퇴" th:formaction="@{/host/delete(host_email)}">
+		</div>
+	</form>
 
+	<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+	    $(function () {
+	        $(".lnb, .lnbclose").hide();
+	        $(".profile").click(function () {
+	            $(".lnb, .lnbclose").toggle();
+	        })
+	
+	        $('.lnbclose').click(function () {
+	            $('.lnb, .lnbclose').hide();
+	        })
+	    })
+	    
+	    $(document).ready(function () {
+            $("#Imgfile").on("change", handleImgsFilesSelect);
+        });
+	    
+	    var filesArr = [];
+	    
+	    function handleImgsFilesSelect(e) {
+            filesArr.splice(0,filesArr.length);
+            $('.hostImg').find('img').remove();
+            
+            var files = e.target.files;
+            filesArr = Array.prototype.slice.call(files);
+
+            filesArr.forEach(function (f, index) {
+
+            	console.log(f);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img_html = "<img src=\"" + e.target.result + "\" />";
+                    $(".hostImg").append(img_html);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -9,6 +9,8 @@ public interface HostMapper {
 	void saveHost(Host host);
 	Host findHost(String host_email);
 	int hostEmailCheck(String host_email);
+	void updateHost(Host host);
+	void removeHost(String host_email);
 }
 
 

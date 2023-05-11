@@ -52,9 +52,12 @@
                     <li><a href="#">고객센터</a></li>
                 </ul>
                 <hr>
-                <ul>
+                <ul th:unless=${session.loginCustomer}>
                     <li><a href="/customer/login">USER 로그인 / 회원가입</a></li>
                     <li><a href="/host/login">HOST 로그인 / 회원가입</a></li>
+                </ul>
+                <ul th:if=${session.loginCustomer}>
+                    <li><a href="/customer/logout">로그아웃</a></li>
                 </ul>
             </div>
         </div>

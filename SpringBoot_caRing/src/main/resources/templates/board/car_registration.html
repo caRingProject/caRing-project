@@ -26,9 +26,18 @@
             $('#carYears').html(options);
         });
 
+        var filesArr = [];
+
         function handleImgsFilesSelect(e) {
+            filesArr.splice(0,filesArr.length);
+            $('.carPreview').find('img').remove();
+            $('.noImage').hide();
+            $('.carPreview button').show();
+            $(".second").show();
+            $(".first").hide();
+            
             var files = e.target.files;
-            var filesArr = Array.prototype.slice.call(files);
+            filesArr = Array.prototype.slice.call(files);
 
             if (filesArr.length > 3) {
                 alert("사진은 최대 3장까지 등록 가능합니다.");
@@ -41,36 +50,46 @@
                     return;
                 }
 
-                sel_files.push(f);
-
-                console.log(f);
+                // console.log(f);
 
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img_html = "<img src=\"" + e.target.result + "\" />";
-                    $(".img" + (index + 1)).append(img_html).find(".noImage").hide().end()
-                        .find(".closebtn").show();
+                    $(".img" + (index + 1)).append(img_html);
                 }
                 reader.readAsDataURL(f);
             });
         }
 
-        function imgDelete(index) {
-            $(".img" + index).empty(); // 해당 index의 이미지를 삭제
-            sel_files.splice(index - 1, 1); // sel_files 배열에서 해당 index의 이미지를 제거
+        $(document).on('click', '.carPreview button', function () {
+            var $img = $(this).parent().find('img');
+            var index = $(this).parent().index();
+            console.log(index);
 
-            // 화면에 남아있는 이미지를 출력
-            for (var i = 0; i < sel_files.length; i++) {
+            // 이미지 삭제
+            $img.remove();
+
+            // 배열에서 삭제
+            filesArr.splice(index, 1);
+            $('.carPreview').find('img').remove();
+            console.log(filesArr);
+            
+            filesArr.forEach(function (f, index) {
+                if (!f.type.match("image.*")) {
+                    alert("확장자는 이미지 확장자만 가능합니다.");
+                    return;
+                }
+
+                // console.log(f);
+
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img_html = "<img src=\"" + e.target.result + "\" />";
-                    $(".img" + (i + 1)).html(img_html).find(".noImage").hide().end()
-                        .find(".closebtn").show();
+                    $(".img" + (index + 1)).append(img_html);
                 }
-                reader.readAsDataURL(sel_files[i]);
-            }
-        }
-        
+                reader.readAsDataURL(f);
+            });
+        });
     </script>
     <title>car register</title>
 </head>
@@ -78,7 +97,7 @@
 <body>
     <header>
         <div class="mainlogo">
-            <a href="#">
+            <a href="/host/main">
                 <img src="/img/logo ver2.png" alt="main logo ver.2">
                 <p>Host Page</p>
             </a>
@@ -97,22 +116,22 @@
         <h1>차량 등록</h1>
         <h2>사진</h2>
         <label for="carUpload">
-            <div class="btn"></div>
+            <div class="btn first">사진 선택</div>
+            <div class="btn second">다시 선택</div>
         </label>
         <input type="file" name="carUpload" id="carUpload" accept="image/*" multiple>
         <div class="carImgwrap">
             <div class="carPreview img1">
                 <i class="fa-solid fa-images noImage"></i>
-                <button class="closebtn" onclick="imgDelete()"><i
-                        class="fa-sharp fa-regular fa-circle-xmark"></i></button>
+                <button type="button"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
             </div><!--carPreview-->
             <div class="carPreview img2">
                 <i class="fa-solid fa-images noImage"></i>
-                <button class="closebtn"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
+                <button type="button"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
             </div><!--carPreview-->
             <div class="carPreview img3">
                 <i class="fa-solid fa-images noImage"></i>
-                <button class="closebtn"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
+                <button type="button"><i class="fa-sharp fa-regular fa-circle-xmark"></i></button>
             </div><!--carPreview-->
         </div><!--carImgwrap-->
         
