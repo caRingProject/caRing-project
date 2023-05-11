@@ -213,7 +213,7 @@ public class BoardControlller {
 		for (int i = 0; i < optionList.length; i++) {
 			option.add(optionList[i]);
 		}
-		log.info("option: {}", option);
+//		log.info("option: {}", option);
 		model.addAttribute("option", option);
 		
 		// 사진 출력

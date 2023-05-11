@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.BoardDTO;
@@ -27,6 +28,7 @@ import com.example.caRing.model.host.HostJoinForm;
 import com.example.caRing.model.host.HostLoginForm;
 import com.example.caRing.repository.BoardMapper;
 import com.example.caRing.repository.HostMapper;
+import com.example.caRing.util.FileService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,7 @@ public class HostController {
 
 	private final HostMapper hostMapper;
 	private final BoardMapper boardMapper;
+	private final FileService fileService;
 
 	@GetMapping("join")
 	public String hostJoinForm(Model model) {
@@ -90,9 +93,9 @@ public class HostController {
 		if (result.hasErrors()) {
 			return "host/host_login";
 		}
-		
+
 		log.info("requestURL: {}", redirectURL);
-		
+
 		// 사용자가 입력한 이이디에 해당하는 host 정보를 데이터베이스에서 가져온다.
 		Host host = hostMapper.findHost(hostLoginForm.getHost_email());
 		// host 가 존재하지 않거나 패스워드가 다르면
@@ -110,7 +113,7 @@ public class HostController {
 		// 메인 페이지로 리다이렉트 한다.
 		return "redirect:" + redirectURL;
 	}
-	
+
 	@GetMapping("profile")
 	public String hostProfile(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
 		Host host = hostMapper.findHost(loginHost.getHost_email());
@@ -120,10 +123,14 @@ public class HostController {
 
 	@GetMapping("main")
 	public String hostMain(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
+
 		
+		Host host = hostMapper.findHost(loginHost.getHost_email());
+		model.addAttribute("host", host);
+		log.info("host: {}", host);
 		List<Car> cars = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
 		model.addAttribute("cars", cars);
-		
+
 		List<Board> boards = boardMapper.findBoardsByEmail(loginHost.getHost_email());
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board board : boards) {
@@ -134,8 +141,43 @@ public class HostController {
 			boardDTOs.add(dto);
 		}
 		model.addAttribute("boardDTOs", boardDTOs);
-		
+
 		return "host/host_main";
 	}
-	
+
+	@PostMapping("update")
+	public String updateHost(@ModelAttribute Host host, MultipartFile img) {
+		log.info("host: {}", host);
+		if (img != null && !img.isEmpty()) {
+			AttachedFile saveFile = fileService.saveFile(img);
+			String fullPath = "/uploadImg/" + saveFile.getSaved_filename();
+			host.setHost_img(fullPath);
+		}
+		log.info("host: {}", host);
+		hostMapper.updateHost(host);
+		return "redirect:/host/main";
+	}
+
+	@PostMapping("delete")
+	public String removeHost(@RequestParam String host_email,
+			@SessionAttribute(value = "loginHost", required = false) Host loginHost) {
+		log.info("host_email: {}", host_email);
+		String str = host_email.replace(",", "");
+		log.info("str: {}", str);
+		if (!hostMapper.findHost(str).getHost_email().equals(loginHost.getHost_email())) {
+			return "redirect:/#";
+		}
+		hostMapper.removeHost(str);
+		return "redirect:/#";
+	}
+
+	// 로그아웃
+	@GetMapping("logout")
+	public String logout(HttpServletRequest request) {
+		// 세션
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/host/main";
+	}
+
 }
