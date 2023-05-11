@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ import com.example.caRing.model.customer.Customer;
 import com.example.caRing.model.customer.CustomerJoinForm;
 import com.example.caRing.model.customer.CustomerLoginForm;
 import com.example.caRing.repository.CustomerMapper;
+import com.example.caRing.util.MailService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("customer")
 @Controller
-
 class CustomerController {
 	
 	private final CustomerMapper customerMapper;
+	private final MailService mailService;
 	
 	@GetMapping("join")
 	public String customerJoinForm(Model model) {
@@ -44,6 +46,7 @@ class CustomerController {
 		return "customer/customer_login";
 	}
 	
+	@Transactional(readOnly = true)
 	@PostMapping("join")
     public String customerJoin(@Validated @ModelAttribute("customerJoinForm") CustomerJoinForm customerJoinForm,
                        BindingResult result) {

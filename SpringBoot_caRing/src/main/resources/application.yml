@@ -15,6 +15,18 @@ spring:
       max-request-size:
         50MB
         
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: caRingEmailService
+    password: tzdnamufpctwjblk
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        
 mybatis:
 #  config-location: classpath:config/mybatis-config.xml
   type-aliases-package: com.example.caRing.model

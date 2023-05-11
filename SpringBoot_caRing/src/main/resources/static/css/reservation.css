@@ -1,0 +1,192 @@
+@font-face {
+    font-family: 'ocr';
+    src: url('OCR-B\ 10\ BT.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    color: #dbcba0;
+}
+
+body {
+    font-family: 'ocr', 'Pretendard-Regular';
+}
+
+header {
+    display: flex;
+    height: 70px;
+    background-color: #6e7a77;
+    justify-content: space-between;
+    color: #dbcba0;
+}
+.mainlogo {
+    text-align: center;
+    font-family: 'ocr';
+    margin-left: 20px;
+    padding-top: 10px;
+}
+.mainlogo h1 {
+    font-size: 12px;
+    color: #dbcba0;
+}
+.profile {
+    display: flex;
+    margin-right: 20px;
+    padding-top: 15px;
+}
+.profileImg img {
+    width: 40px;
+}
+.profile button {
+    font-size: 16px;
+}
+.reservationwrap {
+    margin: 60px auto;
+    width: 1200px;
+    display: flex;
+}
+.revservation {
+    width: 50%;
+    color: #6e7a77;
+}
+.revservation>h1 {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+.data {
+    display: flex;
+    justify-content: space-between;
+    border-top: 2px solid #6e7a77;
+    padding-top: 20px;
+}
+.data p {
+    font-size: 16px;
+}
+.dateTitle {
+    width: 200px;
+}
+.dateTitle, label {
+    margin-left: 40px;
+}
+.date {
+    width: 400px;
+    text-align: right;
+    margin-right: 40px;
+}
+h3 {
+    font-size: 30px;
+    margin-left: 45px;
+    margin-top: 55px;
+}
+.wrap {
+    width: 200px;
+
+}
+
+.wrap1 {
+    width: 500px;
+}
+h2 {
+    padding: 20px;
+    border-top: 2px solid #6e7a77;
+}
+.check {
+    margin-top: 30px;
+    padding-bottom: 10px;
+}
+.label {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+label, .label>input {
+    display: block;
+}
+.label>input {
+    margin-right: 40px;
+}
+.submitWrap {
+    text-align: center;
+}
+.submit {
+    width: 250px;
+    height: 60px;
+    border-radius: 15px;
+    font-size: 20px;
+    margin: 0 auto;
+    border: none;
+    color: #6e7a77;
+    margin-top: 20px;
+}
+
+.carinfo {
+    width: 50%;
+}
+.border {
+    background-color: #6e7a77;
+    width: 400px;
+    height: 380px;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+.carImg {
+    width: 350px;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 20px;
+    margin: 0 auto;
+    margin-bottom: 20px
+}
+.carInfoWrap {
+    width: 350px;
+    background-color:#6e7a77;;
+    margin: 0 auto;
+    color: white;
+}
+.carImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    position: relative;
+    top: 20px;
+}
+.priceInfo {
+   	text-align: right;
+    justify-content: space-between;
+    border-bottom: 2px solid white;
+}
+.totalPrice{
+    text-align: right;
+    font-size: 20px;
+    position: relative;
+    top: 6px;
+}

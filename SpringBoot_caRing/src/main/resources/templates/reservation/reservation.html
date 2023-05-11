@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reservation.css">
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <title>reservation</title>
+</head>
+
+<script>
+    function dateCal() {
+        const date1 = new Date(document.getElementById("date1").value);
+        const date2 = new Date(document.getElementById("date2").value);
+        const diffTime = date2.getTime() - date1.getTime();
+        const diffDays = diffTime / (1000 * 60 * 60 * 24) + 1;
+
+        document.getElementById("result").innerHTML = diffDays + "일";
+
+        const price = document.getElementById("perPrice").value;
+        const total = diffDays * price;
+        document.getElementById("totalPrice").innerHTML = total + "원";
+        document.getElementById("totalPrice1").value = total;
+        console.log(totalPrice1);
+    }
+    window.onload = function () {
+        dateCal();
+    };
+
+</script>
+
+<body>
+    <header>
+        <div class="mainlogo">
+            <a href="#"> <img src="/img/logo ver2.png" alt="main logo ver.2">
+                <h1>Host Page</h1>
+            </a>
+        </div>
+        <!--mainlogo-->
+        <div class="profile">
+            <button>
+                <i class="fa-solid fa-pen-to-square"></i>&nbsp
+            </button>
+            <div class="profileImg">
+                <img src="/img/userlogo.png" alt="user logo ver.2">
+            </div>
+        </div>
+        <!--profile-->
+    </header>
+    <!--header-->
+
+    <form class="reservationwrap" method="post" th:object="${reservation}" action="/reservation/reservation">
+    <input type="hidden" name="board_id" th:value="${boardDTO.board.board_id}">
+        <!--전체적인 틀-->
+
+        <div class="revservation">
+            <!--반죽갈-->
+            <h1>예약 확인</h1>
+            <div class="data">
+                <p class="dateTitle">날짜</p>
+                <p class="date">
+                    <span th:text="${reservation.rent_start}"></span> ~ <span th:text="${reservation.rent_end}"></span>
+                </p>
+                <input type="hidden" id="date1" name="rent_start" th:value="${reservation.rent_start}">
+                <input type="hidden" id="date2" name="rent_end" th:value="${reservation.rent_start}">
+            </div>
+
+            <div class="check">
+                <!--보험선택-->
+                <h2>보험 선택</h2>
+                <div class="label">
+                    <label>기본 </label> <input type="radio" name="check" value="보험 선택사항">
+                </div>
+                <div class="label">
+                    <label> 프리미엄</label> <input type="radio" name="check" value="보험 선택사항">
+                </div>
+            </div>
+
+
+            <div class="insurance">
+                <!--결제 방법-->
+                <h2>결제 방법</h2>
+                <div class="label">
+                    <label>신용카드 </label> <input type="radio" name="pay" value="보험 선택사항">
+                </div>
+                <div class="label">
+                    <label>예약금 먼저 결제</label> <input type="radio" name="pay" value="보험 선택사항">
+                </div>
+            </div>
+        </div>
+
+        <div class="carinfo" th:object="${boardDTO}">
+            <div class="border">
+                <div class="carInfoWrap">
+                    <div class="carImg">
+                        <!--<h6>차정보</h6>-->
+                        <img th:src="*{car.thumbnail}" alt="reservation car photo1">
+                    </div>
+                    <!--carImg-->
+                    <p th:text="*{board.title}"></p>
+                    <h4>요금정보</h4>
+
+                    <div class="priceInfo">
+                        <div id="result" class="days"></div>
+                        </p>
+                        <div th:text="*{board.price} + 원"></div>
+                        </p>
+                        <input type="hidden" id="results"> 
+                        <input type="hidden" id="perPrice" th:value="*{board.price}">
+                    </div>
+                    <!--priceInfo-->
+
+                    <p id="totalPrice" class="totalPrice"></p>
+                    <input type="hidden" id="totalPrice1" name="totalPrice">
+
+                </div>
+                <!--carInfoWrap-->
+            </div>
+            <input type="submit" value="예약하기" class="submit">
+            <!--border-->
+        </div>
+        <!--carinfo-->
+    </form>
+    <!--reservationwrap-->
+
+</body>
+
+</html>

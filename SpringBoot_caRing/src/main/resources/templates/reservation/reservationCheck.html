@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'ocr';
+            src: url('OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Pretendard-Regular';
+		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		    font-weight: 400;
+		    font-style: normal;
+            unicode-range: U+AC00-D7A3;
+		}
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        img {
+            vertical-align: top;
+        }
+        button {
+            border: none;
+            background-color: transparent;
+            color: #dbcba0;
+        }
+        body {
+            font-family: 'ocr', 'Pretendard-Regular';
+        }
+        
+        header {
+            display: flex;
+            height: 70px;
+            background-color: #6e7a77;
+            justify-content: space-between;
+            color: #dbcba0;
+        }
+        .mainlogo {
+            text-align: center;
+            font-family: 'ocr';
+            margin-left: 20px;
+            padding-top: 10px;
+        }
+
+        .profile {
+            display: flex;
+            margin-right: 20px;
+            padding-top: 15px;
+        }
+        .profileImg img {
+            width: 40px;
+        }
+        .profile button {
+            font-size: 16px;
+        }
+
+        .reservationwrap {
+            background-color: blue;
+            width: 800px;
+            height: 500px;
+            margin: 50px  auto;
+        }
+
+        .rightreservation {
+            background-color: #dbcba0;
+            width: 50%;
+            height: 500px;
+            float: right;
+        }
+        .leftreservation {
+            background-color:skyblue;
+            width: 30%;
+            height: 300px;
+            float: left;
+        }
+
+    </style>
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <title>Host Main</title>
+</head>
+
+<body>
+    <header>
+        <div class="mainlogo">
+            <a href="#">
+                <img src="/img/logo ver2.png" alt="main logo ver.2">
+                <p>Host Page</p>
+            </a>
+        </div><!--mainlogo-->
+        <div class="profile">
+            <button>
+                <i class="fa-solid fa-pen-to-square"></i>&nbsp
+            </button>
+            <div class="profileImg">
+                <img src="/img/userlogo.png" alt="user logo ver.2">
+            </div>
+        </div><!--profile-->
+    </header>
+
+    <div class="reservationwrap"> <!--전체적인 틀-->
+
+        <div class="rightreservation"><!--반죽갈-->
+            <h1>
+                예약 요청 완료 </p>
+            </h1>
+
+            </div><!--reservation-->
+            
+            <div class="leftreservation">
+                <h1> 예약 완료 </h1>
+            <h3> 
+                예약 요청이 완료되었습니다.</p>
+                호스트가 확인 후 예약 확정이 완료됩니다.</p>
+            </h3>
+
+            <div class="submitWrap">
+                <input type="submit" value="예약상세" class="submit">
+            </div>
+
+
+                <div class="submitWrap">
+                    <input type="submit" value="예약하기" class="submit">
+                </div>
+
+
+
+        </div><!--left-->
+        
+        </div><!--reservationwrap-->
+
+</body>
+
+</html>

@@ -53,25 +53,28 @@
         <button class="btnright"><i class="fa-solid fa-angles-right"></i></button>
     </div>
 
-    <div class="mainwrap" th:object="${board}">
+    <div class="mainwrap">
         <div class="carwrap">
-            <form action="#" class="calendar">
-                <p><span th:text="*{price}"></span><span>₩</span>/일</p>
+            <!--  <form action="#" class="calendar"> -->
+            <form th:action="@{/reservation/reservation}" class="calendar"> 
+                <p><span th:text="${board.price}"></span><span>₩</span>/일</p>
+                <input type="hidden" name="price" th:field="${board.price}">
+                <input type="hidden" name="board_id" th:field="${board.board_id}">
+                <input type="hidden" name="carInfo_id" th:field="${car.carInfo_id}">
                 <div class="flatpickr">
-	               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_start}">
-	               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_end}">
-	                <a class="input-button" title="toggle" data-toggle> <i
-	                  class="fa-solid fa-calendar-days"></i>
-	               </a> <a class="input-button" title="clear" data-clear> <i
-	                  class="fa-regular fa-circle-xmark"></i>
+	               <input name="rent_start" id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input>
+	               <input name="rent_end" id="second-input" type="text" placehWlder="날짜를 선택해주세요" data-input>
+	                <a class="input-button" title="toggle" data-toggle> 
+	                <i class="fa-solid fa-calendar-days"></i>
+	               </a> <a class="input-button" title="clear" data-clear> 
+	               <i class="fa-regular fa-circle-xmark"></i>
 	               </a>
-	               <div th:errors="*{rent_start}" class="error"></div>
 	            </div>
                 <input type="submit" value="예약하기">
             </form>
             <div class="carInfo">
             
-                <h3 class="titleh3" th:text="*{title}"></h3>
+                <h3 class="titleh3" th:text="${board.title}"></h3>
                 
                 <div class="infowrap">
                     
@@ -122,7 +125,7 @@
 
         <div class="explanation">
             <h3>차 설명</h3>
-            <p th:text="*{board_contents}">설명입니다</p>
+            <p th:text="${board.board_contents}">설명입니다</p>
         </div><!--explanation-->
 
         <div class="hostInfo">

@@ -21,9 +21,12 @@
             </div><!--mainlogo-->
 
             <div class="profile">
-                <div class="profileImg">
+                <div class="profileImg" th:unless=${host.host_img}>
                     <img src="/img/userlogo.png" alt="user logo ver.2">
                 </div>
+                <div class="profileImg" th:if="${host.host_img}">
+					<img th:src="${session.loginHost.host_img}" alt="profile Img">
+				</div>
             </div><!--profile-->
         </div><!--hwrap-->
 
@@ -54,13 +57,13 @@
                     <div class="carwrap">
                         <div class="img">
                             <a href="#">
-                                  <img th:src="${car.thumbnail}" alt="car photo1">
+                               	<img th:src="${car.thumbnail}" alt="car photo1">
                             </a>
                         </div><!--carImg-->
 
                         <div class="carInfo">
-                           <a href="#">
-                               <h3 th:text="${car.car_name}"></h3>
+                        	<a href="#">
+                            	<h3 th:text="${car.car_name}"></h3>
                             </a>
                             <div class="carBt">
                                 <input type="button" value="수정">
@@ -90,11 +93,11 @@
                         </div><!--carImg-->
 
                         <div class="carInfo">
-                           <a href="#">
-                               <h3 th:text="${boardDTO.board.title}"></h3>
+                        	<a href="#">
+                            	<h3 th:text="${boardDTO.board.title}"></h3>
                             </a>
                             <p><span class="won">\ </span><span th:text="*{boardDTO.board.price}"></span>/ 1-day</p>
-                           <input name="address" type="hidden">
+                     		<input name="address" type="hidden">
                             <div class="carBt">
                                 <input type="button" value="수정">
                                 <input type="button" value="삭제">
@@ -210,16 +213,16 @@
     <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-       $(function () {
-           $(".lnb, .lnbclose").hide();
-           $(".profile").click(function () {
-               $(".lnb, .lnbclose").toggle();
-           })
-   
-           $('.lnbclose').click(function () {
-               $('.lnb, .lnbclose').hide();
-           })
-       })
+	    $(function () {
+	        $(".lnb, .lnbclose").hide();
+	        $(".profile").click(function () {
+	            $(".lnb, .lnbclose").toggle();
+	        })
+	
+	        $('.lnbclose').click(function () {
+	            $('.lnb, .lnbclose').hide();
+	        })
+	    })
     </script>
 </body>
 

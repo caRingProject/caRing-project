@@ -51,6 +51,8 @@ import com.example.caRing.model.board.car.Fuel;
 import com.example.caRing.model.board.car.OptionList;
 import com.example.caRing.model.host.Host;
 import com.example.caRing.model.host.HostLoginForm;
+import com.example.caRing.model.reservation.Reservation;
+import com.example.caRing.model.reservation.ReservationDTO;
 import com.example.caRing.repository.BoardMapper;
 import com.example.caRing.repository.HostMapper;
 import com.example.caRing.util.FileService;
@@ -111,9 +113,9 @@ public class BoardControlller {
 			boardMapper.saveFile(saveFile);
 			if (i == 0) {
 				String fullPath = "/uploadImg/" + saveFile.getSaved_filename();
-				log.info("fullPath: {}", fullPath);
+//				log.info("fullPath: {}", fullPath);
 				car.setThumbnail(fullPath);
-				log.info("car: {}", car);
+//				log.info("car: {}", car);
 			}
 		}
 		boardMapper.updateCar(car);
@@ -211,7 +213,7 @@ public class BoardControlller {
 		// 차 출력
 		Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
 		model.addAttribute("car", car);
-		log.info("car: {}", car);
+//		log.info("car: {}", car);
 		CarType carType = boardMapper.findCarTypeById(car.getCarType_id());
 		model.addAttribute("carType", carType);
 		Fuel fuel = boardMapper.findFuelById(car.getFuel_id());
@@ -242,7 +244,16 @@ public class BoardControlller {
 			paths.add(fullPath);
 		}
 		model.addAttribute("paths", paths);
-		log.info("paths: {}", paths);
+//		log.info("paths: {}", paths);
+		
+		BoardDTO boardDTO = new BoardDTO();
+		boardDTO.setBoard(board);
+		boardDTO.setCar(car);
+		ReservationDTO reservationDTO = new ReservationDTO();
+		Reservation reservation = new Reservation();
+		reservationDTO.setBoardDTO(boardDTO);
+		reservationDTO.setReservation(reservation);
+		model.addAttribute("reservationDTO", reservationDTO);
 		
 		return "board/board_read";
 	}
