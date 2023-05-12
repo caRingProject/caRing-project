@@ -91,9 +91,9 @@ public class ReservationController {
     
     // 예약 등록
     @PostMapping("/reservation")
-    public String createReservation(Model model, @RequestParam String rent_start, @RequestParam String rent_end, 
+    public String createReservation(Model model, @ModelAttribute Reservation reservation,
     								@SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer,
-    								@RequestParam Long totalPrice, @RequestParam Long board_id) {
+    								@RequestParam Long totalPrice) {
     	
     	
         
@@ -112,13 +112,13 @@ public class ReservationController {
 //	    }
 		
 		// 출력용 
-		log.info("rent_start: {}", rent_start);
-		log.info("rent_end: {}", rent_end);
-		Reservation reservation = new Reservation();
-		reservation.setRent_start(rent_start);
-		reservation.setRent_end(rent_end);
+//		log.info("rent_start: {}", rent_start);
+//		log.info("rent_end: {}", rent_end);
+//		Reservation reservation = new Reservation();
+//		reservation.setRent_start(rent_start);
+//		reservation.setRent_end(rent_end);
+    	log.info("reservation: {}", reservation);
 		reservation.setTotal_price(totalPrice);
-		reservation.setBoard_id(board_id);
 		reservation.setCustomer_email(loginCustomer.getCustomer_email());
 		log.info("reservation: {}", reservation);
 		
