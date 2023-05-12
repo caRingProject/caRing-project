@@ -176,7 +176,7 @@ public class HostController {
 		// 세션
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "redirect:/host/main";
+		return "redirect:/";
 	}
 
 }

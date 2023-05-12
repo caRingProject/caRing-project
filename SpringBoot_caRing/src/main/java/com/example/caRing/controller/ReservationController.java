@@ -1,8 +1,5 @@
 package com.example.caRing.controller;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +18,8 @@ import com.example.caRing.model.board.BoardDTO;
 import com.example.caRing.model.board.car.Car;
 import com.example.caRing.model.customer.Customer;
 import com.example.caRing.model.reservation.Reservation;
-import com.example.caRing.model.reservation.ReservationDTO;
 import com.example.caRing.repository.BoardMapper;
-import com.example.caRing.repository.HostMapper;
 import com.example.caRing.repository.ReservationMapper;
-import com.example.caRing.util.FileService;
 import com.example.caRing.util.MailService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,9 +36,6 @@ public class ReservationController {
     
     @Autowired
 	private BoardMapper boardMapper;
-    
-    @Autowired
-	private HostMapper hostMapper;
     
     @Autowired
     private MailService mailService;
@@ -91,9 +82,8 @@ public class ReservationController {
     
     // 예약 등록
     @PostMapping("/reservation")
-    public String createReservation(Model model, @ModelAttribute Reservation reservation,
-    								@SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer,
-    								@RequestParam Long totalPrice) {
+    public String createReservation(Model model, @ModelAttribute Reservation reservation, @RequestParam Long totalPrice,
+    								@SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer) {
     	
     	
         

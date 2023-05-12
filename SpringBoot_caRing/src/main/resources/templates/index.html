@@ -2,12 +2,36 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/searchbox.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://kit.fontawesome.com/d1fa9340d9.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<style>
+.flatpickr {
+	display: flex;
+}
+</style>
+<script>
+      $(function(){
+       $(".flatpickr").flatpickr({
+           mode: "range",
+           onChange: function(selectedDates){
+            $('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
+            $('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
+         },
+            wrap: true
+        });
+     });    
+</script>
+
+<script>
         $(function () {
             $(".lnb, .lnbclose").hide();
             $(".user").click(function () {
@@ -19,77 +43,158 @@
             })
         })
     </script>
-    <title>caRing</title>
+<title>caRing</title>
 </head>
 
 <body>
-    <header>
-        <div class="hwrap">
-            <div class="logo">
-                <h1>
-                    <a href="#">
-                        <img src="img/logo.png" alt="caRing main logo">
-                    </a>
-                </h1>
-            </div><!--logo-->
+	<header>
+		<div class="hwrap">
+			<div class="logo">
+				<h1>
+					<a href="#"> <img src="img/logo.png" alt="caRing main logo">
+					</a>
+				</h1>
+			</div>
+			<!--logo-->
 
-            <div class="user">
-                <a href="#">
-                    <img src="img/user.png" alt="userlogo">
-                </a>
-            </div><!--user-->
-        </div><!--hwrap-->
+			<div class="user">
+				<a href="#"> <img src="img/user.png" alt="userlogo">
+				</a>
+			</div>
+			<!--user-->
+		</div>
+		<!--hwrap-->
 
-        <div class="lnb-container">
-            <div class="lnbclose"></div>
-            <div class="lnb">
-                <ul>
-                    <li><a href="#">메시지</a></li>
-                    <li><a href="#">마이페이지</a></li>
-                </ul>
-                <hr>
-                <ul>
-                    <li><a href="#">고객센터</a></li>
-                </ul>
-                <hr>
-                <ul th:unless=${session.loginCustomer}>
-                    <li><a href="/customer/login">USER 로그인 / 회원가입</a></li>
-                    <li><a href="/host/login">HOST 로그인 / 회원가입</a></li>
-                </ul>
-                <ul th:if=${session.loginCustomer}>
-                    <li><a href="/customer/logout">로그아웃</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-    
-    <div class="search">
-        <video muted loop autoplay>
-            <source src="img/road-42483.mp4">
-        </video>
+		<div class="lnb-container">
+			<div class="lnbclose"></div>
+			<div class="lnb">
+				<ul>
+					<li><a href="#">메시지</a></li>
+					<li><a href="#">마이페이지</a></li>
+				</ul>
+				<hr>
+				<ul>
+					<li><a href="#">고객센터</a></li>
+				</ul>
+				<hr>
+				<ul>
+					<li><a href="/customer/login">USER 로그인 / 회원가입</a></li>
+					<li><a href="/host/login">HOST 로그인 / 회원가입</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
 
-        <form action="#" class="carSearch">
-            <div class="where">
-                <label>where</label><br>
-                <input type="text" id="autocomplete" placeholder="city, airport, adress or hotel">
-            </div>
-            <div class="from">
-                <label>from</label><br>
-                <input type="date">
-            </div>
-            <div class="until">
-                <label>until</label><br>
-                <input type="date">
-            </div>
-            <div class="searchbt">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-        </form>
-    </div>
+	<div class="search">
+		<video muted loop autoplay>
+			<source src="img/road-42483.mp4">
+		</video>
 
-    <div class="bodywrap">
+		<form action="/board/list" class="carSearch">
+			<div class="where">
+				<label>where</label><br> <input type="text" id="autocomplete"
+					name="location" placeholder="city, airport, adress or hotel">
+			</div>
+			<div class="flatpickr">
+				<div class="from">
+					<label>from</label><br> <input id="first-input"
+						name="rent_start" type="text" data-input>
+				</div>
+				<div class="until">
+					<label>until</label><br> <input id="second-input"
+						name="rent_end" type="text" data-input>
+				</div>
+			</div>
+			<div class="searchbt">
+				<button>
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
+			</div>
+			
+               <input type="hidden" id="lats" name="lat">
+               <input type="hidden" id="lngs" name="lng">
+		</form>
+	</div>
+	<div class="bodywrap"></div>
+	<!-- <div id="map"></div>  -->
+	<script>
+        // This example adds a search box to a map, using the Google Place Autocomplete
+        // feature. People can enter geographical searches. The search box will return a
+        // pick list containing a mix of places and predicted search terms.
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+        function initAutocomplete() {
+          /*   var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: -33.8688,
+                    lng: 151.2195
+                },
+                zoom: 13,
+                mapTypeId: 'roadmap'
+            }); */
+            // Create the search box and link it to the UI element.
+            var input = document.getElementById('autocomplete');
+            var searchBox = new google.maps.places.SearchBox(input);
+            //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            /* // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', function() {
+                searchBox.setBounds(map.getBounds());
+            });
+            var markers = [];
+            // Listen for the event fired when the user selects a prediction and retrieve
+            // more details for that place.
+            searchBox.addListener('places_changed', function() {
+                var places = searchBox.getPlaces();
+                if (places.length == 0) {
+                    return;
+                }
+                // Clear out the old markers.
+                markers.forEach(function(marker) {
+                    marker.setMap(null);
+                });
+                markers = [];
+                // For each place, get the icon, name and location.
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function(place) {
+                    if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+ 
+                                        // place 에서 위경도 값을 읽어올 수 있음. 
+                    console.log(place.geometry.location.lat());
+                    console.log(place.geometry.location.lng());
+ 
+                    var icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25)
+                    };
+                    // Create a marker for each place.
+                    markers.push(new google.maps.Marker({
+                        map: map,
+                        icon: icon,
+                        title: place.name,
+                        position: place.geometry.location
+                    }));
+                    if (place.geometry.viewport) {
+                        // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+            }); */
+        }
+    </script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&libraries=places&callback=initAutocomplete"
+		async defer></script>
 
-    </div>
 </body>
 
 </html>

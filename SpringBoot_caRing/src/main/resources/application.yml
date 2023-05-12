@@ -7,6 +7,10 @@ spring:
       username: caring
       password: 1234
       driver-class-name: oracle.jdbc.driver.OracleDriver 
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    generate-ddl: true
+    show-sql: true
       
   servlet:
     multipart:

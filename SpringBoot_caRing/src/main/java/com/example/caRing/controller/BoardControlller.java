@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,9 @@ import org.springframework.web.util.UriUtils;
 
 import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.BoardDTO;
+import com.example.caRing.model.board.BoardSearchForm;
 import com.example.caRing.model.board.BoardWriteForm;
+import com.example.caRing.model.board.Location;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Brand;
 import com.example.caRing.model.board.car.Car;
@@ -172,13 +175,16 @@ public class BoardControlller {
 	}
 
 	@GetMapping("list")
-	public String boardList(Model model) {
-		List<Board> boards = boardMapper.findAllBoards();
+	public String boardList(Model model, @ModelAttribute BoardSearchForm boardSearchForm, 
+	         @ModelAttribute Location location) {
+		log.info("location: {}", location);
+		List<Board> lists = boardMapper.findLocation(location);
+		log.info("lists: {}", lists);
 		List<BoardDTO> boardDTOs = new ArrayList<>();
-		for (Board board : boards) {
-			Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+		for (Board list : lists) {
+			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
 			BoardDTO dto = new BoardDTO();
-			dto.setBoard(board);
+			dto.setBoard(list);
 			dto.setCar(car);
 			boardDTOs.add(dto);
 		}
@@ -257,5 +263,53 @@ public class BoardControlller {
 		
 		return "board/board_read";
 	}
+	
+	
+///////////////////////////////////////////////////////////////////////
+	
+	
+	@PostMapping("boardlist")
+	   public ResponseEntity<List<Board>> searchBoardList(Model model) {
+	      List<Board> findAllBoards = boardMapper.findAllBoards();
+	      return ResponseEntity.ok(findAllBoards);
+	   }
+	   
+	   /*
+	    * @PostMapping("filteredboardlist") public ResponseEntity<List<Board>>
+	    * getFilteredBoardList(@RequestBody List<Board> filteredData) {
+	    * System.out.println(filteredData); return new ResponseEntity<>(filteredData,
+	    * HttpStatus.OK); }
+	    */
+	   
+	   @PostMapping("/filteredboardlist")
+	   public ResponseEntity<List<BoardDTO>> getFilteredBoardList(@ModelAttribute BoardSearchForm boardSearchForm, @RequestBody List<Board> filteredData, Model model) {
+	      model.addAttribute("boardSearchForm", boardSearchForm);
+	      System.out.println(filteredData);
+	      List<BoardDTO> boardDTOss = new ArrayList<>();
+	      for (Board board : filteredData) {
+	         Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+	         BoardDTO dto = new BoardDTO();
+	         dto.setBoard(board);
+	         dto.setCar(car);
+	         boardDTOss.add(dto);
+	      }
+	      // 브랜드 출력
+	      List<Brand> brands = boardMapper.findBrand();
+	      model.addAttribute("brands", brands);
+	      // 차종 출력
+	      List<CarType> carTypes = boardMapper.findCarType();
+	      model.addAttribute("carTypes", carTypes);
+	      // 유종 출력
+	      List<Fuel> fuels = boardMapper.findFuel();
+	      model.addAttribute("fuels", fuels);
+	      // 특징 출력
+	      List<Feature> features = boardMapper.findFeature();
+	      model.addAttribute("features", features);
+	      model.addAttribute("boardDTOss", boardDTOss);
+	      log.info("bo :{}", boardDTOss);
+	      
+	      return ResponseEntity.ok(boardDTOss);
+	   }
+	   
 	
 }

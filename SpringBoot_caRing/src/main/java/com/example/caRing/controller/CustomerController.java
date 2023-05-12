@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.caRing.model.customer.Customer;
 import com.example.caRing.model.customer.CustomerJoinForm;
 import com.example.caRing.model.customer.CustomerLoginForm;
+import com.example.caRing.model.host.Host;
 import com.example.caRing.repository.CustomerMapper;
 import com.example.caRing.util.MailService;
 
@@ -34,6 +36,15 @@ class CustomerController {
 	
 	private final CustomerMapper customerMapper;
 	private final MailService mailService;
+	
+	@GetMapping("/")
+	public String home(Model model, @SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer) {
+		if (loginCustomer != null) {
+			Customer customer = customerMapper.findCustomer(loginCustomer.getCustomer_email());
+			model.addAttribute("customer", customer);
+		}
+		return "/";
+	}
 	
 	@GetMapping("join")
 	public String customerJoinForm(Model model) {
@@ -91,8 +102,7 @@ class CustomerController {
 	// 로그인 처리
     @PostMapping("login")
     public String login(@Validated @ModelAttribute("customerLoginForm") CustomerLoginForm customerLoginForm,
-                        BindingResult result,
-                        HttpServletRequest request,
+                        BindingResult result, HttpServletRequest request,
                         @RequestParam(defaultValue = "/") String redirectURL) {
         // validation 에 실패하면 member/loginForm 페이지로 돌아간다.
         if (result.hasErrors()) {

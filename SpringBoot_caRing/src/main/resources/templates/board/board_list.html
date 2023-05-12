@@ -12,6 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
+
 <script>
    	$(function(){
        $(".flatpickr").flatpickr({
@@ -79,10 +80,11 @@
          <a href="/"> <img src="/img/logo.png" alt="caRing main logo"></a>
       </h1>
       
-      <div class="searchBar">
+      <div class="searchBar" th:object="${boardSearchForm}">
          <form action="#" class="carSearch">
             <div class="where">
-               <label>Where</label> <input type="text" id="autocomplete" placeholder="city, airport, adress or hotel">
+               <label>Where</label> 
+               <input type="text" id="autocomplete" placeholder="city, airport, adress or hotel" th:value="*{location}">
             </div>
             
             <div class="When">
@@ -90,8 +92,8 @@
             </div>
             
             <div class="flatpickr">
-               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input>
-               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input>
+               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:value="*{rent_start}">
+               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:value="*{rent_end}">
                <a class="input-button" title="toggle" data-toggle> 
                <i class="fa-solid fa-calendar-days"></i></a>
                
@@ -188,7 +190,7 @@
    	</div>
    <div class="carwrap">
       <div class="carlist">
-      <th:block th:each="boardDTO: ${boardDTOs}">
+      <th:block th:fragment="boardList" th:each="boardDTO: ${filteredData}">
          <a th:href="@{/board/read(board_id=${boardDTO.board.board_id})}">
             <div class="car">
                <div class="img">
@@ -210,15 +212,97 @@
          </a>
          </th:block> 
       </div>
-      <script>
-      var map
-      var geocoder;
-         function myMap(){
-            var map = new google.maps.Map(document.getElementById('googleMap'), {
-                 center: {lat: 37.5400456, lng: 126.9921017},
-                  zoom: 12,
-            });
+		<script>
+		var map;
+			function myMap() {
+					map = new google.maps.Map(document.getElementById('googleMap'), {
+					center : {lat : 37.5400456, lng : 126.9921017},
+					zoom : 12,
+				});
+
+				var input = document.getElementById('autocomplete');
+				var searchBox = new google.maps.places.SearchBox(input);
+
+				var geocoder = new google.maps.Geocoder();
+				
+				var address;
+
+				address = document.getElementById('autocomplete').value;
+				geocodeAddress(geocoder);
+
+				function geocodeAddress(geocoder) {
+					geocoder.geocode({'address' : address}, function(result, status) {
+						const lat = result[0].geometry.location.lat();
+						const lng = result[0].geometry.location.lng();  
+						console.log(lat);
+						console.log(lng);
+						document.getElementById("lats").value = lat;
+		                document.getElementById("lngs").value = lng;
+		                console.log(document.getElementById(lats));        
+
+						map.panTo(new google.maps.LatLng(lat, lng));
+						getBoardList(lat, lng);
+					});
+				};
+				
+				function getBoardList(lat, lng){
+				    
+					$.ajax({
+							url : "/board/boardlist",
+							type : "post",
+							success : function(data, success, xhr) {
+
+								for (let i = 0; i < data.length; i++) {
+									if (lat - 1.0013 < data[i].lat && data[i].lat < lat + 1.0013) {
+										if (lng - 1.0013 < data[i].lng && data[i].lng < lng + 1.0013) {
+											var marker = new google.maps.Marker({
+												position : new google.maps.LatLng(data[i].lat, data[i].lng),
+												map : map
+											});
+										}
+									}
+								}
+								
+								const filteredData = data.filter(board => {
+							    	return lat - 1.0013 < board.lat && board.lat < lat + 1.0013 && lng - 1.0013 < board.lng && board.lng < lng + 1.0013;
+							     });
+							     
+								console.log(filteredData);
+							    getFilteredBoardList(filteredData);
+							    },
+							    
+							error : function(xhr, status, error) {
+								console.log(status);
+							}
+						});
+					}
+				
+				function getFilteredBoardList(filteredData) {
+					$.ajax({
+						url : "/board/filteredboardlist",
+						type : "post",
+						data: JSON.stringify(filteredData),
+					    contentType: "application/json",
+					    dataType: "json",
+					    success: function (filteredData, success, xhr) {
+					      alert(JSON.stringify(filteredData));
+					    },
+					    error: function (xhr, status, error) {
+					      console.log(status);
+					    },
+					  });
+				}
+			}
+		</script>
+		<div id="googleMap" style="width: 45%; height: 700px;"></div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&libraries=places&callback=myMap"></script>
+<script>  
+
             
+      /* const lat = document.getElementsByName('lat')[i].value
+         const lng = document.getElementsByName('lng')[i].value
+         
+         
          for(i = 0; i < document.getElementsByName('lat').length; i++) {
               const lat = document.getElementsByName('lat')[i].value
               const lng = document.getElementsByName('lng')[i].value
@@ -239,15 +323,15 @@
                   '<div>' + "1 - Day : " + " " + price + "원" + '</div>' +
                   '</div>';
                   
-                
-               var marker = new google.maps.Marker({
+                  
+                var marker = new google.maps.Marker({
                         map: map,
                         position: new google.maps.LatLng(lat, lng),
                    });
                        
-                   
+                    
 
-               const infowindow = new google.maps.InfoWindow({
+             /*   const infowindow = new google.maps.InfoWindow({
                   content: detail,
                   maxWidth: 300,
                });
@@ -257,14 +341,12 @@
                       anchor: marker,
                       map,
                   });
-               });
+               }); */
                     
-         }   
-   }
-         
-      </script>
-       <div id="googleMap" style="width: 45%; height: 700px;"></div>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&callback=myMap"></script>
+        // }   
+         // }
+</script>
+      
    </div> 
 </body>
 </html>

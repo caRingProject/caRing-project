@@ -161,4 +161,12 @@
     <select id="findFileByAttachedFileId" resultType="attachedFile">
     	select * from attached_file where carInfo_id = #{carInfo_id}
     </select>
+    
+    <!-- 위도 경도 -->
+    <select id="findLocation" resultType="board">
+		SELECT *
+			FROM board
+			WHERE lat BETWEEN #{lat}-0.045 AND #{lat}+0.045
+			AND lng BETWEEN #{lng}-0.045 AND #{lng}+0.045
+	</select>
 </mapper>
