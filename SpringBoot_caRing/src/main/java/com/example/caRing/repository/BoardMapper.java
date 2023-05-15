@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.caRing.model.board.Board;
+import com.example.caRing.model.board.BoardFilterForm;
 import com.example.caRing.model.board.Location;
 import com.example.caRing.model.board.LocationPrice;
 import com.example.caRing.model.board.car.AttachedFile;
@@ -53,10 +54,24 @@ public interface BoardMapper {
     // 사진 출력
     List<AttachedFile> findFileByAttachedFileId(Long carInfo_id);
     
+    // yoon
+    
     List<Board> findLocation(Location location);
     List<Board> findLocationAsc(Location location);
     List<Board> findLocationDesc(Location location);
     List<Board> findLocationdistance(Location location);
     List<Board> findLocationdPrice(LocationPrice locationPrice);
+    
+    List<Car> findCarInfoByBoardFilterForm(BoardFilterForm boardFilterForm);
+    
+    //////////////////////////////////////////////////////////////
+    
+    // 보드 정보 삭제
+    void deleteByBoardId(Long board_id);
+    
+    // 차 정보 삭제
+    void deleteByCarId(Long carinfo_id);
+    
+    List<Board> findBoardsByCarInfoId(Long carInfo_id);
     
 }

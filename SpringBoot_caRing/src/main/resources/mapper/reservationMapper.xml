@@ -10,7 +10,7 @@
     </select>
     
     <!-- 예약id로 예약정보 출력 -->
-    <select id="findByReId" resultType="Reservation">
+    <select id="findReservationByReservationId" resultType="Reservation">
     	select * from reservation where reservation_id = #{reservation_id}
     </select>
     
@@ -37,8 +37,45 @@
 		)
     </insert>
     
+    <!-- 보드id로 예약정보 출력 -->
+     <select id="findReservationByHostEmail" resultType="Reservation">
+       SELECT 
+          r.RESERVATION_ID,
+          r.RESERVATION_DATE,
+          r.CUSTOMER_EMAIL,
+          r.BOARD_ID,
+          r.TOTAL_PRICE, 
+          r.RENT_START,
+          r.RENT_END,
+          r.STATUS
+      FROM 
+         reservation r
+      JOIN 
+         board b ON r.BOARD_ID = b.BOARD_ID
+      JOIN 
+         host h ON b.HOST_EMAIL = h.HOST_EMAIL
+      WHERE 
+         b.host_email = #{host_email}
+      order by
+         rent_start DESC
+    </select>
     
+    <!-- 유저 예약 조회 -->
+    <select id="findReservationByCustomerEmail" resultType="reservation">
+       select * from reservation where customer_email = #{customer_email} order by reservation_id DESC
+    </select>
     
+    <update id="updateStatus">
+    	update reservation set status = 4 where reservation_id = #{reservation_id}
+    </update>
     
+     <!-- 예약 정보 삭제 -->
+    <delete id="deleteByReId">
+        delete from reservation where reservation_id = #{reservation_id}
+    </delete>
+    
+    <select id="findReservationByBoardId" resultType="reservation">
+       	select * from reservation where board_id = #{board_id}
+    </select>
    
 </mapper>

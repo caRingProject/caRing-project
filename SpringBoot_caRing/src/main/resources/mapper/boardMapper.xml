@@ -3,258 +3,353 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.caRing.repository.BoardMapper">
-    
-    <!-- 브랜드 출력 -->
-    <select id="findBrand" resultType="brand">
-    	select * from brand
-    </select>
-    
-    <!-- 차종 출력 -->
-    <select id="findCarType" resultType="carType">
-    	select * from carType
-    </select>
-    <!-- 차종 id로  차종 출력 -->
-    <select id="findCarTypeById" resultType="carType">
-    	select * from carType where carType_id = #{carType_id}
-    </select>
-    
-    <!-- 유종 출력 -->
-    <select id="findFuel" resultType="fuel">
-    	select * from fuel
-    </select>
-    <!-- 유종 출력 -->
-    <select id="findFuelById" resultType="fuel">
-    	select * from fuel where fuel_id = #{fuel_id}
-    </select>
-    
-    <!-- 특징 출력 -->
-    <select id="findFeature" resultType="feature">
-    	select * from feature
-    </select>
-    
-    <!-- 차 저장 -->
-    <insert id="saveCar">
-    	<selectKey keyProperty="carInfo_id" resultType="long" order="BEFORE">
+
+	<!-- 브랜드 출력 -->
+	<select id="findBrand" resultType="brand">
+		select * from brand
+	</select>
+
+	<!-- 차종 출력 -->
+	<select id="findCarType" resultType="carType">
+		select * from carType
+	</select>
+	<!-- 차종 id로 차종 출력 -->
+	<select id="findCarTypeById" resultType="carType">
+		select * from carType
+		where carType_id = #{carType_id}
+	</select>
+
+	<!-- 유종 출력 -->
+	<select id="findFuel" resultType="fuel">
+		select * from fuel
+	</select>
+	<!-- 유종 출력 -->
+	<select id="findFuelById" resultType="fuel">
+		select * from fuel where
+		fuel_id = #{fuel_id}
+	</select>
+
+	<!-- 특징 출력 -->
+	<select id="findFeature" resultType="feature">
+		select * from feature
+	</select>
+
+	<!-- 차 저장 -->
+	<insert id="saveCar">
+		<selectKey keyProperty="carInfo_id" resultType="long"
+			order="BEFORE">
 			select seq_board.nextval from dual
 		</selectKey>
 		insert into carInfo (
-			carInfo_id,
-			brand_id,
-			carType_id,
-			car_name,
-			car_year,
-			seat,
-			fuel_id,
-			host_email
+		carInfo_id,
+		brand_id,
+		carType_id,
+		car_name,
+		car_year,
+		seat,
+		fuel_id,
+		host_email
 		) values (
-			#{carInfo_id},
-			#{brand_id},
-			#{carType_id},
-			#{car_name},
-			#{car_year},
-			#{seat},
-			#{fuel_id},
-			#{host_email}
+		#{carInfo_id},
+		#{brand_id},
+		#{carType_id},
+		#{car_name},
+		#{car_year},
+		#{seat},
+		#{fuel_id},
+		#{host_email}
 		)
-    </insert>
-    
-    <update id="updateCar">
-    	update carInfo set thumbnail = #{thumbnail} where carInfo_id = #{carInfo_id}
-    </update>
-    
-    <!-- 옵션 저장 -->
-    <insert id="saveOption">
-    	<selectKey keyProperty="optionList_id" resultType="long" order="BEFORE">
+	</insert>
+
+	<update id="updateCar">
+		update carInfo set thumbnail = #{thumbnail} where
+		carInfo_id = #{carInfo_id}
+	</update>
+
+	<!-- 옵션 저장 -->
+	<insert id="saveOption">
+		<selectKey keyProperty="optionList_id" resultType="long"
+			order="BEFORE">
 			select seq_board.nextval from dual
 		</selectKey>
 		insert into optionList values (
-			#{optionList_id},
-			#{carInfo_id},
-			#{option_value}
+		#{optionList_id},
+		#{carInfo_id},
+		#{option_value}
 		)
-    </insert>
-    <!-- 차 id로 옵션 리스트 출력 -->
-    <select id="findOptionListById" resultType="string">
-    	select option_value from optionList where carInfo_id = #{carInfo_id}
-    </select>
-    	
-    <!-- 사진 저장 -->
-    <insert id="saveFile">
-		<selectKey keyProperty="attachedFile_id" resultType="long" order="BEFORE">
+	</insert>
+	<!-- 차 id로 옵션 리스트 출력 -->
+	<select id="findOptionListById" resultType="string">
+		select option_value
+		from optionList where carInfo_id = #{carInfo_id}
+	</select>
+
+	<!-- 사진 저장 -->
+	<insert id="saveFile">
+		<selectKey keyProperty="attachedFile_id" resultType="long"
+			order="BEFORE">
 			select seq_board.nextval from dual
 		</selectKey>
 		insert into attached_file values (
-			#{attachedFile_id},
-			#{carInfo_id},
-			#{original_filename},
-			#{saved_filename},
-			#{file_size}
+		#{attachedFile_id},
+		#{carInfo_id},
+		#{original_filename},
+		#{saved_filename},
+		#{file_size}
 		)
 	</insert>
-	
+
 	<!-- 게시글 저장 -->
 	<insert id="saveBoard">
-     <selectKey keyProperty="board_id" resultType="long" order="BEFORE">
-            select seq_board.nextval from dual
-     </selectKey>
-       insert into board (
-         board_id,
-         host_email,
-         title,
-         board_contents,
-         price,
-         carInfo_id,
-         rent_start,
-         rent_end,
-         lat,
-         lng     
-       ) values (
-          #{board_id},
-          #{host_email},
-          #{title},
-          #{board_contents},
-          #{price},
-          #{carInfo_id},
-          #{rent_start},
-          #{rent_end},
-          #{lat},
-          #{lng}
-       )
-    </insert>
-    
-    <!-- 타이틀 출력 -->
-    <select id="setTitle" resultType="string">
-       select 
-              b.brand_name ||' '|| c.car_name ||' '|| c.car_year 
-           from 
-              carInfo c join brand b on (c.brand_id = b.brand_id) 
-           where 
-              carInfo_id = #{carInfo_id}
-    </select>
-    
-    <!-- 호스트 이메일로 차 리스트 출력 -->
-    <select id="findCarInfoByEmail" resultType="car">
-    	select * from carInfo where host_email = #{host_email}
-    </select>
-    
-     <!-- carInfo id로 차 출력 -->
-    <select id="findCarInfoByCarInfoId" resultType="car">
-    	select * from carInfo where carInfo_id = #{carInfo_id}
-    </select>
-    
-    <!-- 호스트 이메일로 게시글 리스트 출력 -->
-    <select id="findBoardsByEmail" resultType="board">
-    	select * from board where host_email = #{host_email}
-    </select>
-    
-    <!-- 보드 아이디로 게시글 출력 -->
-    <select id="findBoard" resultType="board">
-    	select * from board where board_id = #{board_id} 
-    </select>
-    
-    <!-- 모든 게시글 출력 -->
-    <select id="findAllBoards" resultType="board">
-    	select * from board
-    </select>
-    
-    <!-- 사진 출력 -->
-    <select id="findFileByAttachedFileId" resultType="attachedFile">
-    	select * from attached_file where carInfo_id = #{carInfo_id}
-    </select>
-    
-    <!-- 위도 경도 -->
-    <select id="findLocation" resultType="board">
-		SELECT 
-			*
-		FROM 
-			board
-		WHERE 
-			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
-			AND 
-			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
-			AND 
-            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
-            AND 
-            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
-	</select>
-	
-	<select id="findLocationAsc" resultType="board">
-		SELECT 
-			*
-		FROM 
-			board
-		WHERE 
-			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
-			AND 
-			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
-			AND 
-            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
-            AND 
-            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
-        Order By
-        	price asc
-	</select>
-	
-	<select id="findLocationDesc" resultType="board">
-		SELECT 
-			*
-		FROM 
-			board
-		WHERE 
-			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
-			AND 
-			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
-			AND 
-            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
-            AND 
-            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
-        Order By
-        	price desc
-	</select>
-	
-	<select id="findLocationdistance" resultType="board">
- 		SELECT 
- 			board_id,
-            host_email,
-            title,
-            board_contents,
-            created_time,
-            price,
-            carinfo_id,
-            rent_start,
-            rent_end,
-            lat,
-            lng,
-            (lat - #{searchedLat}) * (lat - #{searchedLat}) + (lng - #{searchedLng}) * (lng - #{searchedLng}) as distance 
-		FROM 
-			board 
-		WHERE 
-			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
-			AND 
-			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
-			AND 
-			rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
-			AND 
-			rent_end > to_date(#{rent_end}, 'YY/MM/DD') 
-		ORDER BY 
-			distance ASC
-</select>
+		<selectKey keyProperty="board_id" resultType="long"
+			order="BEFORE">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into board (
+		board_id,
+		host_email,
+		title,
+		board_contents,
+		price,
+		carInfo_id,
+		rent_start,
+		rent_end,
+		lat,
+		lng
+		) values (
+		#{board_id},
+		#{host_email},
+		#{title},
+		#{board_contents},
+		#{price},
+		#{carInfo_id},
+		#{rent_start},
+		#{rent_end},
+		#{lat},
+		#{lng}
+		)
+	</insert>
 
-<select id="findLocationdPrice" resultType="board">
-		SELECT 
-			*
-		FROM 
-			board
-		WHERE 
-			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
-			AND 
-			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
-			AND 
-            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
-            AND 
-            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
-            AND
-            price BETWEEN #{minPrice} AND #{maxPrice}
+	<!-- 타이틀 출력 -->
+	<select id="setTitle" resultType="string">
+		select
+		b.brand_name ||' '||
+		c.car_name ||' '|| c.car_year
+		from
+		carInfo c join brand b on (c.brand_id
+		= b.brand_id)
+		where
+		carInfo_id = #{carInfo_id}
+	</select>
+
+	<!-- 호스트 이메일로 차 리스트 출력 -->
+	<select id="findCarInfoByEmail" resultType="car">
+		select * from carInfo
+		where host_email = #{host_email}
+	</select>
+
+	<!-- carInfo id로 차 출력 -->
+	<select id="findCarInfoByCarInfoId" resultType="car">
+		select * from
+		carInfo where carInfo_id = #{carInfo_id}
+	</select>
+
+	<!-- 호스트 이메일로 게시글 리스트 출력 -->
+	<select id="findBoardsByEmail" resultType="board">
+		select * from board
+		where host_email = #{host_email}
+	</select>
+
+	<!-- 보드 아이디로 게시글 출력 -->
+	<select id="findBoard" resultType="board">
+		select * from board where
+		board_id = #{board_id}
+	</select>
+
+	<!-- 모든 게시글 출력 -->
+	<select id="findAllBoards" resultType="board">
+		select * from board
+	</select>
+
+	<!-- 사진 출력 -->
+	<select id="findFileByAttachedFileId" resultType="attachedFile">
+		select * from
+		attached_file where carInfo_id = #{carInfo_id}
+	</select>
+
+	<!-- 위도 경도 -->
+	<select id="findLocation" resultType="board">
+		SELECT
+		*
+		FROM
+		board
+		WHERE
+		lat BETWEEN #{searchedLat} - 0.205 AND
+		#{searchedLat} + 0.205
+		AND
+		lng BETWEEN #{searchedLng} - 0.205 AND
+		#{searchedLng} + 0.205
+		AND
+		rent_start <![CDATA[ < ]]>
+		to_date(#{rent_start}, 'YY/MM/DD')
+		AND
+		rent_end > to_date(#{rent_end},
+		'YY/MM/DD')
+	</select>
+
+	<select id="findLocationAsc" resultType="board">
+		SELECT
+		*
+		FROM
+		board
+		WHERE
+		lat BETWEEN #{searchedLat} - 0.205 AND
+		#{searchedLat} + 0.205
+		AND
+		lng BETWEEN #{searchedLng} - 0.205 AND
+		#{searchedLng} + 0.205
+		AND
+		rent_start <![CDATA[ < ]]>
+		to_date(#{rent_start}, 'YY/MM/DD')
+		AND
+		rent_end > to_date(#{rent_end},
+		'YY/MM/DD')
+		Order By
+		price asc
+	</select>
+
+	<select id="findLocationDesc" resultType="board">
+		SELECT
+		*
+		FROM
+		board
+		WHERE
+		lat BETWEEN #{searchedLat} - 0.205 AND
+		#{searchedLat} + 0.205
+		AND
+		lng BETWEEN #{searchedLng} - 0.205 AND
+		#{searchedLng} + 0.205
+		AND
+		rent_start <![CDATA[ < ]]>
+		to_date(#{rent_start}, 'YY/MM/DD')
+		AND
+		rent_end > to_date(#{rent_end},
+		'YY/MM/DD')
+		Order By
+		price desc
+	</select>
+
+	<select id="findLocationdistance" resultType="board">
+		SELECT
+		board_id,
+		host_email,
+		title,
+		board_contents,
+		created_time,
+		price,
+		carinfo_id,
+		rent_start,
+		rent_end,
+		lat,
+		lng,
+		(lat - #{searchedLat}) * (lat -
+		#{searchedLat}) + (lng - #{searchedLng}) *
+		(lng - #{searchedLng}) as
+		distance
+		FROM
+		board
+		WHERE
+		lat BETWEEN #{searchedLat} - 0.205 AND
+		#{searchedLat} + 0.205
+		AND
+		lng BETWEEN #{searchedLng} - 0.205 AND
+		#{searchedLng} + 0.205
+		AND
+		rent_start <![CDATA[ < ]]>
+		to_date(#{rent_start}, 'YY/MM/DD')
+		AND
+		rent_end > to_date(#{rent_end},
+		'YY/MM/DD')
+		ORDER BY
+		distance ASC
+	</select>
+
+	<select id="findLocationdPrice" resultType="board">
+		SELECT
+		*
+		FROM
+		board
+		WHERE
+		lat BETWEEN #{searchedLat} - 0.205 AND
+		#{searchedLat} + 0.205
+		AND
+		lng BETWEEN #{searchedLng} - 0.205 AND
+		#{searchedLng} + 0.205
+		AND
+		rent_start <![CDATA[ < ]]>
+		to_date(#{rent_start}, 'YY/MM/DD')
+		AND
+		rent_end > to_date(#{rent_end},
+		'YY/MM/DD')
+		AND
+		price BETWEEN #{minPrice} AND #{maxPrice}
+	</select>
+
+	<!-- 검색 필터 -->
+	<select id="findCarInfoByBoardFilterForm"
+		parameterType="BoardFilterForm" resultType="Car">
+		SELECT
+		*
+		FROM
+		carInfo
+		WHERE
+		1 = 1
+		<if test="brand_id != null and !brand_id.isEmpty()">
+			AND brand_id IN
+			<foreach item="brandId" collection="brand_id" open="("
+				separator="," close=")">
+				#{brandId}
+			</foreach>
+		</if>
+		<if test="fuel_id != null and !fuel_id.isEmpty()">
+			AND fuel_id IN
+			<foreach item="fuelId" collection="fuel_id" open="("
+				separator="," close=")">
+				#{fuelId}
+			</foreach>
+		</if>
+		<if test="seat != null and !seat.isEmpty()">
+			AND seat IN
+			<foreach item="seatValue" collection="seat" open="("
+				separator="," close=")">
+				#{seatValue}
+			</foreach>
+		</if>
+		<if test="carType_id != null and !carType_id.isEmpty()">
+			AND carType_id IN
+			<foreach item="carTypeId" collection="carType_id" open="("
+				separator="," close=")">
+				#{carTypeId}
+			</foreach>
+		</if>
+	</select>
+
+
+	<!-- 병휘 -->
+
+	<!-- 보드 정보 삭제 -->
+	<delete id="deleteByBoardId">
+		delete from board where board_id = #{board_id}
+	</delete>
+
+	<!-- carInfo id로 차 삭제 -->
+	<select id="deleteByCarId" resultType="car">
+		DELETE FROM carInfo WHERE carInfo_id = #{carinfo_id}
+	</select>
+
+	<!-- 차아이디로 게시글 찾기ㅣ -->
+	<select id="findBoardsByCarInfoId" resultType="board">
+		select * from board where carInfo_id = #{carInfo_id}
 	</select>
 
 

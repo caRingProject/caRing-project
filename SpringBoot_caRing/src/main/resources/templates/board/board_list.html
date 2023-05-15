@@ -161,10 +161,11 @@
             <div class="lnb-container">
             	<div class="lnbclose2"></div>
             	<div class="lnb2">
+            	<form action="/board/list/filter">
                 	<h3>제조사</h3>
         			<div class="carInfowrap">
 	        			<div class="brand" th:each="brand: ${brands}">
-	            		<input type="checkbox" name="brand_id" th:value="${brand.brand_id}">
+	            		<input type="checkbox" id="brand_id" name="brand_id" th:value="${brand.brand_id}">
 	            		<label th:text="${brand.brand_name}"></label>
 	        			</div><!-- brand -->
         			</div><!-- carInfowrap -->
@@ -179,9 +180,9 @@
 
         			<h3>좌석</h3>
         			<div class="carInfowrap">
-	        			<input type="radio" name="seat" value="3~5인승">
+	        			<input type="checkbox" name="seat" value="3~5인승">
 	        			<label>3~5인승</label>
-	        			<input type="radio" name="seat" value="6인 이상">
+	        			<input type="checkbox" name="seat" value="6인 이상">
 	        			<label>6인 이상</label>
         			</div><!-- carYearwrap -->
         
@@ -198,15 +199,27 @@
 	        			<div class="feature" th:each="feature: ${features}">
 	            		<input type="checkbox" name="option_value" th:value="${feature.feature_id}">
 	            		<label th:text="${feature.feature_name}"></label>
-	        			</div><!-- feature -->
+	        			</div><!-- feature -->	
         			</div><!-- carInfowrap -->
-        			<input type="button" value="적용하기">
+        				<input type="hidden" name="searchedLat" th:value="${boardSearchForm.searchedLat}" id="searchedLat">
+              			<input type="hidden" name="searchedLng" th:value="${boardSearchForm.searchedLng}" id="searchedLng">
+              			<input type="hidden" th:value="${boardSearchForm.rent_start}" name="rent_start">
+              	 		<input type="hidden" th:value="${boardSearchForm.rent_end}" name="rent_end">
+              	 		<input type="hidden" th:value="${boardSearchForm.location}" name="location">
+        			<input type="submit"  value="적용하기">
+        			</form>
             	</div>
             </div>
          </div>
    	</div>
    <div class="carwrap">
       <div class="carlist" id="carlist">
+     	<div th:unless="${boardDTOs.size == 1}">
+     		<h1>
+    		<img src="/img/not-found.png" style="size: 300px;">
+    		</h1>
+    		<h2> 찾으시는 결과가 없습니다</h2>
+    	</div>
       <th:block th:each="boardDTO: ${boardDTOs}">
          <a th:href="@{/board/read(board_id=${boardDTO.board.board_id})}">
             <div class="car">
@@ -240,6 +253,7 @@
 				center : new google.maps.LatLng(searchedLat, searchedLng),
 				zoom : 12,
 				});
+				
 				
  				var input = document.getElementById('autocomplete');
 				var searchBox = new google.maps.places.SearchBox(input);

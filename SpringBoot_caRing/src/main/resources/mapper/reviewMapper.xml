@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.caRing.repository.ReviewMapper">
+    
+    <!-- 리뷰 등록 -->
+    <insert id="saveReview">
+    	<selectKey keyProperty="review_id" resultType="long" order="BEFORE">
+			select seq_board.nextval from dual
+		</selectKey>
+    	insert into review (
+    		review_id,
+    		reservation_id,
+    		rate,
+    		review_contents
+    	) values (
+    		#{review_id},
+    		#{reservation_id},
+    		#{rate},
+    		#{contents}
+    	)
+    </insert>
+    
+    <!-- 게시글 별 평점 조회 -->
+    <select id="findRateByBoardId" resultType="long">
+    	SELECT AVG(RATE) AS rate
+		FROM RESERVATION R
+		JOIN REVIEW V ON R.RESERVATION_ID = V.RESERVATION_ID
+		WHERE BOARD_ID = #{BOARD_ID}
+		GROUP BY BOARD_ID
+    </select>
+    
+</mapper>

@@ -15,7 +15,7 @@ public class Reservation {
 	private String customer_email;
 	private Long board_id;
 	private Long total_price;
-	private String status;
+	private Long status;
 	
 	public Reservation(String rent_start, String rent_end) {
 		super();

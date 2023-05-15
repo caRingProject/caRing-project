@@ -9,42 +9,28 @@ import com.example.caRing.model.reservation.Reservation;
 
 @Mapper
 public interface ReservationMapper {
+
+	// 예약 정보 등록
+	void saveRe(Reservation reservation);
+
+	// 예약 정보 삭제
+	void deleteById(String reservationId);
+
+	// 예약 번호로 게시글 출력
+	Reservation findReservationByReservationId (Long reservation_id);
 	
-	// board_id를 불러오기 
-	//void saveBoard_id(Board board_id);
+	// 호스트 예약 조회
+	List<Reservation> findReservationByHostEmail(String host_email);
+
+	// 유저 예약 조회
+	List<Reservation> findReservationByCustomerEmail(String customer_email);
 	
-	String findRent_start(String rent_start);
-	String findRent_end(String rent_end);
+	// 상태 업데이트
+	void updateStatus(Long reservation_id);
 	
-	// 모든 예약 정보 조회
-    List<Reservation> findAllRe();
-    
-    // 특정 예약 정보 조회
-    List<Reservation> findByReId(Long reservation_id);
-    
-    // 예약 정보 등록
-    void saveRe(Reservation reservation);
-    String setRe(Long reservation_id);
-    
-    
-    // 예약 날짜
-    Date reservationDate(Date reservation_date);
-    
-    // 예약 정보 삭제
-    void deleteById(String reservationId);
-    
-    // 예약 번호로 게시글 출력
-    //Reservation findReservation (Long reservation_id);
-    
-    // 사진 출력
-    //List<AttachedFile> findFileByAttachedFileId(Long carInfo_id);
-    
-    // 중복 예약 확인
-    boolean checkDuplicateReservation(String boardId, String rentStart, String rentEnd);
-    
+	List<Reservation> findReservationByBoardId(Long board_id);
+	
+	// 예약 정보 삭제
+    void deleteByReId(Long reservation_id);
+	
 }
-	
-	//오늘 점심 맥도날드니깐 준비해줘 -윤상-
-	
-
-

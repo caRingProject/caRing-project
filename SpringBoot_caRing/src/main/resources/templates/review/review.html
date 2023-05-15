@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/review.css">
+    <title>review</title>
+</head>
+
+<body>
+
+<header>
+		<div class="hwrap">
+			<div class="logo">
+				<h1>
+					<a href="/"> <img src="/img/logo.png" alt="caRing main logo">
+					</a>
+				</h1>
+			</div>
+			<!--logo-->
+
+			<div class="user">
+			    <a href="#">
+			        <img src="/img/icons8-menu-64.png" alt="user menu logo">
+			        <img src="/img/icons8-user-48.png" alt="user logo">
+			    </a>
+			</div><!--user-->
+			<!--user-->
+		</div>
+		<!--hwrap-->
+
+		<div class="lnb-container">
+			<div class="lnbclose"></div>
+			<div class="lnb">
+				<ul th:if=${session.loginCustomer}>
+					<li><a href="#">회원정보 수정</a></li>
+					<li><a href="/reservation/reservationlist">예약 내역 조회</a></li>
+				</ul>
+				<hr>
+				<ul>
+					<li><a href="#">고객센터</a></li>
+				</ul>
+				<hr>
+				<ul th:unless=${session.loginCustomer}>
+					<li><a href="/customer/login">USER 로그인 / 회원가입</a></li>
+					<li><a href="/host/login">HOST 로그인 / 회원가입</a></li>
+				</ul>
+				<ul th:if=${session.loginCustomer}>
+					<li><a href="/customer/logout">로그아웃</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	
+    <div class="mainwrap">
+        <h1>리뷰 작성</h1>
+        <div class="review" th:object="${reservationDTO}">
+            <div class="reviewWrap">
+                <div class="reservation">
+                    <div class="car">
+                        <div class="carImg">
+                            <img th:src="*{boardDTO.car.thumbnail}" alt="car img">
+                        </div>
+                        <div class="carInfo">
+                            <h2 th:text="*{boardDTO.board.title}"></h2>
+                            <p>예약 날짜<br>
+                                <span th:text="*{reservation.rent_start}"></span>
+                                ~
+                                <span th:text="*{reservation.rent_end}"></span>
+                            </p>
+                        </div><!--carInfo-->
+                    </div><!--car-->
+
+                    <div class="host">
+                        <div class="hostImg">
+                            <img th:src="${host.host_img}" alt="host img">
+                        </div>
+                        <p th:text="${host.host_name}"></p>
+                    </div><!--host-->
+                </div>
+
+                <form class="content" id="myform" method="post" action="/review/write">
+                    <fieldset>
+                        <span class="text-bold">별점을 선택해주세요</span>
+                        <input type="radio" name="rate" value="5" id="rate1"><label for="rate1">★</label>
+                        <input type="radio" name="rate" value="4" id="rate2"><label for="rate2">★</label>
+                        <input type="radio" name="rate" value="3" id="rate3"><label for="rate3">★</label>
+                        <input type="radio" name="rate" value="2" id="rate4"><label for="rate4">★</label>
+                        <input type="radio" name="rate" value="1" id="rate5"><label for="rate5">★</label>
+                    </fieldset>
+                    <br>
+                    <textarea name="contents" id="" cols="30" rows="10"></textarea>
+                    <br>
+                    <input type="hidden" name="reservation_id" th:value="${reservationDTO.reservation.reservation_id}">
+                    <input type="submit" value="작성하기" id="submit">
+                </form>
+            </div>
+        </div><!--review-->
+    </div><!--mainwrap-->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+		$(function () {
+	        $(".lnb, .lnbclose").hide();
+	        $(".user").click(function () {
+	            $(".lnb, .lnbclose").toggle();
+	        })
+	
+	        $('.lnbclose').click(function () {
+	            $('.lnb, .lnbclose').hide();
+	        })
+	    })		
+	</script>
+</body>
+
+</html>

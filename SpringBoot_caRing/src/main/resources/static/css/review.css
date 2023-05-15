@@ -1,0 +1,266 @@
+@font-face {
+	font-family: 'ocr';
+	src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
+	unicode-range: U+AC00-D7A3;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+ul {
+	list-style: none;
+}
+
+img {
+	vertical-align: top;
+}
+
+button {
+	border: none;
+	background-color: transparent;
+	color: #dbcba0;
+}
+
+body {
+	font-family: 'ocr', 'Pretendard-Regular';
+}
+
+header {
+	position: relative;
+	background-color: #dbcba0;
+}
+
+.hwrap {
+	height: 70px;
+	display: flex;
+	align-items: center;
+}
+
+.logo {
+	position: absolute;
+	left: 20px;
+}
+
+.userwrap {
+	position: absolute;
+	right: 20px;
+}
+
+.user {
+	position: absolute;
+	right: 20px;
+}
+
+.user img {
+	width: 35px;
+}
+
+.lnb-container {
+	position: relative;
+}
+
+.lnb {
+	width: 400px;
+	background-color: white;
+	border-radius: 30px;
+	position: absolute;
+	top: -10px;
+	right: 20px;
+	border: 3px solid #6e7a77;
+	font-family: 'Zen Maru Gothic', sans-serif;
+	font-weight: 700;
+	color: #6e7a77;
+}
+
+.lnb ul {
+	margin-left: 15px;
+	padding: 27px;
+	padding-bottom: 0;
+}
+
+.lnb ul li {
+	margin-bottom: 27px;
+}
+
+.lnb span {
+	display: block;
+	width: 300px;
+	height: 3px;
+}
+
+.lnbclose {
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+hr {
+	width: 350px;
+	margin-left: 22px;
+}
+
+#myform fieldset {
+	display: inline-block;
+	direction: rtl;
+	border: 0;
+}
+
+#myform fieldset legend {
+	text-align: right;
+}
+
+#myform input[type=radio] {
+	display: none;
+}
+
+#myform label {
+	font-size: 3em;
+	color: transparent;
+	text-shadow: 0 0 0 #f0f0f0;
+}
+
+#myform label:hover {
+	text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+
+#myform label:hover ~label {
+	text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+
+#myform input[type=radio]:checked ~label {
+	text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+
+/**/
+.mainwrap {
+	width: 1200px;
+	margin: 0 auto;
+	color: #6e7a77;
+}
+
+.mainwrap h1 {
+	margin-top: 30px;
+	margin-bottom: 24px;
+}
+
+.reviewWrap {
+	display: flex;
+	justify-content: space-between;
+}
+.reservation {
+	width: 480px;
+	height: 730px;
+	border: 2px solid #6e7a77;
+	border-radius: 30px;
+	text-align: center;
+	box-shadow: 10px 10px 20px #bbb;
+}
+
+.car {
+	width: 400px;
+	margin: 0 auto;
+	margin-top: 24px;
+}
+
+.carImg {
+	width: 400px;
+	height: 280px;
+	overflow: hidden;
+	border-radius: 20px;
+	margin-bottom: 24px;
+}
+
+.carImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.carInfo {
+	width: 400px;
+}
+
+.carInfo>h2 {
+	margin-bottom: 12px;
+}
+
+.host {
+	margin-top: 36px;
+}
+
+.hostImg {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 0 auto;
+	margin-bottom: 24px;
+}
+
+.hostImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.host>p {
+	font-size: 24px;
+}
+
+.content {
+	width: 500px;
+	text-align: center;
+}
+
+fieldset {
+	margin-top: 36px;
+	margin-bottom: 24px;
+}
+
+fieldset>span {
+	margin-left: 16px;
+}
+
+.content>textarea {
+	width: 500px;
+	height: 460px;
+	margin-bottom: 24px;
+}
+
+#myform {
+	width: 680px;
+	height: 730px;
+	border: 2px solid #6e7a77;
+	border-radius: 30px;
+	box-shadow: 10px 10px 20px #bbb;
+}
+
+#submit {
+	width: 250px;
+	height: 60px;
+	font-family: 'Pretendard-Regular';
+	background-color: #6e7a77;
+	border: 0;
+	border-radius: 10px;
+	color: #dbcba0;
+	font-size: 16px;
+}

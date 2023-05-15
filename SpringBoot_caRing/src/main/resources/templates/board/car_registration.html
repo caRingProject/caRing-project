@@ -9,8 +9,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         var sel_files = [];
-
+        
         $(document).ready(function () {
+        	
+        	$(".lnb, .lnbclose").hide();
+	        $(".profile").click(function () {
+	            $(".lnb, .lnbclose").toggle();
+	        })
+	
+	        $('.lnbclose').click(function () {
+	            $('.lnb, .lnbclose').hide();
+	        })
+	        
             $("#carUpload").on("change", handleImgsFilesSelect);
             
             var yearList = [];
@@ -96,20 +106,42 @@
 
 <body>
     <header>
-        <div class="mainlogo">
-            <a href="/host/main">
-                <img src="/img/logo ver2.png" alt="main logo ver.2">
-                <p>Host Page</p>
-            </a>
-        </div><!--mainlogo-->
-        <div class="profile">
-            <button>
-                <i class="fa-solid fa-pen-to-square"></i>&nbsp
-            </button>
-            <div class="profileImg">
-                <img src="/img/userlogo.png" alt="user logo ver.2">
+        <div class="hwrap">
+            <div class="mainlogo">
+                <h1>
+                    <a href="/host/main">
+                        <img src="/img/logo ver2.png" alt="main logo ver.2">
+                        <p class="small">Host Page</p>
+                    </a>
+                </h1>
+            </div><!--mainlogo-->
+
+            <div class="profile">
+                <div class="profileImg" th:unless=${host.host_img}>
+                    <img src="/img/userlogo.png" alt="user logo ver.2">
+                </div>
+                <div class="profileImg" th:if="${host.host_img}">
+					<img th:src="${host.host_img}" alt="profile Img">
+				</div>
+            </div><!--profile-->
+        </div><!--hwrap-->
+
+        <div class="lnb-container">
+            <div class="lnbclose"></div>
+            <div class="lnb">
+            	<ul>
+					<li><a href="#">고객센터</a></li>
+				</ul>
+				<hr>
+                <ul>
+                    <li><a href="/host/profile">회원정보 수정</a></li>
+                </ul>
+                <hr>
+                <ul>
+                    <li><a href="/host/login">로그아웃</a></li>
+                </ul>
             </div>
-        </div><!--profile-->
+        </div><!--lnb-container-->
     </header>
 
     <form action="car_registration" method="post" class="wrap" enctype="multipart/form-data">

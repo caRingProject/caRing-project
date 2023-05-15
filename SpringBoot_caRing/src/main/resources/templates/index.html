@@ -49,16 +49,19 @@
 		<div class="hwrap">
 			<div class="logo">
 				<h1>
-					<a href="#"> <img src="img/logo.png" alt="caRing main logo">
+					<a href="/"> <img src="/img/logo.png" alt="caRing main logo">
 					</a>
 				</h1>
 			</div>
 			<!--logo-->
 
 			<div class="user">
-				<a href="#"> <img src="img/user.png" alt="userlogo">
+				<a href="#"> <img src="/img/icons8-menu-64.png"
+					alt="user menu logo"> <img src="/img/icons8-user-48.png"
+					alt="user logo">
 				</a>
 			</div>
+			<!--user-->
 			<!--user-->
 		</div>
 		<!--hwrap-->
@@ -66,18 +69,21 @@
 		<div class="lnb-container">
 			<div class="lnbclose"></div>
 			<div class="lnb">
-				<ul>
-					<li><a href="#">메시지</a></li>
-					<li><a href="#">마이페이지</a></li>
+				<ul th:if=${session.loginCustomer}>
+					<li><a href="#">회원정보 수정</a></li>
+					<li><a href="/reservation/reservationlist">예약 내역 조회</a></li>
 				</ul>
 				<hr>
 				<ul>
 					<li><a href="#">고객센터</a></li>
 				</ul>
 				<hr>
-				<ul>
+				<ul th:unless=${session.loginCustomer}>
 					<li><a href="/customer/login">USER 로그인 / 회원가입</a></li>
 					<li><a href="/host/login">HOST 로그인 / 회원가입</a></li>
+				</ul>
+				<ul th:if=${session.loginCustomer}>
+					<li><a href="/customer/logout">로그아웃</a></li>
 				</ul>
 			</div>
 		</div>

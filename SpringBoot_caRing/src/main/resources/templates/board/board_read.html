@@ -132,11 +132,8 @@
             <div class="hostProfile"></div>
             <p th:text="${host.host_name}"></p>
             <div class="rate">
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
+                <input id="rate" th:value="${rate}">
+                <span class="rateStar"></span>
             </div>
         </div><!--hostInfo-->
 
@@ -243,6 +240,28 @@
      			},
      		   wrap: true
      	   });
+            
+            $('.rate').each(function() {
+				var rate = $(this).find('#rate').val();
+				var rateText = $(this).find('.rateStar');
+				switch (status) {
+				case "1":
+					statusText.text("★");
+					break;
+				case "2":
+					statusText.text("★★");
+					break;
+				case "3":
+					statusText.text("★★★");
+					break;
+				case "4":
+					statusText.text("★★★★");
+					break;
+				case "5":
+					statusText.text("★★★★★");
+					break;
+				}
+			});
         }); 
     </script>
 </body>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/reservationList.css">
+<title>reservation List</title>
+</head>
+<body>
+	<header>
+		<div class="hwrap">
+			<div class="logo">
+				<h1>
+					<a href="/"> <img src="/img/logo.png" alt="caRing main logo">
+					</a>
+				</h1>
+			</div>
+			<!--logo-->
+
+			<div class="user">
+				<a href="#"> <img src="/img/icons8-menu-64.png"
+					alt="user menu logo"> <img src="/img/icons8-user-48.png"
+					alt="user logo">
+				</a>
+			</div>
+			<!--user-->
+			<!--user-->
+		</div>
+		<!--hwrap-->
+
+		<div class="lnb-container">
+			<div class="lnbclose"></div>
+			<div class="lnb">
+				<ul th:if=${session.loginCustomer}>
+					<li><a href="#">회원정보 수정</a></li>
+					<li><a href="/reservation/reservationlist">예약 내역 조회</a></li>
+				</ul>
+				<hr>
+				<ul>
+					<li><a href="#">고객센터</a></li>
+				</ul>
+				<hr>
+				<ul th:unless=${session.loginCustomer}>
+					<li><a href="/customer/login">USER 로그인 / 회원가입</a></li>
+					<li><a href="/host/login">HOST 로그인 / 회원가입</a></li>
+				</ul>
+				<ul th:if=${session.loginCustomer}>
+					<li><a href="/customer/logout">로그아웃</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+	<div class="mainwrap">
+
+		<div class="reserlist">
+			<h1>예약 리스트</h1>
+		</div>
+
+		<div th:unless="${reservationDTOs}">
+			<h2>예약 내역이 없습니다</h2>
+		</div>
+		<div class="warp" th:each="reservationDTO : ${reservationDTOs}" th:if="${reservationDTOs}">
+			<div class="reservation">
+				<div class="thumbnail">
+					<img th:src="${reservationDTO.boardDTO.car.thumbnail}">
+				</div>
+				<div class="carinfo">
+					<div class="title">
+						<h3 class="reservationId">
+							예약 번호: <span
+								th:text="${reservationDTO.reservation.reservation_id}"></span>
+						</h3>
+						<div class="review">
+							<input type="button" class="writeReview" value="리뷰 작성"
+								th:onclick="|location.href='@{/review/write(reservation_id=${reservationDTO.reservation.reservation_id})}'|">
+							<input type="hidden" class="status" th:value="${reservationDTO.reservation.status}"> 
+							<span class="status-text"></span>
+						</div>
+						<!-- "review" -->
+					</div>
+					<h2 th:text="${reservationDTO.boardDTO.board.title}"></h2>
+					<p class="data">
+						예약 날짜<br> <span id="rentStart"
+							th:text="${reservationDTO.reservation.rent_start}"></span> ~ <span
+							id="rentEnd" th:text="${reservationDTO.reservation.rent_end}"></span>
+					</p>
+					<div class="carPrice">
+						<p class="oneday">
+							₩<span th:text="${reservationDTO.boardDTO.board.price}"></span>/일
+						</p>
+						<p class="total">
+							₩<span th:text="${reservationDTO.reservation.total_price}"></span>
+						</p>
+					</div>
+					<!-- carPrice -->
+
+				</div>
+				<!--carinfo-->
+			</div>
+			<!--reservation-->
+		</div>
+		<!--warp-->
+
+	</div>
+	<!-- mainwrap -->
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/d1fa9340d9.js"
+		crossorigin="anonymous"></script>
+	<script>
+		$(function() {
+			$(".lnb, .lnbclose").hide();
+			$(".user").click(function() {
+				$(".lnb, .lnbclose").toggle();
+			})
+
+			$('.lnbclose').click(function() {
+				$('.lnb, .lnbclose').hide();
+			})
+
+			$('.review').each(function() {
+				var status = $(this).find('.status').val();
+				var statusText = $(this).find('.status-text');
+				var button = $(this).find('.writeReview');
+				switch (status) {
+				case "1":
+					statusText.text("요청");
+					button.hide();
+					break;
+				case "2":
+					statusText.text("확정");
+					button.hide();
+					break;
+				case "3":
+					statusText.text("완료");
+					button.show();
+					break;
+				case "4":
+					statusText.text("리뷰 작성 완료");
+					button.hide();
+					break;
+				}
+			});
+
+		})
+	</script>
+</body>
+
+</html>

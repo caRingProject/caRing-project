@@ -232,7 +232,7 @@ h2 {
         <div class="hwrap">
             <div class="mainlogo">
                 <h1>
-                    <a href="#">
+                    <a href="/host/main">
                         <img src="/img/logo ver2.png" alt="main logo ver.2">
                         <p>Host Page</p>
                     </a>
@@ -240,11 +240,11 @@ h2 {
             </div><!--mainlogo-->
 
             <div class="profile">
-                <div class="profileImg" th:unless=${session.loginHost.host_img}>
+                <div class="profileImg" th:unless=${host.host_img}>
                     <img src="/img/userlogo.png" alt="user logo ver.2">
                 </div>
-                <div class="profileImg" th:if="${session.loginHost.host_img}">
-					<img th:src="${session.loginHost.host_img}" alt="profile Img">
+                <div class="profileImg" th:if="${host.host_img}">
+					<img th:src="${host.host_img}" alt="profile Img">
 				</div>
             </div><!--profile-->
         </div><!--hwrap-->
@@ -252,9 +252,12 @@ h2 {
         <div class="lnb-container">
             <div class="lnbclose"></div>
             <div class="lnb">
+            	<ul>
+					<li><a href="#">고객센터</a></li>
+				</ul>
+				<hr>
                 <ul>
-                    <li><a href="#">메시지</a></li>
-                    <li><a href="/host/profile">마이페이지</a></li>
+                    <li><a href="/host/profile">회원정보 수정</a></li>
                 </ul>
                 <hr>
                 <ul>

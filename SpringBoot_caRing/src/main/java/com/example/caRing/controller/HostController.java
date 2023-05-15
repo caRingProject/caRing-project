@@ -23,11 +23,16 @@ import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.BoardDTO;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Car;
+import com.example.caRing.model.customer.Customer;
 import com.example.caRing.model.host.Host;
 import com.example.caRing.model.host.HostJoinForm;
 import com.example.caRing.model.host.HostLoginForm;
+import com.example.caRing.model.reservation.Reservation;
+import com.example.caRing.model.reservation.ReservationDTO;
 import com.example.caRing.repository.BoardMapper;
+import com.example.caRing.repository.CustomerMapper;
 import com.example.caRing.repository.HostMapper;
+import com.example.caRing.repository.ReservationMapper;
 import com.example.caRing.util.FileService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +47,8 @@ public class HostController {
 
 	private final HostMapper hostMapper;
 	private final BoardMapper boardMapper;
+	private final ReservationMapper reservationMapper;
+	private final CustomerMapper customerMapper;
 	private final FileService fileService;
 
 	@GetMapping("join")
@@ -140,6 +147,31 @@ public class HostController {
 			boardDTOs.add(dto);
 		}
 		model.addAttribute("boardDTOs", boardDTOs);
+		
+		 // 로그인 된 호스트의 예약현황을 보여줌 
+	       List<Reservation> reservations = reservationMapper.findReservationByHostEmail(loginHost.getHost_email());
+	       List<ReservationDTO> reservationDTOs = new ArrayList<>();
+	       for (Reservation reservation : reservations) {
+	          ReservationDTO rDTO = new ReservationDTO();
+	          String start = reservation.getRent_start();
+			  String newStart = start.substring(0, 10);
+			  reservation.setRent_start(newStart);
+			  String end = reservation.getRent_end();
+			  String newEnd = end.substring(0, 10);
+			  reservation.setRent_end(newEnd);
+	          rDTO.setReservation(reservation);
+	          for (Board board : boards) {
+	             Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+	             BoardDTO dto = new BoardDTO();
+	             dto.setBoard(board);
+	             dto.setCar(car);
+	             rDTO.setBoardDTO(dto);
+	          }
+	          reservationDTOs.add(rDTO);
+	       }
+	       System.out.println(reservationDTOs);
+	       model.addAttribute("reservationDTOs", reservationDTOs);
+
 
 		return "host/host_main";
 	}
@@ -167,7 +199,7 @@ public class HostController {
 			return "redirect:/#";
 		}
 		hostMapper.removeHost(str);
-		return "redirect:/#";
+		return "redirect:/";
 	}
 
 	// 로그아웃
@@ -177,6 +209,30 @@ public class HostController {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@GetMapping("reservation")
+	public String hostReservation(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost, @RequestParam Long reservation_id) {
+		// 헤더용 host model
+		Host host = hostMapper.findHost(loginHost.getHost_email());
+		model.addAttribute("host", host);
+		
+		// reservationDTO model
+		Reservation reservation = reservationMapper.findReservationByReservationId(reservation_id);
+		Board board = boardMapper.findBoard(reservation.getBoard_id());
+		Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+		BoardDTO boardDTO = new BoardDTO();
+		ReservationDTO reservationDTO = new ReservationDTO();
+		boardDTO.setBoard(board);
+		boardDTO.setCar(car);
+		reservationDTO.setBoardDTO(boardDTO);
+		reservationDTO.setReservation(reservation);
+		model.addAttribute("reservationDTO", reservationDTO);
+		
+		// customer model
+		Customer customer = customerMapper.findCustomer(reservation.getCustomer_email());
+		model.addAttribute("customer", customer);
+		return "host/host_reservation";
 	}
 
 }
