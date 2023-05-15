@@ -2,11 +2,11 @@ package com.example.caRing.repository;
 
 import java.util.List;
 
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.Location;
+import com.example.caRing.model.board.LocationPrice;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Brand;
 import com.example.caRing.model.board.car.Car;
@@ -54,4 +54,9 @@ public interface BoardMapper {
     List<AttachedFile> findFileByAttachedFileId(Long carInfo_id);
     
     List<Board> findLocation(Location location);
+    List<Board> findLocationAsc(Location location);
+    List<Board> findLocationDesc(Location location);
+    List<Board> findLocationdistance(Location location);
+    List<Board> findLocationdPrice(LocationPrice locationPrice);
+    
 }

@@ -1,50 +1,30 @@
 package com.example.caRing.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StreamUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriUtils;
 
 import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.BoardDTO;
 import com.example.caRing.model.board.BoardSearchForm;
 import com.example.caRing.model.board.BoardWriteForm;
 import com.example.caRing.model.board.Location;
+import com.example.caRing.model.board.LocationPrice;
 import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.board.car.Brand;
 import com.example.caRing.model.board.car.Car;
@@ -53,7 +33,6 @@ import com.example.caRing.model.board.car.Feature;
 import com.example.caRing.model.board.car.Fuel;
 import com.example.caRing.model.board.car.OptionList;
 import com.example.caRing.model.host.Host;
-import com.example.caRing.model.host.HostLoginForm;
 import com.example.caRing.model.reservation.Reservation;
 import com.example.caRing.model.reservation.ReservationDTO;
 import com.example.caRing.repository.BoardMapper;
@@ -84,7 +63,7 @@ public class BoardControlller {
 	public String car_registration(Model model) {
 		// 브랜드 출력
 		List<Brand> brands = boardMapper.findBrand();
-//		log.info("brands: {}", brands);
+		// log.info("brands: {}", brands);
 		model.addAttribute("brands", brands);
 		// 차종 출력
 		List<CarType> carTypes = boardMapper.findCarType();
@@ -175,11 +154,19 @@ public class BoardControlller {
 	}
 
 	@GetMapping("list")
-	public String boardList(Model model, @ModelAttribute BoardSearchForm boardSearchForm, 
-	         @ModelAttribute Location location) {
-		log.info("location: {}", location);
+	public String boardList(Model model, @ModelAttribute BoardSearchForm boardSearchForm) {
+		
+		Location location = new Location();
+		location.setSearchedLat(boardSearchForm.getSearchedLat());
+		location.setSearchedLng(boardSearchForm.getSearchedLng());
+		location.setRent_start(boardSearchForm.getRent_start());
+		location.setRent_end(boardSearchForm.getRent_end());
+		System.out.println(location);
+		System.out.println(boardSearchForm);
 		List<Board> lists = boardMapper.findLocation(location);
+		
 		log.info("lists: {}", lists);
+		
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board list : lists) {
 			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
@@ -188,19 +175,15 @@ public class BoardControlller {
 			dto.setCar(car);
 			boardDTOs.add(dto);
 		}
-		// 브랜드 출력
-				List<Brand> brands = boardMapper.findBrand();
-//				log.info("brands: {}", brands);
-				model.addAttribute("brands", brands);
-				// 차종 출력
-				List<CarType> carTypes = boardMapper.findCarType();
-				model.addAttribute("carTypes", carTypes);
-				// 유종 출력
-				List<Fuel> fuels = boardMapper.findFuel();
-				model.addAttribute("fuels", fuels);
-				// 특징 출력
-				List<Feature> features = boardMapper.findFeature();
-				model.addAttribute("features", features);
+		
+		List<Brand> brands = boardMapper.findBrand();
+		model.addAttribute("brands", brands);
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
 		model.addAttribute("boardDTOs", boardDTOs);
 		return "board/board_list";
 	}
@@ -268,48 +251,185 @@ public class BoardControlller {
 ///////////////////////////////////////////////////////////////////////
 	
 	
-	@PostMapping("boardlist")
-	   public ResponseEntity<List<Board>> searchBoardList(Model model) {
-	      List<Board> findAllBoards = boardMapper.findAllBoards();
-	      return ResponseEntity.ok(findAllBoards);
-	   }
-	   
-	   /*
-	    * @PostMapping("filteredboardlist") public ResponseEntity<List<Board>>
-	    * getFilteredBoardList(@RequestBody List<Board> filteredData) {
-	    * System.out.println(filteredData); return new ResponseEntity<>(filteredData,
-	    * HttpStatus.OK); }
-	    */
-	   
-	   @PostMapping("/filteredboardlist")
-	   public ResponseEntity<List<BoardDTO>> getFilteredBoardList(@ModelAttribute BoardSearchForm boardSearchForm, @RequestBody List<Board> filteredData, Model model) {
-	      model.addAttribute("boardSearchForm", boardSearchForm);
-	      System.out.println(filteredData);
-	      List<BoardDTO> boardDTOss = new ArrayList<>();
-	      for (Board board : filteredData) {
-	         Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
-	         BoardDTO dto = new BoardDTO();
-	         dto.setBoard(board);
-	         dto.setCar(car);
-	         boardDTOss.add(dto);
-	      }
-	      // 브랜드 출력
-	      List<Brand> brands = boardMapper.findBrand();
-	      model.addAttribute("brands", brands);
-	      // 차종 출력
-	      List<CarType> carTypes = boardMapper.findCarType();
-	      model.addAttribute("carTypes", carTypes);
-	      // 유종 출력
-	      List<Fuel> fuels = boardMapper.findFuel();
-	      model.addAttribute("fuels", fuels);
-	      // 특징 출력
-	      List<Feature> features = boardMapper.findFeature();
-	      model.addAttribute("features", features);
-	      model.addAttribute("boardDTOss", boardDTOss);
-	      log.info("bo :{}", boardDTOss);
-	      
-	      return ResponseEntity.ok(boardDTOss);
-	   }
-	   
+	@GetMapping("list/priceasc")
+	public String boardListAsc(Model model, @RequestParam("searchedLat") double searchedLat, 
+							@RequestParam("searchedLng") double searchedLng, 
+							@RequestParam("rent_start") String rent_Start, 
+							@RequestParam("rent_end") String rent_End,
+							@RequestParam("location") String location,
+							@ModelAttribute BoardSearchForm boardSearchForm) {
+		log.info("bsf: {}", searchedLat);
+		
+		boardSearchForm.setLocation(location);
+		boardSearchForm.setRent_end(rent_End);
+		boardSearchForm.setRent_start(rent_Start);
+		boardSearchForm.setSearchedLat(searchedLat);
+		boardSearchForm.setSearchedLng(searchedLng);
+		Location location1 = new Location();
+		location1.setSearchedLat(searchedLat);
+		location1.setSearchedLng(searchedLng);
+		location1.setRent_start(rent_Start);
+		location1.setRent_end(rent_End);
+		System.out.println(location1);
+		List<Board> lists = boardMapper.findLocationAsc(location1);
+		
+		log.info("lists: {}", lists);
+		
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for (Board list : lists) {
+			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(list);
+			dto.setCar(car);
+			boardDTOs.add(dto);
+		}
+		
+		List<Brand> brands = boardMapper.findBrand();
+		model.addAttribute("brands", brands);
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
+		model.addAttribute("boardDTOs", boardDTOs);
+		return "board/board_list";
+	}
 	
+	@GetMapping("list/pricedesc")
+	public String boardListDesc(Model model, @RequestParam("searchedLat") double searchedLat,
+			@RequestParam("searchedLng") double searchedLng, @RequestParam("rent_start") String rent_Start,
+			@RequestParam("rent_end") String rent_End, @RequestParam("location") String location,
+			@ModelAttribute BoardSearchForm boardSearchForm) {
+		
+		log.info("bsf: {}", searchedLat);
+
+		boardSearchForm.setLocation(location);
+		boardSearchForm.setRent_end(rent_End);
+		boardSearchForm.setRent_start(rent_Start);
+		boardSearchForm.setSearchedLat(searchedLat);
+		boardSearchForm.setSearchedLng(searchedLng);
+		Location location1 = new Location();
+		location1.setSearchedLat(searchedLat);
+		location1.setSearchedLng(searchedLng);
+		location1.setRent_start(rent_Start);
+		location1.setRent_end(rent_End);
+		System.out.println(location1);
+		List<Board> lists = boardMapper.findLocationDesc(location1);
+
+		log.info("lists: {}", lists);
+
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for (Board list : lists) {
+			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(list);
+			dto.setCar(car);
+			boardDTOs.add(dto);
+		}
+
+		List<Brand> brands = boardMapper.findBrand();
+		model.addAttribute("brands", brands);
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
+		model.addAttribute("boardDTOs", boardDTOs);
+		return "board/board_list";
+
+	}
+	
+	@GetMapping("list/distance")
+	public String boardListDistance(Model model, @RequestParam("searchedLat") double searchedLat,
+			@RequestParam("searchedLng") double searchedLng, @RequestParam("rent_start") String rent_Start,
+			@RequestParam("rent_end") String rent_End, @RequestParam("location") String location,
+			@ModelAttribute BoardSearchForm boardSearchForm) {
+		
+		log.info("bsf: {}", searchedLat);
+
+		boardSearchForm.setLocation(location);
+		boardSearchForm.setRent_end(rent_End);
+		boardSearchForm.setRent_start(rent_Start);
+		boardSearchForm.setSearchedLat(searchedLat);
+		boardSearchForm.setSearchedLng(searchedLng);
+		Location location1 = new Location();
+		location1.setSearchedLat(searchedLat);
+		location1.setSearchedLng(searchedLng);
+		location1.setRent_start(rent_Start);
+		location1.setRent_end(rent_End);
+		System.out.println(location1);
+		List<Board> lists = boardMapper.findLocationdistance(location1);
+
+		log.info("lists: {}", lists);
+
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for (Board list : lists) {
+			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(list);
+			dto.setCar(car);
+			boardDTOs.add(dto);
+		}
+
+		List<Brand> brands = boardMapper.findBrand();
+		model.addAttribute("brands", brands);
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
+		model.addAttribute("boardDTOs", boardDTOs);
+		return "board/board_list";
+
+	}
+	
+	@GetMapping("list/pricerange")
+	public String boardListDistance(Model model, @RequestParam("searchedLat") double searchedLat,
+			@RequestParam("searchedLng") double searchedLng, @RequestParam("rent_start") String rent_Start,
+			@RequestParam("rent_end") String rent_End, @RequestParam("location") String location,
+			@ModelAttribute BoardSearchForm boardSearchForm, @RequestParam("minPrice") Long minPrice, @RequestParam("maxPrice") Long maxPrice) {
+		
+		log.info("bsf: {}", searchedLat);
+
+		boardSearchForm.setLocation(location);
+		boardSearchForm.setRent_end(rent_End);
+		boardSearchForm.setRent_start(rent_Start);
+		boardSearchForm.setSearchedLat(searchedLat);
+		boardSearchForm.setSearchedLng(searchedLng);
+		LocationPrice locationPrice = new LocationPrice();
+		locationPrice.setSearchedLat(searchedLat);
+		locationPrice.setSearchedLng(searchedLng);
+		locationPrice.setRent_start(rent_Start);
+		locationPrice.setRent_end(rent_End);
+		locationPrice.setMaxPrice(maxPrice);
+		locationPrice.setMinPrice(minPrice);
+		List<Board> lists = boardMapper.findLocationdPrice(locationPrice);
+
+		log.info("lists: {}", lists);
+
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for (Board list : lists) {
+			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(list);
+			dto.setCar(car);
+			boardDTOs.add(dto);
+		}
+
+		List<Brand> brands = boardMapper.findBrand();
+		model.addAttribute("brands", brands);
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
+		model.addAttribute("boardDTOs", boardDTOs);
+		return "board/board_list";
+
+	}
+
 }

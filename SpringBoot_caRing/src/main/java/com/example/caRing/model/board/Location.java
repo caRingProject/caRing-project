@@ -4,8 +4,10 @@ import lombok.Data;
 
 @Data
 public class Location {
-
-	private Double lat;
-	private Double lng;
+	
+	private String rent_start;
+	private String rent_end;
+	private Double searchedLat;
+	private Double searchedLng;
 	   
 }

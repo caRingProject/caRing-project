@@ -44,15 +44,18 @@
                 	$(".lnb1, .lnbclose1").toggle(function() {
                 		$("#slider-range").slider({
                         	range: true,
-                        	min: 1000,
+                        	min: 10000,
                         	max: 200000,
                         	step: 1000,
-                        	values: [20000, 50000],
+                        	values: [50000, 100000],
                         	slide: function(event, ui) {
                             	$("#amount2").val(ui.values[0] + "원" +  " - " + ui.values[1] + "원");
+                            	console.log(document.getElementById('amount2'));
+                            	$("#price1").val(ui.values[0]);
+                        		$("#price2").val(ui.values[1]);
                         	}
                     	});
-                    	$("#amount2").val($("#slider-range").slider("values", 0) + "원" + " - " + $("#slider-range").slider("values", 1) + "원");
+                    	$("#amount2").val($("#slider-range").slider("values", 0) + "원" + " - " + $("#slider-range").slider("values", 1) + "원");	
                 	});
             	})
 
@@ -60,6 +63,7 @@
                 	$('.lnb1, .lnbclose1').hide();
             	})
         })
+                   	
           $(function () {
             $(".lnb2, .lnbclose2").hide();
             $(".filtertoggle").click(function () {
@@ -71,6 +75,8 @@
             })
         })
 </script>
+
+
 <title>Car Search</title>
 </head>
 
@@ -81,10 +87,13 @@
       </h1>
       
       <div class="searchBar" th:object="${boardSearchForm}">
-         <form action="#" class="carSearch">
+         <form action="/board/list" class="carSearch">
             <div class="where">
                <label>Where</label> 
-               <input type="text" id="autocomplete" placeholder="city, airport, adress or hotel" th:value="*{location}">
+               <input type="text" id="autocomplete" placeholder="city, airport, adress or hotel" th:value="*{location}" name="location">
+               <input type="hidden" name="searchedLat" th:value="*{searchedLat}" id="searchedLat">
+               <input type="hidden" name="searchedLng" th:value="*{searchedLng}" id="searchedLng">
+              
             </div>
             
             <div class="When">
@@ -92,17 +101,22 @@
             </div>
             
             <div class="flatpickr">
-               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:value="*{rent_start}">
-               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:value="*{rent_end}">
+               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:value="*{rent_start}" name="rent_start">
+               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:value="*{rent_end}" name="rent_end">
                <a class="input-button" title="toggle" data-toggle> 
                <i class="fa-solid fa-calendar-days"></i></a>
                
                <a class="input-button" title="clear" data-clear> 
                <i class="fa-regular fa-circle-xmark"></i></a>
             </div>
+            <div class="searchbt">
+				<button>
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
+			</div>
          </form>
       </div>
-      
+
       <div class="usermenu">
          <a href="#"><img src="/img/user.png" alt="user logo"></a>
       </div>
@@ -116,9 +130,10 @@
             <div class="lnb-container">
             	<div class="lnbclose"></div>
             	<div class="lnb">
-                    <a href="./list">낮은가격순</a><br>
-                    <a href="./list">높은가격순</a><br>
-                    <a href="./list">거리순</a>
+            	 <input type="hidden" name="searchedLat" value="35.123" id="searchedLng">
+                    <button onclick="location.href='/board/list/priceasc?location=' + document.getElementById('autocomplete').value + '&searchedLat=' + document.getElementById('searchedLat').value + '&searchedLng=' + document.getElementById('searchedLng').value + '&rent_start=' + document.getElementById('first-input').value + '&rent_end=' + document.getElementById('second-input').value" value="낮은가격순">낮은가격순</button><br>
+                    <button onclick="location.href='/board/list/pricedesc?location=' + document.getElementById('autocomplete').value + '&searchedLat=' + document.getElementById('searchedLat').value + '&searchedLng=' + document.getElementById('searchedLng').value + '&rent_start=' + document.getElementById('first-input').value + '&rent_end=' + document.getElementById('second-input').value" value="높은가격순">높은가격순</button><br>
+                    <button onclick="location.href='/board/list/distance?location=' + document.getElementById('autocomplete').value + '&searchedLat=' + document.getElementById('searchedLat').value + '&searchedLng=' + document.getElementById('searchedLng').value + '&rent_start=' + document.getElementById('first-input').value + '&rent_end=' + document.getElementById('second-input').value" value="거리순">거리순</button><br>
             	</div> 
             </div>
          </div>
@@ -129,11 +144,13 @@
             <div class="lnb-container">
             	<div class="lnbclose1"></div>
             	<div class="lnb1">
-               
-                   		<p><input type="text" id="amount2">
+                   		<p>
+                   		<input type="text" id="amount2">
+                   		<input type="hidden" id="price1">
+                   		<input type="hidden" id="price2">
     					</p>
     				<div id="slider-range"></div>
-    				<input type="button" value="적용하기">
+    				<button onclick="location.href='/board/list/pricerange?location=' + document.getElementById('autocomplete').value + '&searchedLat=' + document.getElementById('searchedLat').value + '&searchedLng=' + document.getElementById('searchedLng').value + '&rent_start=' + document.getElementById('first-input').value + '&rent_end=' + document.getElementById('second-input').value + '&minPrice=' + document.getElementById('price1').value + '&maxPrice=' + document.getElementById('price2').value" value="가격">적용하기</button><br>
             	</div>
             </div>
          </div>
@@ -189,12 +206,12 @@
          </div>
    	</div>
    <div class="carwrap">
-      <div class="carlist">
-      <th:block th:fragment="boardList" th:each="boardDTO: ${filteredData}">
+      <div class="carlist" id="carlist">
+      <th:block th:each="boardDTO: ${boardDTOs}">
          <a th:href="@{/board/read(board_id=${boardDTO.board.board_id})}">
             <div class="car">
                <div class="img">
-                  <img th:src="${boardDTO.car.thumbnail}" alt="car list 1">
+                  <img th:src="${boardDTO.car.thumbnail}" alt="car list 1" name="picture">
                </div>
                <div class="carInfo">
                   <p class="carName" th:text="*{boardDTO.board.title}"></p>
@@ -211,142 +228,98 @@
             </div>
          </a>
          </th:block> 
-      </div>
-		<script>
-		var map;
-			function myMap() {
-					map = new google.maps.Map(document.getElementById('googleMap'), {
-					center : {lat : 37.5400456, lng : 126.9921017},
-					zoom : 12,
+      </div>   
+<script th:inline="javascript">
+	var boardDTO = [[${boardDTOs}]];
+	var array = Array.from(boardDTO);
+	var map;
+	var searchedLat = document.getElementById("searchedLat").value
+	var searchedLng = document.getElementById("searchedLng").value
+		function myMap() {
+				map = new google.maps.Map(document.getElementById('googleMap'), {
+				center : new google.maps.LatLng(searchedLat, searchedLng),
+				zoom : 12,
 				});
-
-				var input = document.getElementById('autocomplete');
+				
+ 				var input = document.getElementById('autocomplete');
 				var searchBox = new google.maps.places.SearchBox(input);
-
-				var geocoder = new google.maps.Geocoder();
 				
-				var address;
-
-				address = document.getElementById('autocomplete').value;
-				geocodeAddress(geocoder);
-
-				function geocodeAddress(geocoder) {
-					geocoder.geocode({'address' : address}, function(result, status) {
-						const lat = result[0].geometry.location.lat();
-						const lng = result[0].geometry.location.lng();  
-						console.log(lat);
-						console.log(lng);
-						document.getElementById("lats").value = lat;
-		                document.getElementById("lngs").value = lng;
-		                console.log(document.getElementById(lats));        
-
-						map.panTo(new google.maps.LatLng(lat, lng));
-						getBoardList(lat, lng);
+		        for(i = 0; i < document.getElementsByName('lat').length; i++) {
+	        		const lat = document.getElementsByName('lat')[i].value
+	            	const lng = document.getElementsByName('lng')[i].value
+	            	var price = document.getElementsByName('price')[i].value
+	                var title = document.getElementsByName('title')[i].value
+	                var picture = array[i].car.thumbnail
+	                
+	                const detail =
+	                    '<div id="detailBox">' +
+	                    '<div id="detailPhoto" th:object="boardDTO: ${boardDTOs}">' +
+	                    		'<img src=' + picture + '>' +
+	                    '</div>'	+
+	                   
+	                    '<div class="carDetail" id="detailContent" th:object="boardDTO: ${boardDTOs}">' +
+	                    	'<p>' + 4.8 + '</p>' + '<p>' + '<span class="won">' + " " + "</span>" + 
+	                    	'<span>' + title + '</span>' + '</p>' +  
+	                    "</div>" +
+	                    '<div>' + "1 - Day : " + " " + price + "원" + '</div>' +
+	                    '</div>';
+	                    
+	                    
+					var marker = new google.maps.Marker({
+					position : new google.maps.LatLng(lat, lng),
+					map : map
 					});
-				};
-				
-				function getBoardList(lat, lng){
-				    
-					$.ajax({
-							url : "/board/boardlist",
-							type : "post",
-							success : function(data, success, xhr) {
+					
+					const infowindow = new google.maps.InfoWindow({
+		                  //content: detail,
+		                  maxWidth: 300,
+		               });
+					
+					marker.addListener("click", function() {
+		                  /* infowindow.open({
+		                      anchor: marker,
+		                      map,
+		                  });*/
+						if (currentInfowindow) {
+						      currentInfowindow.close()
+						    }
 
-								for (let i = 0; i < data.length; i++) {
-									if (lat - 1.0013 < data[i].lat && data[i].lat < lat + 1.0013) {
-										if (lng - 1.0013 < data[i].lng && data[i].lng < lng + 1.0013) {
-											var marker = new google.maps.Marker({
-												position : new google.maps.LatLng(data[i].lat, data[i].lng),
-												map : map
-											});
-										}
-									}
-								}
-								
-								const filteredData = data.filter(board => {
-							    	return lat - 1.0013 < board.lat && board.lat < lat + 1.0013 && lng - 1.0013 < board.lng && board.lng < lng + 1.0013;
-							     });
-							     
-								console.log(filteredData);
-							    getFilteredBoardList(filteredData);
-							    },
-							    
-							error : function(xhr, status, error) {
-								console.log(status);
-							}
-						});
-					}
-				
-				function getFilteredBoardList(filteredData) {
-					$.ajax({
-						url : "/board/filteredboardlist",
-						type : "post",
-						data: JSON.stringify(filteredData),
-					    contentType: "application/json",
-					    dataType: "json",
-					    success: function (filteredData, success, xhr) {
-					      alert(JSON.stringify(filteredData));
-					    },
-					    error: function (xhr, status, error) {
-					      console.log(status);
-					    },
-					  });
+						    infowindow.setContent(detail)
+						    infowindow.open({
+			                      anchor: marker,
+			                      map,
+			                  });
+						    // 현재 열려있는 InfoWindow를 저장합니다.
+						    currentInfowindow = infowindow
+						  
+		               }); 
 				}
-			}
-		</script>
-		<div id="googleMap" style="width: 45%; height: 700px;"></div>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&libraries=places&callback=myMap"></script>
-<script>  
+		        var currentInfowindow = null
 
-            
-      /* const lat = document.getElementsByName('lat')[i].value
-         const lng = document.getElementsByName('lng')[i].value
-         
-         
-         for(i = 0; i < document.getElementsByName('lat').length; i++) {
-              const lat = document.getElementsByName('lat')[i].value
-              const lng = document.getElementsByName('lng')[i].value
-              
-              
-              var price = document.getElementsByName('price')[i].value
-              var title = document.getElementsByName('title')[i].value
-              const detail =
-                  '<div id="detailBox">' +
-                  '<div id="detailPhoto" th:object="boardDTO: ${boardDTOs}">' +
-                  		'<img th:src="${boardDTO.car.thumbnail}" alt="car list 1">' +
-                  '</div>'	+
-                 
-                  '<div class="carDetail" id="detailContent" th:object="boardDTO: ${boardDTOs}">' +
-                  	'<p>' + 4.8 + '</p>' + '<p>' + '<span class="won">' + " " + "</span>" + 
-                  	'<span>' + title + '</span>' + '</p>' +  
-                  "</div>" +
-                  '<div>' + "1 - Day : " + " " + price + "원" + '</div>' +
-                  '</div>';
-                  
-                  
-                var marker = new google.maps.Marker({
-                        map: map,
-                        position: new google.maps.LatLng(lat, lng),
-                   });
-                       
-                    
-
-             /*   const infowindow = new google.maps.InfoWindow({
-                  content: detail,
-                  maxWidth: 300,
-               });
-               
-               marker.addListener("click", function() {
-                  infowindow.open({
-                      anchor: marker,
-                      map,
-                  });
-               }); */
-                    
-        // }   
-         // }
+		        var geocoder = new google.maps.Geocoder();
+				findLatLng(geocoder);
+		}
+			
+		function findLatLng(geocoder) {
+			$("#autocomplete").change(function (){
+		        geocodeAddress(geocoder);
+		   	});
+		}	
+		
+		function geocodeAddress(geocoder) {	
+			var address = document.getElementById('autocomplete').value;
+			geocoder.geocode({'address' : address}, function(result, status) {
+				const lat = result[0].geometry.location.lat();
+				const lng = result[0].geometry.location.lng();
+								
+				document.getElementById("searchedLat").value = lat;
+				document.getElementById("searchedLng").value = lng;
+			});
+		};
+		
 </script>
-      
-   </div> 
+	<div id="googleMap" style="width: 45%; height: auto;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&libraries=places&callback=myMap" async defer></script>
+	</div> 
 </body>
 </html>

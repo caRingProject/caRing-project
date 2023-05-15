@@ -164,9 +164,98 @@
     
     <!-- 위도 경도 -->
     <select id="findLocation" resultType="board">
-		SELECT *
-			FROM board
-			WHERE lat BETWEEN #{lat}-0.045 AND #{lat}+0.045
-			AND lng BETWEEN #{lng}-0.045 AND #{lng}+0.045
+		SELECT 
+			*
+		FROM 
+			board
+		WHERE 
+			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
+			AND 
+			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
+			AND 
+            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
+            AND 
+            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
 	</select>
+	
+	<select id="findLocationAsc" resultType="board">
+		SELECT 
+			*
+		FROM 
+			board
+		WHERE 
+			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
+			AND 
+			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
+			AND 
+            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
+            AND 
+            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
+        Order By
+        	price asc
+	</select>
+	
+	<select id="findLocationDesc" resultType="board">
+		SELECT 
+			*
+		FROM 
+			board
+		WHERE 
+			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
+			AND 
+			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
+			AND 
+            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
+            AND 
+            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
+        Order By
+        	price desc
+	</select>
+	
+	<select id="findLocationdistance" resultType="board">
+ 		SELECT 
+ 			board_id,
+            host_email,
+            title,
+            board_contents,
+            created_time,
+            price,
+            carinfo_id,
+            rent_start,
+            rent_end,
+            lat,
+            lng,
+            (lat - #{searchedLat}) * (lat - #{searchedLat}) + (lng - #{searchedLng}) * (lng - #{searchedLng}) as distance 
+		FROM 
+			board 
+		WHERE 
+			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
+			AND 
+			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
+			AND 
+			rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
+			AND 
+			rent_end > to_date(#{rent_end}, 'YY/MM/DD') 
+		ORDER BY 
+			distance ASC
+</select>
+
+<select id="findLocationdPrice" resultType="board">
+		SELECT 
+			*
+		FROM 
+			board
+		WHERE 
+			lat BETWEEN #{searchedLat} - 0.045 AND #{searchedLat} + 0.045
+			AND 
+			lng BETWEEN #{searchedLng} - 0.045 AND #{searchedLng} + 0.045
+			AND 
+            rent_start <![CDATA[ < ]]> to_date(#{rent_start}, 'YY/MM/DD') 
+            AND 
+            rent_end > to_date(#{rent_end}, 'YY/MM/DD')
+            AND
+            price BETWEEN #{minPrice} AND #{maxPrice}
+	</select>
+
+
 </mapper>
