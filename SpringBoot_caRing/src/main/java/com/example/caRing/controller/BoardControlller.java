@@ -191,9 +191,9 @@ public class BoardControlller {
 	@GetMapping("list")
 	public String boardList(Model model, @ModelAttribute BoardSearchForm boardSearchForm,
 			@ModelAttribute Location location) {
-		log.info("location: {}", location);
+//		log.info("location: {}", location);
 		List<Board> lists = boardMapper.findLocation(location);
-		log.info("lists: {}", lists);
+//		log.info("lists: {}", lists);
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board list : lists) {
 			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
@@ -224,6 +224,12 @@ public class BoardControlller {
 		// 게시글 출력
 		Board board = boardMapper.findBoard(board_id);
 //		log.info("board: {}", board);
+		String start = board.getRent_start();
+		String newStart = start.substring(0, 10);
+		board.setRent_start(newStart);
+		String end = board.getRent_end();
+		String newEnd = end.substring(0, 10);
+		board.setRent_end(newEnd);
 		model.addAttribute("board", board);
 
 		// 호스트 출력
@@ -244,7 +250,7 @@ public class BoardControlller {
 		// 옵션 리스트 출력
 		String optionValue = boardMapper.findOptionListById(carInfo_id);
 		String[] optionList = optionValue.split(",");
-		System.out.println(Arrays.toString(optionList));
+//		System.out.println(Arrays.toString(optionList));
 		List<String> option = new ArrayList<>();
 		for (int i = 0; i < optionList.length; i++) {
 			option.add(optionList[i]);
@@ -260,7 +266,7 @@ public class BoardControlller {
 
 		for (AttachedFile image : attachedFiles) {
 			fullPath = "/uploadImg/" + image.getSaved_filename();
-			log.info("fullPath: {}", fullPath);
+//			log.info("fullPath: {}", fullPath);
 			paths.add(fullPath);
 		}
 		model.addAttribute("paths", paths);
@@ -288,7 +294,7 @@ public class BoardControlller {
 			@RequestParam("searchedLng") double searchedLng, @RequestParam("rent_start") String rent_Start,
 			@RequestParam("rent_end") String rent_End, @RequestParam("location") String location,
 			@ModelAttribute BoardSearchForm boardSearchForm) {
-		log.info("bsf: {}", searchedLat);
+//		log.info("bsf: {}", searchedLat);
 
 		boardSearchForm.setLocation(location);
 		boardSearchForm.setRent_end(rent_End);
@@ -300,10 +306,10 @@ public class BoardControlller {
 		location1.setSearchedLng(searchedLng);
 		location1.setRent_start(rent_Start);
 		location1.setRent_end(rent_End);
-		System.out.println(location1);
+//		System.out.println(location1);
 		List<Board> lists = boardMapper.findLocationAsc(location1);
 
-		log.info("lists: {}", lists);
+//		log.info("lists: {}", lists);
 
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board list : lists) {
@@ -332,7 +338,7 @@ public class BoardControlller {
 			@RequestParam("rent_end") String rent_End, @RequestParam("location") String location,
 			@ModelAttribute BoardSearchForm boardSearchForm) {
 
-		log.info("bsf: {}", searchedLat);
+//		log.info("bsf: {}", searchedLat);
 
 		boardSearchForm.setLocation(location);
 		boardSearchForm.setRent_end(rent_End);
@@ -344,10 +350,10 @@ public class BoardControlller {
 		location1.setSearchedLng(searchedLng);
 		location1.setRent_start(rent_Start);
 		location1.setRent_end(rent_End);
-		System.out.println(location1);
+//		System.out.println(location1);
 		List<Board> lists = boardMapper.findLocationDesc(location1);
 
-		log.info("lists: {}", lists);
+//		log.info("lists: {}", lists);
 
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board list : lists) {
@@ -377,7 +383,7 @@ public class BoardControlller {
 			@RequestParam("rent_end") String rent_End, @RequestParam("location") String location,
 			@ModelAttribute BoardSearchForm boardSearchForm) {
 
-		log.info("bsf: {}", searchedLat);
+//		log.info("bsf: {}", searchedLat);
 
 		boardSearchForm.setLocation(location);
 		boardSearchForm.setRent_end(rent_End);
@@ -389,10 +395,10 @@ public class BoardControlller {
 		location1.setSearchedLng(searchedLng);
 		location1.setRent_start(rent_Start);
 		location1.setRent_end(rent_End);
-		System.out.println(location1);
+//		System.out.println(location1);
 		List<Board> lists = boardMapper.findLocationdistance(location1);
 
-		log.info("lists: {}", lists);
+//		log.info("lists: {}", lists);
 
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board list : lists) {
@@ -423,7 +429,7 @@ public class BoardControlller {
 			@ModelAttribute BoardSearchForm boardSearchForm, @RequestParam("minPrice") Long minPrice,
 			@RequestParam("maxPrice") Long maxPrice) {
 
-		log.info("bsf: {}", searchedLat);
+//		log.info("bsf: {}", searchedLat);
 
 		boardSearchForm.setLocation(location);
 		boardSearchForm.setRent_end(rent_End);
@@ -439,7 +445,7 @@ public class BoardControlller {
 		locationPrice.setMinPrice(minPrice);
 		List<Board> lists = boardMapper.findLocationdPrice(locationPrice);
 
-		log.info("lists: {}", lists);
+//		log.info("lists: {}", lists);
 
 		List<BoardDTO> boardDTOs = new ArrayList<>();
 		for (Board list : lists) {
@@ -464,60 +470,84 @@ public class BoardControlller {
 	}
 
 	@GetMapping("list/filter")
-	   public String test(@RequestParam (name = "brand_id", required = false) List<Number> brand_id, @RequestParam ("location") String location,
-	                  @RequestParam (name = "carType_id", required = false) List<Number> carType_id, @RequestParam ("searchedLat") Double searchedLat,
-	                  @RequestParam (name = "seat", required = false) List<String> seat, @RequestParam ("searchedLng") Double searchedLng,
-	                  @RequestParam (name = "fuel_id", required = false) List<Number> fuel_id, @RequestParam ("rent_start") String rent_Start,
-	                  @RequestParam (name = "option_value", required = false) String option_value, @RequestParam ("rent_end") String rent_End,
-	                  @ModelAttribute BoardSearchForm boardSearchForm, Model model) {
-	   
-	      boardSearchForm.setLocation(location);
-	      boardSearchForm.setRent_end(rent_End);
-	      boardSearchForm.setRent_start(rent_Start);
-	      boardSearchForm.setSearchedLat(searchedLat);
-	      boardSearchForm.setSearchedLng(searchedLng);
-	      Location location1 = new Location();
-	      location1.setSearchedLat(searchedLat);
-	      location1.setSearchedLng(searchedLng);
-	      location1.setRent_start(rent_Start);
-	      location1.setRent_end(rent_End);
-	      
-	      BoardFilterForm boardFilterForm = new BoardFilterForm();
-	      boardFilterForm.setBrand_id(brand_id);
-	      boardFilterForm.setCarType_id(carType_id);
-	      boardFilterForm.setFuel_id(fuel_id);
-	      boardFilterForm.setSeat(seat);
-	      
-	      log.info("board : {}", boardFilterForm);
-	      
-	      List<Car> cars = boardMapper.findCarInfoByBoardFilterForm(boardFilterForm);
-	      
-	      log.info("cars :{}", cars);
-	       
-	      List<Board> lists = boardMapper.findLocation(location1);
-	      
-	      List<BoardDTO> boardDTOs = new ArrayList<>();
-	      for (Board list : lists) {
-	         for (Car car : cars) {
-	         BoardDTO dto = new BoardDTO();
-	         dto.setBoard(list);
-	         dto.setCar(car);
-	         boardDTOs.add(dto);
-	         }
-	      }
-	      
-	      List<Brand> brands = boardMapper.findBrand();
-	      model.addAttribute("brands", brands);
-	      List<CarType> carTypes = boardMapper.findCarType();
-	      model.addAttribute("carTypes", carTypes);
-	      List<Fuel> fuels = boardMapper.findFuel();
-	      model.addAttribute("fuels", fuels);
-	      List<Feature> features = boardMapper.findFeature();
-	      model.addAttribute("features", features);
-	      model.addAttribute("boardDTOs", boardDTOs);
-	      log.info("board : {}", boardDTOs);
-	      
-	      return "board/board_list";
+	public String test(@RequestParam(name = "brand_id", required = false) List<Number> brand_id,
+			@RequestParam("location") String location,
+			@RequestParam(name = "carType_id", required = false) List<Number> carType_id,
+			@RequestParam("searchedLat") Double searchedLat,
+			@RequestParam(name = "seat", required = false) List<String> seat,
+			@RequestParam("searchedLng") Double searchedLng,
+			@RequestParam(name = "fuel_id", required = false) List<Number> fuel_id,
+			@RequestParam("rent_start") String rent_Start,
+			@RequestParam(name = "option_value", required = false) String option_value,
+			@RequestParam("rent_end") String rent_End, @ModelAttribute BoardSearchForm boardSearchForm, Model model) {
+		log.info("option : {}", option_value);
+		boardSearchForm.setLocation(location);
+		boardSearchForm.setRent_end(rent_End);
+		boardSearchForm.setRent_start(rent_Start);
+		boardSearchForm.setSearchedLat(searchedLat);
+		boardSearchForm.setSearchedLng(searchedLng);
+		Location location1 = new Location();
+		location1.setSearchedLat(searchedLat);
+		location1.setSearchedLng(searchedLng);
+		location1.setRent_start(rent_Start);
+		location1.setRent_end(rent_End);
+
+		BoardFilterForm boardFilterForm = new BoardFilterForm();
+		boardFilterForm.setBrand_id(brand_id);
+		boardFilterForm.setCarType_id(carType_id);
+		boardFilterForm.setFuel_id(fuel_id);
+		boardFilterForm.setSeat(seat);
+
+		List<Car> cars = boardMapper.findCarInfoByBoardFilterForm(boardFilterForm);
+
+		List<Board> lists = boardMapper.findLocation(location1);
+
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+
+		for (Board list : lists) {
+			for (Car car : cars) {
+				if (list.getCarInfo_id().equals(car.getCarInfo_id())) {
+
+					if (option_value == null) {
+						BoardDTO dto = new BoardDTO();
+						dto.setBoard(list);
+						dto.setCar(car);
+						boardDTOs.add(dto);
+					}
+
+					if (option_value != null) {
+						String[] optionValues = option_value.split(",");
+						System.out.println(Arrays.toString(optionValues));
+						String optionList = boardMapper.findOptionListById(car.getCarInfo_id());
+						String[] optionLists = optionList.split(",");
+						System.out.println(Arrays.toString(optionLists));
+						for (String optionlist : optionLists) {
+							for (String optionvalues : optionValues) {
+								if (optionlist.equals(optionvalues)) {
+									BoardDTO dto = new BoardDTO();
+									System.out.println(list);
+									System.out.println(car);
+									dto.setBoard(list);
+									dto.setCar(car);
+									boardDTOs.add(dto);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		List<Brand> brands = boardMapper.findBrand();
+		model.addAttribute("brands", brands);
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
+		model.addAttribute("boardDTOs", boardDTOs);
+
+		return "board/board_list";
 	}
 
 /////////////////////////////////////////////////////////////////////////////// 병휘
@@ -544,9 +574,9 @@ public class BoardControlller {
 
 		// 예약정보가 존재하고, 해당 board_id가 Reservation_id와 같으면 게시글을 삭제할 수 없다.
 		for (Reservation reservation : reservations) {
-			if (reservation.getStatus() == 1 || reservation.getStatus() == 2) {
+			if (reservation.getStatus() == 2) {
 				log.info("게시글에 해당하는 예약이 존재");
-				return "redirect:/host/main";
+				return "redirect:/host/main?remove=true";
 			}
 		}
 
@@ -572,10 +602,17 @@ public class BoardControlller {
 			}
 
 			// 예약정보가 존재하고, 해당 board_id가 Reservation_id와 같으면 게시글을 삭제할 수 없다.
+//			for (Reservation reservation : reservations) {
+//				if (reservation.getStatus() == 1 || reservation.getStatus() == 2) {
+//					log.info("게시글에 해당하는 예약이 존재");
+//					return "redirect:/host/main?msg=reservation_exist";
+//				}
+//			}
+			
 			for (Reservation reservation : reservations) {
-				if (reservation.getStatus() == 1 || reservation.getStatus() == 2) {
+				if (reservation.getStatus() == 2) {
 					log.info("게시글에 해당하는 예약이 존재");
-					return "redirect:/host/main?msg=reservation_exist";
+					return "redirect:/host/main?remove=true";
 				}
 			}
 		}

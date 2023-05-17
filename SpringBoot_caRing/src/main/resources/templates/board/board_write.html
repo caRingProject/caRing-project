@@ -3,218 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-@font-face {
-	font-family: 'ocr';
-	src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: 'Pretendard-Regular';
-	src:
-		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-		format('woff');
-	font-weight: 400;
-	font-style: normal;
-	unicode-range: U+AC00-D7A3;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-}
-
-a {
-	text-decoration: inherit;
-	color: inherit;
-}
-
-ul {
-	list-style: none;
-}
-
-img {
-	vertical-align: top;
-}
-
-button {
-	border: none;
-	background-color: transparent;
-	color: #dbcba0;
-}
-
-body {
-	font-family: 'ocr', 'Pretendard-Regular';
-}
-
-header {
-	position: relative;
-	background-color: #6e7a77;
-	color: #dbcba0;
-}
-
-.hwrap {
-	height: 70px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-h1 {
-	font-size: 12px;
-}
-
-.mainlogo {
-	text-align: center;
-	font-family: 'ocr';
-	margin-left: 20px;
-}
-
-.profile {
-	display: flex;
-	margin-right: 20px;
-}
-.profileImg {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	overflow: hidden;
-}
-.profileImg img {
-	width: 100%;
-	height: 100%;
-    object-fit: cover;
-}
-
-.profile button {
-	font-size: 16px;
-}
-
-.lnb-container {
-	position: relative;
-}
-
-.lnb {
-	width: 400px;
-	background-color: white;
-	border-radius: 30px;
-	position: absolute;
-	top: -10px;
-	right: 20px;
-	border: 3px solid #6e7a77;
-	font-weight: 700;
-	color: #6e7a77;
-}
-
-.lnb ul {
-	margin-left: 15px;
-	padding: 27px;
-	padding-bottom: 0;
-}
-
-.lnb ul li {
-	margin-bottom: 27px;
-}
-
-.lnb span {
-	display: block;
-	width: 300px;
-	height: 3px;
-}
-
-.lnbclose {
-	background-color: transparent;
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-
-hr {
-	width: 350px;
-	margin-left: 22px;
-}
-
-.mainwrap {
-   justify-content: space-between;
-   color: #6e7a77;
-}
-
-.carList, .resList {
-   width: 100%;
-   height: 100%;
-   margin-top: 20px;
-   border-radius: 30px;
-   padding-left: 100px;
-}
-
-.detailwrap {
-   width: 800px;
-   height: 700px;
-   overflow: auto;
-   margin: 0 auto;
-}
-
-.title {
-   justify-content: space-between;
-   padding: 20px 30px;
-}
-
-.car, .res {
-   width: 770px;
-   height: 250px;
-   border-radius: 30px;
-   margin-bottom: 20px;
-   box-shadow: 5px 5px 10px #ccc;
-   border: 1px solid #ccc;
-}
-
-.carwrap, .reswrap {
-   display: flex;
-   padding: 24px;
-}
-
-.boardheader {
-   margin: 20px;
-   display: flex;
-   padding-left: 100px;
-}
-
-.img {
-   width: 300px;
-   height: 200px;
-   border-radius: 20px;
-   overflow: hidden;
-}
-
-.img img {
-   width: 100%;
-}
-
-.carInfo, .resInfo {
-   margin-left: 30px;
-   width: 380px;
-}
-
-.resProfile, .resInfoTitle {
-   display: flex;
-   justify-content: space-between;
-}
-
-h3 {
-   margin-bottom: 30px;
-}
-
-textarea {
-   border: 1px solid black;
-   outline-color: #FE6B8B;
-}
-
-.center {
-   text-align: center;
-}
-</style>
+<link rel="stylesheet" href="/css/board_write.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -230,6 +19,11 @@ textarea {
 			},
 		   wrap: true
 	   });
+       
+       $('[data-clear]').click(function() {
+           $('#first-input').val('');
+           $('#second-input').val('');
+       });
    });   
 </script>
 <script>
@@ -256,11 +50,12 @@ textarea {
 <body>
    <header>
         <div class="hwrap">
+            
             <div class="mainlogo">
                 <h1>
                     <a href="/host/main">
                         <img src="/img/logo ver2.png" alt="main logo ver.2">
-                        <p>Host Page</p>
+                        <p class="small">Host Page</p>
                     </a>
                 </h1>
             </div><!--mainlogo-->
@@ -273,6 +68,7 @@ textarea {
 					<img th:src="${host.host_img}" alt="profile Img">
 				</div>
             </div><!--profile-->
+            
         </div><!--hwrap-->
 
         <div class="lnb-container">
@@ -292,101 +88,52 @@ textarea {
             </div>
         </div><!--lnb-container-->
     </header>
-    
-    
-   <div class="boardheader">
-      <h2>게시글</h2>
-   </div>
-   <form action="/board/write" method="post" th:object="${boardWriteForm}">
-   <div th:if="${#fields.hasGlobalErrors()}">
-         <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
-      </div>
-   <div class="mainwrap">
-      <div class="carList">
-         <div class="title">
-            <h3>보유 자동차 목록</h3> 
-            <select name="carlist" id="carlist">
-               <option>렌트 할 차량을 골라주세요</option>
-               <option th:each="carInfo: ${carInfo}" th:text="${carInfo.car_name}" th:value="${carInfo.carInfo_id}" th:field="*{carInfo_id}"></option>
-            </select>
-            <div th:errors="*{carInfo_id}" class="error"></div>
-         </div>
-      </div>
-      
-      <!-- <div id="googleMap" style="width: 45%; height: 400px;"></div>
-         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&callback=myMap"></script>
-       -->
-       <div class="carList">
-         <div class="title">
-             <label for="findAddress">주소</label><br>
-             <input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요">
-            <button type="button" id="addressSearch" onclick="findAddr()">주소 검색</button>
-            <input type="hidden" id="lat" name="lat">
-            <input type="hidden" id="lng" name="lng">
-         </div>
-      </div>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM"></script>
-      <script>
-     var geocoder = new google.maps.Geocoder();
-	 var address;
-     $("#submit").focus(function (){
-    	 	address = document.getElementById('submit').value;
-	        geocodeAddress(geocoder);
-     });
-	 
-     function geocodeAddress(geocoder) {
-		geocoder.geocode({'address': address}, function(result, status) {
-	    	const lat = result[0].geometry.location.lat();
-	    	const lng = result[0].geometry.location.lng();
-	    	
-	    	let elementlat = document.getElementById("lat");
-	    	elementlat.value = lat;
-	    	console.log(elementlat);
-	    	
-	    	let elementlng = document.getElementById("lng");
-	    	elementlng.value = lng;
-	    	
-	    });
-	  }; 
-	   </script>
-      
-     
-      <div class="carList">
-         <div class="title">
-            <a href="#">예약 가능한 날짜</a><br>
-            <div class="flatpickr">
-               <input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_start}">
-               <input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_end}">
-                <a class="input-button" title="toggle" data-toggle> <i
-                  class="fa-solid fa-calendar-days"></i>
-               </a> <a class="input-button" title="clear" data-clear> <i
-                  class="fa-regular fa-circle-xmark"></i>
-               </a>
-               <div th:errors="*{rent_start}" class="error"></div>
-            </div>
-         </div>
+
+	<form action="/board/write" method="post" th:object="${boardWriteForm}" class="wrap">
+		<h1>게시글 작성</h1>
+		<h2>보유 자동차 목록</h2>
+		<div class="carInfowrap">
+			<select name="carlist" id="carlist">
+				<option>렌트 할 차량을 골라주세요</option>
+				<option th:each="carInfo: ${carInfo}" th:text="${carInfo.car_name}"
+					th:value="${carInfo.carInfo_id}" th:field="*{carInfo_id}"></option>
+			</select>
+		</div>
+
+		<label for="findAddress"><h2>주소</h2></label><br> 
+		<div class="addresswrap">
+			<input id="submit" class="address" type="text" placeholder="차를 전달해줄 주소를 입력해주세요">
+			<button type="button" id="addressSearch" onclick="findAddr()">주소검색</button>
+			<input type="hidden" id="lat" name="lat"> 
+			<input type="hidden" id="lng" name="lng">
+		</div>
+
+		<h2>예약 가능한 날짜</h2><br>
+		<div class="carInfowrap">
+			<div class="flatpickr">
+				<input id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_start}"> 
+				<input id="second-input" type="text" placeholder="날짜를 선택해주세요" data-input th:field="*{rent_end}"> 
+				<a class="input-button" title="toggle" data-toggle> 
+				<i class="fa-solid fa-calendar-days"></i></a> 
+				<a class="input-button" title="clear" data-clear> 
+				<i class="fa-regular fa-circle-xmark"></i></a>
+			</div>
+		</div>
+		
+		<h2>추가 설명</h2><br>
+        <div class="carInfowrap">
+            <textarea rows="20" cols="100" th:field="*{board_contents}" placeholder="이용자가 전달 받아야 하는 추가적인 내용을 적어주세요!"></textarea>
+        </div>
+
+		<h2>일일 금액을 설정해주세요</h2><br> 
+      	<div class="carInfowrap">
+            <span><input type="text" 	placeholder="1,000원 단위로 적어주세요." th:field="*{price}"> / 원</span>
+        </div>
       </div>
 
-      <div class="carList">
-         <div class="title">
-            <a href="#">추가 설명</a><br>
-            <textarea rows="20" cols="100" th:field="*{board_contents}"></textarea>
-            <div th:errors="*{board_contents}" class="error"></div>
-         </div>
-      </div>
-
-      <div class="carList">
-         <div class="title">
-            <a href="#">금액을 설정해주세요(일일 금액)</a><br> <input type="text"
-               placeholder="10원 단위로 적어주세요." th:field="*{price}">
-               <div th:errors="*{price}" class="error"></div>
-         </div>
-      </div>
-
-      <div class="center">
+      <div class="submit">
          <input id="lastbutton" type="submit" value="등록하기"> 
-         <input id="lastbutton" type="button" value="삭제하기">
-      </div>
+         <input id="lastbutton1" type="button" value="삭제하기">
       </div>
    </form>
    

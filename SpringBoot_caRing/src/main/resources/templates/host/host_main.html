@@ -5,6 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/host_main.css">
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script th:inline="javascript">
+       let remove = [[${remove}]];
+       console.log(remove);
+       if (remove) alert("예약 내역이 있음");
+       
+       $(function () {
+           $(".lnb, .lnbclose").hide();
+           $(".profile").click(function () {
+               $(".lnb, .lnbclose").toggle();
+           })
+   
+           $('.lnbclose').click(function () {
+               $('.lnb, .lnbclose').hide();
+           })
+           
+           
+           $('.resDate').each(function() {
+            var status = $(this).find('.status').val();
+            var statusText = $(this).find('.status-text');
+            switch (status) {
+            case "1":
+               statusText.text("요청");
+               break;
+            case "2":
+               statusText.text("확정");
+               break;
+            case "3":
+               statusText.text("완료");
+               break;
+            case "4":
+               statusText.text("리뷰 작성 완료");
+               break;
+            }
+         });
+           
+           
+           if (message === 'reservation_exist') {
+               alert('게시글에 해당하는 예약이 존재합니다.');
+           }
+       })
+    </script>
     <title>Host Main</title>
 </head>
 
@@ -155,45 +198,6 @@
 
     </div><!--mainwrap-->
     
-    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script>
-	    $(function () {
-	        $(".lnb, .lnbclose").hide();
-	        $(".profile").click(function () {
-	            $(".lnb, .lnbclose").toggle();
-	        })
-	
-	        $('.lnbclose').click(function () {
-	            $('.lnb, .lnbclose').hide();
-	        })
-	        
-	        
-	        $('.resDate').each(function() {
-				var status = $(this).find('.status').val();
-				var statusText = $(this).find('.status-text');
-				switch (status) {
-				case "1":
-					statusText.text("요청");
-					break;
-				case "2":
-					statusText.text("확정");
-					break;
-				case "3":
-					statusText.text("완료");
-					break;
-				case "4":
-					statusText.text("리뷰 작성 완료");
-					break;
-				}
-			});
-	        
-	        
-	        if (message === 'reservation_exist') {
-	            alert('게시글에 해당하는 예약이 존재합니다.');
-	        }
-	    })
-    </script>
 </body>
 
 </html>

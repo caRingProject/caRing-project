@@ -145,17 +145,20 @@ label, .label>input {
     border: none;
     color: #6e7a77;
     margin-top: 20px;
+    text-aligh: center;
 }
-
+.resBtn {
+	text-align: center;
+}
 .carinfo {
     width: 50%;
 }
 .border {
     background-color: #6e7a77;
     width: 400px;
-    height: 380px;
     margin: 0 auto;
     border-radius: 20px;
+    padding-bottom: 36px;
 }
 .carImg {
     width: 350px;
@@ -170,6 +173,10 @@ label, .label>input {
     background-color:#6e7a77;;
     margin: 0 auto;
     color: white;
+}
+.carTitle {
+	font-size: 24px; 
+	margin-bottom: 12px;
 }
 .carImg img {
     width: 100%;

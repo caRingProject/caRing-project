@@ -43,5 +43,15 @@
 	<delete id="removeHost">
 		delete from host where host_email = #{host_email}
 	</delete>
+	
+	<!--호스트 예약 수락 -->
+	<update id="updateStatus2">
+		update reservation set status = 2 where reservation_id = #{reservation_id}
+	</update>
+	
+	<!--호스트 예약 거절 -->
+	<update id="updateStatus5">
+		update reservation set status = 5 where reservation_id = #{reservation_id}
+	</update>
 
 </mapper>

@@ -84,6 +84,6 @@ public class ReviewController {
 		log.info("review: {}", review);
 		reviewMapper.saveReview(review);
 		reservationMapper.updateStatus(review.getReservation_id());
-		return "reservation/reservationList";
+		return "redirect:/reservation/reservationlist";
 	}
 }

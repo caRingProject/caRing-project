@@ -1,180 +1,216 @@
-
 @import
-   url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css')
-   ;
+	url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css')
+	;
 
 /* font-family: 'Pretendard'; */
 @font-face {
-   font-family: 'ocr';
-   src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+	font-family: 'ocr';
+	src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
 }
 
 @font-face {
-   font-family: 'ChosunGu';
-   src:
-      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff')
-      format('woff');
-   font-weight: normal;
-   font-style: normal;
+	font-family: 'ChosunGu';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 * {
-   margin: 0;
-   padding: 0;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100vh;
 }
 
 a {
-   color: inherit;
-   text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 ul {
-   list-style: none;
+	list-style: none;
 }
 
 button {
-   background-color: transparent;
-   border: 0;
+	background-color: transparent;
+	border: 0;
 }
 
 html {
-   font-family: 'ocr';
+	font-family: 'ocr';
 }
 
 .korean {
-   font-family: 'Pretendard';
+	font-family: 'Pretendard';
 }
 
 img {
-   vertical-align: top;
+	vertical-align: top;
 }
 
 header {
-   height: 70px;
-   border-bottom: 3px solid #6e7a77;
-   display: flex;
-   justify-content: space-between;
-   line-height: 70px;
-   color: #6e7a77;
+	height: 70px;
+	border-bottom: 3px solid #6e7a77;
+	display: flex;
+	justify-content: space-between;
+	line-height: 70px;
+	color: #6e7a77;
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background-color: white;
 }
 
 #googleMap {
-   width: 45%;
+	width: 45%;
+	height: 800px; position : absolute;
+	bottom: 0;
+	right: 0;
+	position: absolute;
 }
 
 h1 {
-   padding-top: 15px;
-   margin-left: 20px;
+	padding-top: 15px;
+	margin-left: 20px;
 }
 
 .usermenu img {
-   width: 70px;
-   padding-top: 15px;
-   margin-right: 20px;
+	width: 70px;
+	padding-top: 15px;
+	margin-right: 20px;
 }
 
 .carwrap {
-   width: 1420px;
-   margin: 0 auto;
-   padding-top: 36px;
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
+	width: 100%;
+	height: 800px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	overflow: auto;
+}
+
+.boardWrap {
+	width: 55%;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .car {
-   width: 650px;
-   height: 240px;
-   border-radius: 30px;
-   overflow: hidden;
-   box-shadow: 5px 5px 10px #ccc;
-   margin-bottom: 30px;
-   display: flex;
+	display: flex;
+	width: 48%;
+	height: 240px;
+	border-radius: 30px;
+	overflow: hidden;
+	box-shadow: 5px 5px 10px #ccc;
+	margin-bottom: 30px;
+	margin-left: 16px;
+	position: relative;
+}
+
+.car>a {
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
 .carImage {
-   height: 100%;
-   width: 250px;
-   
-}
-
-.carInfo {
-   height: 100%;
-   width: 400px;
+	height: 100%;
+	width: 250px;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .carDetail {
-   display: flex;
-   justify-content: space-between;
-   margin-left: 20px;
-   margin-right: 20px;
-   line-height: 30px;
+	height: 40px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin-bottom: 24px;
+}
+
+.carInfo {
+	width: 240px;
+	height: 100%; 
+	position : absolute;
+	top: 0;
+	right: 0;
+	position: absolute;
 }
 
 .carName {
-   font-size: 20px;
-   line-height: 30px;
-   margin-top: 12px;
-   margin-left: 20px;
+	font-size: 20px;
+	line-height: 30px;
+	margin-top: 20px;
 }
 
 .won {
-   font-family: 'ChosunGu';
-   font-size: 14px;
+	font-family: 'ChosunGu';
+	font-size: 14px;
 }
 
 .carSearch {
-   font-family: 'Zen Maru Gothic', sans-serif;
-   font-weight: 700;
-   width: 900px;
-   height: 70px;
-   border-radius: 50px;
-   display: flex;
-   position: absolute;
-   transform: translate(-50%, 0);
-   font-size: 14px;
+	font-family: 'Zen Maru Gothic', sans-serif;
+	font-weight: 700;
+	width: 900px;
+	height: 70px;
+	border-radius: 50px;
+	display: flex;
+	position: absolute;
+	transform: translate(-50%, 0);
+	font-size: 14px;
 }
-.carlist{
-   width: 45%;
+
+.carlist {
+	
 }
-.serachFilterBar{
-    display: flex;
-    height: 64px;
-    padding: 16px 24px;
-    position: relateive;
-    top: 80px;
-    z-index: 1;
-} 
-.searchFilter{
-   background-color: #fff;
-    color: #231f20;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 700;
-    height: 34px;
-    line-height: 33px;
-    outline: none;
-    padding: 0 14px;
-    position: relative;
-    text-align: center;
-    vertical-align: top;
+
+.serachFilterBar {
+	display: flex;
+	height: 30px;
+	padding: 16px 24px;
+	position: relateive;
+	top: 80px;
+	z-index: 1;
 }
-.buttontogle{
-border: 1px solid #e7e7e8;
-    border-radius: 8px;
-    height: 32px;
-    line-height: 12px;
-    margin-right: 16px;
-    padding: 8px 16px;
+
+.searchFilter {
+	background-color: #fff;
+	color: #231f20;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 700;
+	height: 34px;
+	line-height: 33px;
+	outline: none;
+	padding: 0 14px;
+	position: relative;
+	text-align: center;
+	vertical-align: top;
+}
+
+.buttontogle {
+	border: 1px solid #e7e7e8;
+	border-radius: 8px;
+	height: 32px;
+	line-height: 12px;
+	margin-right: 16px;
+	padding: 8px 16px;
 }
 
 .carSearch label {
-   margin-left: 20px;
-   margin-right: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
+
 .img {
-	width: 45%;
+	width: 240px;
 	height: 240px;
 	border-radius: 20px;
 	overflow: hidden;
@@ -187,78 +223,78 @@ border: 1px solid #e7e7e8;
 }
 
 .lnb-container {
-    position: relative;
+	position: relative;
 }
 
 .lnb {
-    width: 100px;
-    height: 110px;
-    background-color: white;
-    border-radius: 20px;
-    position: relative;
-    border: 2px solid #6e7a77;
-    font-family: 'Zen Maru Gothic', sans-serif;
-    font-weight: 600;
-    color: #6e7a77;
+	width: 100px;
+	height: 110px;
+	background-color: white;
+	border-radius: 20px;
+	position: relative;
+	border: 2px solid #6e7a77;
+	font-family: 'Zen Maru Gothic', sans-serif;
+	font-weight: 600;
+	color: #6e7a77;
 }
 
 .lnbclose {
-    background-color: transparent;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
 }
 
-
 .lnb1 {
-    width: 450px;
-    height: 80px;
-    background-color: white;
-    border-radius: 20px;
-    position: relative;
-    border: 2px solid #6e7a77;
-    font-family: 'Zen Maru Gothic', sans-serif;
-    font-weight: 600;
-    color: #6e7a77;
+	width: 450px;
+	height: 80px;
+	background-color: white;
+	border-radius: 20px;
+	position: relative;
+	border: 2px solid #6e7a77;
+	font-family: 'Zen Maru Gothic', sans-serif;
+	font-weight: 600;
+	color: #6e7a77;
 }
 
 .lnbclose1 {
-    background-color: transparent;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
 }
 
 .lnb2 {
-    width: 400px;
-    height: 350px;
-    background-color: white;
-    border-radius: 20px;
-    position: relative;
-    border: 2px solid #6e7a77;
-    font-family: 'Zen Maru Gothic', sans-serif;
-    font-weight: 600;
-    color: #6e7a77;
-    overflow: auto;
+	width: 400px;
+	height: 350px;
+	background-color: white;
+	border-radius: 20px;
+	position: relative;
+	border: 2px solid #6e7a77;
+	font-family: 'Zen Maru Gothic', sans-serif;
+	font-weight: 600;
+	color: #6e7a77;
+	overflow: auto;
 }
 
 .lnbclose2 {
-    background-color: transparent;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
 }
 
 .brand {
 	width: 20%;
 	margin-bottom: 20px;
 }
+
 .carInfowrap {
 	font-size: 3px;
 	color: black;
@@ -267,6 +303,12 @@ border: 1px solid #e7e7e8;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
+
 .h3 {
 	align-content: left;
+}
+
+#detailPhoto img {
+  max-width: 100%; /* 이미지의 최대 너비를 100%로 설정 */
+  max-height: 200px; /* 이미지의 최대 높이를 200px로 설정 */
 }

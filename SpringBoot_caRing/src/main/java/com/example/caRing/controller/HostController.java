@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,11 +85,11 @@ public class HostController {
 	}
 
 	@ResponseBody
-	@PostMapping("emailCheck")
-	public int customerEmailCheck(@RequestParam String host_email) throws Exception {
-		int cnt = hostMapper.hostEmailCheck(host_email);
-		return cnt;
-	}
+	   @PostMapping("emailCheck")
+	   public int customerEmailCheck(@RequestBody String host_email) throws Exception {
+	      int cnt = hostMapper.hostEmailCheck(host_email);
+	      return cnt;
+	   }
 
 	// 로그인 처리
 	@PostMapping("login")
@@ -129,62 +130,64 @@ public class HostController {
 	}
 
 	@GetMapping("main")
-	public String hostMain(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost) {
-		
-		Host host = hostMapper.findHost(loginHost.getHost_email());
-		model.addAttribute("host", host);
-		log.info("host: {}", host);
-		List<Car> cars = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
-		model.addAttribute("cars", cars);
+	   public String hostMain(Model model, @SessionAttribute(value = "loginHost", required = false) Host loginHost,
+	                     @RequestParam(required = false) boolean remove) {
+	      log.info("remove: {}", remove);
+	      model.addAttribute("remove", remove);
+	      Host host = hostMapper.findHost(loginHost.getHost_email());
+	      model.addAttribute("host", host);
+	      log.info("host: {}", host);
+	      List<Car> cars = boardMapper.findCarInfoByEmail(loginHost.getHost_email());
+	      model.addAttribute("cars", cars);
 
-		List<Board> boards = boardMapper.findBoardsByEmail(loginHost.getHost_email());
-		List<BoardDTO> boardDTOs = new ArrayList<>();
-		for (Board board : boards) {
-			Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
-			BoardDTO dto = new BoardDTO();
-			dto.setBoard(board);
-			dto.setCar(car);
-			boardDTOs.add(dto);
-		}
-		model.addAttribute("boardDTOs", boardDTOs);
-		
-		 // 로그인 된 호스트의 예약현황을 보여줌 
-	       List<Reservation> reservations = reservationMapper.findReservationByHostEmail(loginHost.getHost_email());
-	       List<ReservationDTO> reservationDTOs = new ArrayList<>();
-	       for (Reservation reservation : reservations) {
-	          ReservationDTO rDTO = new ReservationDTO();
-	          String start = reservation.getRent_start();
-			  String newStart = start.substring(0, 10);
-			  reservation.setRent_start(newStart);
-			  String end = reservation.getRent_end();
-			  String newEnd = end.substring(0, 10);
-			  reservation.setRent_end(newEnd);
-	          rDTO.setReservation(reservation);
-	          for (Board board : boards) {
-	             Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
-	             BoardDTO dto = new BoardDTO();
-	             dto.setBoard(board);
-	             dto.setCar(car);
-	             rDTO.setBoardDTO(dto);
+	      List<Board> boards = boardMapper.findBoardsByEmail(loginHost.getHost_email());
+	      List<BoardDTO> boardDTOs = new ArrayList<>();
+	      for (Board board : boards) {
+	         Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+	         BoardDTO dto = new BoardDTO();
+	         dto.setBoard(board);
+	         dto.setCar(car);
+	         boardDTOs.add(dto);
+	      }
+	      model.addAttribute("boardDTOs", boardDTOs);
+	      
+	       // 로그인 된 호스트의 예약현황을 보여줌 
+	          List<Reservation> reservations = reservationMapper.findReservationByHostEmail(loginHost.getHost_email());
+	          List<ReservationDTO> reservationDTOs = new ArrayList<>();
+	          for (Reservation reservation : reservations) {
+	             ReservationDTO rDTO = new ReservationDTO();
+	             String start = reservation.getRent_start();
+	           String newStart = start.substring(0, 10);
+	           reservation.setRent_start(newStart);
+	           String end = reservation.getRent_end();
+	           String newEnd = end.substring(0, 10);
+	           reservation.setRent_end(newEnd);
+	             rDTO.setReservation(reservation);
+	             for (Board board : boards) {
+	                Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
+	                BoardDTO dto = new BoardDTO();
+	                dto.setBoard(board);
+	                dto.setCar(car);
+	                rDTO.setBoardDTO(dto);
+	             }
+	             reservationDTOs.add(rDTO);
 	          }
-	          reservationDTOs.add(rDTO);
-	       }
-	       System.out.println(reservationDTOs);
-	       model.addAttribute("reservationDTOs", reservationDTOs);
+	          System.out.println(reservationDTOs);
+	          model.addAttribute("reservationDTOs", reservationDTOs);
 
 
-		return "host/host_main";
-	}
+	      return "host/host_main";
+	   }
 
 	@PostMapping("update")
 	public String updateHost(@ModelAttribute Host host, MultipartFile img) {
-		log.info("host: {}", host);
+//		log.info("host: {}", host);
 		if (img != null && !img.isEmpty()) {
 			AttachedFile saveFile = fileService.saveFile(img);
 			String fullPath = "/uploadImg/" + saveFile.getSaved_filename();
 			host.setHost_img(fullPath);
 		}
-		log.info("host: {}", host);
+//		log.info("host: {}", host);
 		hostMapper.updateHost(host);
 		return "redirect:/host/main";
 	}
@@ -192,9 +195,9 @@ public class HostController {
 	@PostMapping("delete")
 	public String removeHost(@RequestParam String host_email,
 			@SessionAttribute(value = "loginHost", required = false) Host loginHost) {
-		log.info("host_email: {}", host_email);
+//		log.info("host_email: {}", host_email);
 		String str = host_email.replace(",", "");
-		log.info("str: {}", str);
+//		log.info("str: {}", str);
 		if (!hostMapper.findHost(str).getHost_email().equals(loginHost.getHost_email())) {
 			return "redirect:/#";
 		}
@@ -219,6 +222,12 @@ public class HostController {
 		
 		// reservationDTO model
 		Reservation reservation = reservationMapper.findReservationByReservationId(reservation_id);
+		String start = reservation.getRent_start();
+		String newStart = start.substring(0, 10);
+		reservation.setRent_start(newStart);
+		String end = reservation.getRent_end();
+		String newEnd = end.substring(0, 10);
+		reservation.setRent_end(newEnd);
 		Board board = boardMapper.findBoard(reservation.getBoard_id());
 		Car car = boardMapper.findCarInfoByCarInfoId(board.getCarInfo_id());
 		BoardDTO boardDTO = new BoardDTO();
@@ -234,5 +243,18 @@ public class HostController {
 		model.addAttribute("customer", customer);
 		return "host/host_reservation";
 	}
-
+	
+	// 호스트 예약 확정
+	@PostMapping("confirm")
+	public String hostReservationConfirm(@SessionAttribute(value = "loginHost", required = false) Host loginHost, @RequestParam Long reservation_id) {
+		hostMapper.updateStatus2(reservation_id);
+		return "redirect:/host/main";
+	}
+	
+	// 호스트 예약 거절
+	@PostMapping("reject")
+	public String hostReservationReject(@SessionAttribute(value = "loginHost", required = false) Host loginHost, @RequestParam Long reservation_id) {
+		hostMapper.updateStatus5(reservation_id);
+		return "redirect:/host/main";
+	}
 }

@@ -1,3 +1,4 @@
+
 @font-face {
 	font-family: 'ocr';
 	src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
@@ -57,6 +58,17 @@ header {
 
 .small {
 	font-size: 12px;
+}
+
+
+.wrap {
+	width: 1200px;
+	margin: 0 auto;
+	padding-top: 60px;
+}
+
+form>h1 {
+	margin-bottom: 36px;
 }
 
 .mainlogo {
@@ -131,90 +143,89 @@ hr {
 	margin-left: 22px;
 }
 
-form>h1 {
-	margin-bottom: 36px;
+.carList, .resList {
+   width: 100%;
+   height: 100%;
+   margin-top: 20px;
+   border-radius: 30px;
+   padding-left: 100px;
 }
 
-h2 {
-	margin: 36px 0;
+.detailwrap {
+   width: 800px;
+   height: 700px;
+   overflow: auto;
+   margin: 0 auto;
 }
 
-.wrap {
-	width: 1200px;
-	margin: 0 auto;
-	padding-top: 60px;
+.title {
+   justify-content: space-between;
+   padding: 20px 30px;
 }
 
-.carImgwrap {
+.car, .res {
+   width: 770px;
+   height: 250px;
+   border-radius: 30px;
+   margin-bottom: 20px;
+   box-shadow: 5px 5px 10px #ccc;
+   border: 1px solid #ccc;
+}
+
+.boardheader {
+   margin: 20px;
+   display: flex;
+   padding-left: 100px;
+}
+
+.img {
+   width: 300px;
+   height: 200px;
+   border-radius: 20px;
+   overflow: hidden;
+}
+
+.img img {
+   width: 100%;
+}
+
+.carInfo, .resInfo {
+   margin-left: 30px;
+   width: 380px;
+}
+
+.resProfile, .resInfoTitle {
+   display: flex;
+   justify-content: space-between;
+}
+
+h3 {
+   margin-bottom: 30px;
+}
+
+textarea {
+   border: 1px solid black;
+}
+
+textarea::placeholder {
+  font-size: 15px;
+}
+.submit {
+	width: 200px;
+	margin: 100px auto;
 	display: flex;
-	justify-content: space-between;
 }
 
-.carPreview {
-	width: 330px;
-	height: 330px;
-	border-radius: 30px;
-	border: 3px solid #6e7a77;
-	overflow: hidden;
-	color: #6e7a77;
-	font-size: 50px;
-	position: relative;
-}
-
-.noImage {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.btn {
-	width: 70px;
-	height: 40px;
-	text-align: center;
-	line-height: 40px;
-	border: 2px solid #6e7a77;
-	color: #6e7a77;
-	border-radius: 10px;
-	cursor: pointer;
-	margin-bottom: 36px;
-}
-.second {
-	display: none;
-}
-
-.btn2 {
-	width: 50px;
+.submit input {
+	width: 200px;
 	height: 50px;
-	background-color: tomato;
-	cursor: pointer;
-	margin-bottom: 36px;
+	border: none;
 }
 
-#carUpload {
-	display: none;
+.center {
+   text-align: center;
 }
 
-.carPreview img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.carPreview button {
-	color: #363636;
-	display: none;
-	font-size: 25px;
-	position: absolute;
-	top: 30px;
-	right: 30px;
-	z-index: 10;
-}
-
-.brand {
-	width: 20%;
-	margin-bottom: 20px;
-}
 .carInfowrap {
 	width: 100%;
 	display: flex;
@@ -222,17 +233,31 @@ h2 {
 	justify-content: space-between;
 }
 
-.carYearwrap p {
-	margin-bottom: 20px
+.wrap {
+	width: 1000px;
+	margin: 0 auto;
+	padding-top: 60px;
+}
+.addresswrap {
+	display:flex;
+	width: 30%;
+}
+#lastbutton{
+	margin-right: 8px;
 }
 
-.submit {
-	width: 200px;
-	margin: 100px auto;
+#lastbutton1{
+	margin-left: 8px;
 }
-
-.submit input {
-	width: 200px;
-	height: 50px;
-	border: none;
+.address{
+	width: 300px;
+	margin-right: 10px;
+}
+#addressSearch {
+	width:100px;
+	background-color: buttonface;
+	color: black;
+}
+h2 {
+	margin: 36px 0;
 }

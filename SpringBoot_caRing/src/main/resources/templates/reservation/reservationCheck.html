@@ -217,6 +217,19 @@ hr {
 
 	</div><!--reservationwrap-->
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+        $(function () {
+            $(".lnb, .lnbclose").hide();
+            $(".user").click(function () {
+                $(".lnb, .lnbclose").toggle();
+            })
+
+            $('.lnbclose').click(function () {
+                $('.lnb, .lnbclose').hide();
+            })
+        })
+    </script>
 </body>
 
 </html>

@@ -98,7 +98,7 @@
                         <img th:src="*{car.thumbnail}" alt="reservation car photo1">
                     </div>
                     <!--carImg-->
-                    <p th:text="*{board.title}"></p>
+                    <p class="carTitle" th:text="*{board.title}"></p>
                     <h4>요금정보</h4>
 
                     <div class="priceInfo">
@@ -117,7 +117,9 @@
                 </div>
                 <!--carInfoWrap-->
             </div>
-            <input type="submit" value="예약하기" class="submit">
+            <div class="resBtn">
+	            <input type="submit" value="예약하기" class="submit">
+            </div><!-- resBtn -->
             <!--border-->
         </div>
         <!--carinfo-->

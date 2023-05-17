@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'ocr';
+            src: url('OCR-B\ 10\ BT.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            unicode-range: U+AC00-D7A3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: inherit;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        button {
+            border: none;
+            background-color: transparent;
+            color: #dbcba0;
+        }
+
+        body {
+            font-family: 'ocr', 'Pretendard-Regular';
+            background-color: #b6bebc;
+        }
+
+        header {
+            display: flex;
+            height: 70px;
+            background-color: #6e7a77;
+            justify-content: space-between;
+            color: #dbcba0;
+        }
+
+        .mainlogo {
+            text-align: center;
+            font-family: 'ocr';
+            margin-left: 20px;
+            padding-top: 10px;
+        }
+
+        .profile {
+            display: flex;
+            margin-right: 20px;
+            padding-top: 15px;
+        }
+
+        .profileImg img {
+            width: 40px;
+        }
+
+        .profile button {
+            font-size: 16px;
+        }
+
+        form {
+            width: 800px;
+            height: 800px;
+            margin: 50px auto;
+            background-color: white;
+            box-shadow: 5px 10px 20px grey;
+            border-radius: 5% 5%;
+        }
+
+        h2 {
+            margin-top: 50px;
+            padding-top: 10px;
+            padding-left: 50px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 4px -4px grey;
+        }
+
+        .customerImg {
+            width: 300px;
+            height: 300px;
+            background-color: #dbcba0;
+            border-radius: 50%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .customerImg Img {
+            width: 100%;
+        }
+
+        .customerImgwrap {
+            width: 300px;
+            height: 300px;
+            text-align: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .customerImgwrap #Imgfile {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .infowrap {
+            margin-left: 45px;
+            display: flex;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .label {
+            width: 300px;
+        }
+
+        .input {
+            width: 500px;
+        }
+
+        #customername {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .username {
+            margin: 30px auto;
+            width: fit-content;
+        }
+
+        #info {
+            text-align: center;
+        }
+
+        .btwrap {
+            margin: 30px auto;
+            width: fit-content;
+            /* padding-top: 1em; */
+            margin-top: 5px;
+        }
+
+        .btwrap input {
+            margin: 35px;
+            width: 200px;
+            height: 50px;
+            border-radius: 15px;
+            background-color: #b6bebc;
+            box-shadow: 3px 3px 3px grey;
+            transition-duration: 0.3s;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+    <title>User MyPage</title>
+</head>
+
+<body>
+    <header>
+        <div class="mainlogo">
+            <a href="#">
+                <img src="img/logo ver2.png" alt="main logo ver.2">
+                <p>User Page</p>
+            </a>
+        </div><!--mainlogo-->
+        
+        <div class="profile">
+            <div class="profileImg" th:unless=${customer.customer_img}>
+                    <img src="/img/userlogo.png" alt="user logo ver.2">
+                </div>
+            <div class="profileImg" th:if="${customer.customer_img}">
+                <img th:src="${customer.customer_img}" alt="profile Img">
+            </div>
+        </div><!--profile-->
+    </header>
+
+    <form th:object="${customer}" method="post" id="customerForm" enctype="multipart/form-data">
+		<h2>프로필 편집</h2>
+		<div class="customerImgwrap">
+			<div class="customerImg" th:unless="*{customer_img}">
+				<img src="/HTML/img.jpg" alt="profile Img">
+			</div>
+			<!--customerImg-->
+			<div class="customerImg" th:if="*{customer_img}">
+				<img th:src="*{customer_img}" alt="profile Img">
+			</div>
+			<!--customerImg-->
+			<input type="file" name="img" id="Imgfile">
+		</div>
+		<!--customerImgwrap-->
+
+		<div class="username">
+			<input type="text" id="customername" name="customer_name" th:value="*{customer_name}">
+		</div>
+
+		<div class="infowrap">
+			<div class="label">
+				<label>email</label>
+			</div>
+			<div class="input">
+				<p th:text="*{customer_email}"></p>
+				<input type="hidden" name="customer_email" th:value="*{customer_email}">
+			</div>
+		</div>
+
+		<div class="infowrap">
+			<div class="label">
+				<label>password</label>
+			</div>
+			<div class="input">
+				<input type="password" class="info" name="customer_password" id="customer_password" th:value="*{customer_password}">
+			</div>
+		</div>
+
+		<div class="infowrap">
+			<div class="label">
+				<label>phone number</label>
+			</div>
+			<div class="input">
+				<input type="text" class="info" name="customer_phone" id="customer_phone" th:value="*{customer_phone}">
+			</div>
+		</div>
+
+        <div class="infowrap">
+           <div class="label">
+				<label>license</label>
+			</div>
+			<div class="input">
+				<p th:text="*{license}"></p>
+				<input type="hidden" name="license" th:value="*{license}">
+			</div>
+		</div>
+        <div class="btwrap">
+            <input type="submit" value="수정하기" th:formaction="@{/customer/update(customer=${customer})}"> 
+			<input type="submit" value="회원탈퇴" th:formaction="@{/customer/delete(customer_email)}">
+            </div>
+    </form>
+    
+	<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+	    $(function () {
+	        $(".lnb, .lnbclose").hide();
+	        $(".profile").click(function () {
+	            $(".lnb, .lnbclose").toggle();
+	        })
+	
+	        $('.lnbclose').click(function () {
+	            $('.lnb, .lnbclose').hide();
+	        })
+	    })
+	    
+	    $(document).ready(function () {
+            $("#Imgfile").on("change", handleImgsFilesSelect);
+        });
+	    
+	    var filesArr = [];
+	    
+	    function handleImgsFilesSelect(e) {
+            filesArr.splice(0,filesArr.length);
+            $('.customerImg').find('img').remove();
+            
+            var files = e.target.files;
+            filesArr = Array.prototype.slice.call(files);
+
+            filesArr.forEach(function (f, index) {
+
+            	console.log(f);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img_html = "<img src=\"" + e.target.result + "\" />";
+                    $(".customerImg").append(img_html);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+    </script>
+</body>
+
+</html>

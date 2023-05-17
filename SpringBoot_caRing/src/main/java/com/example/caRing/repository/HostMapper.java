@@ -11,6 +11,12 @@ public interface HostMapper {
 	int hostEmailCheck(String host_email);
 	void updateHost(Host host);
 	void removeHost(String host_email);
+	
+	// 호스트 예약 수락
+	void updateStatus2(Long reservation_id);
+	
+	// 호스트 예약 거절
+	void updateStatus5(Long reservation_id);
 }
 
 

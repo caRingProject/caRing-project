@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.caRing.model.board.car.AttachedFile;
 import com.example.caRing.model.customer.Customer;
 import com.example.caRing.model.customer.CustomerJoinForm;
 import com.example.caRing.model.customer.CustomerLoginForm;
 import com.example.caRing.model.host.Host;
 import com.example.caRing.repository.CustomerMapper;
+import com.example.caRing.util.FileService;
 import com.example.caRing.util.MailService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,7 @@ class CustomerController {
 	
 	private final CustomerMapper customerMapper;
 	private final MailService mailService;
+	private final FileService fileService;
 	
 	@GetMapping("/")
 	public String home(Model model, @SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer) {
@@ -93,11 +97,12 @@ class CustomerController {
     }
 	
 	@ResponseBody
-	@PostMapping("emailCheck")
-	public int customerEmailCheck(@RequestParam String customer_email) throws Exception {
-		int cnt = customerMapper.customerEmailCheck(customer_email);
-		return cnt; 
-	}
+	   @PostMapping("emailCheck")
+	   public int customerEmailCheck(@RequestBody String customer_email) throws Exception {
+	      log.info("customer:{}",customer_email);
+	      int cnt = customerMapper.customerEmailCheck(customer_email);
+	      return cnt; 
+	   }
 	
 	// 로그인 처리
     @PostMapping("login")
@@ -134,4 +139,43 @@ class CustomerController {
  		session.invalidate();
  		return "redirect:/";
  	}
+ 	
+ 	
+ 	
+ 	///////////////////////////////////////////////////////////////// 보미
+ 	
+ 	@GetMapping("profile")
+    public String customerProfile(Model model, @SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer) {
+       Customer customer = customerMapper.findCustomer(loginCustomer.getCustomer_email());
+       model.addAttribute("customer", customer);
+       return "customer/customer_profile";
+    }
+     
+     //회원 수정
+     @PostMapping("update")
+    public String updateCustomer(@ModelAttribute Customer customer, MultipartFile img) {
+       log.info("customer: {}", customer);
+       if (img != null && !img.isEmpty()) {
+          AttachedFile saveFile = fileService.saveFile(img);
+          String fullPath = "/uploadImg/" + saveFile.getSaved_filename();
+          customer.setCustomer_img(fullPath);
+       }
+       log.info("customer: {}", customer);
+       customerMapper.updateCustomer(customer);
+       return "customer/customer_profile";
+    }
+     
+     //회원 삭제
+     @PostMapping("delete")
+    public String removeCustomer(@RequestParam String customer_email,
+          @SessionAttribute(value = "loginCustomer", required = false) Customer loginCustomer) {
+       log.info("customer_email: {}", customer_email);
+       String str = customer_email.replace(",", "");
+       log.info("str: {}", str);
+       if (!customerMapper.findCustomer(str).getCustomer_email().equals(loginCustomer.getCustomer_email())) {
+          return "redirect:/#";
+       }
+       customerMapper.removeCustomer(str);
+       return "redirect:/";
+    }
 }

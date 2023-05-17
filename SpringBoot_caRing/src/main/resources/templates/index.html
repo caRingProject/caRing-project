@@ -3,44 +3,91 @@
 
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://kit.fontawesome.com/d1fa9340d9.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-<style>
-.flatpickr {
-	display: flex;
-}
-</style>
-
 <script>
-      $(function(){
-       $(".flatpickr").flatpickr({
-           mode: "range",
-           onChange: function(selectedDates){
-            $('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
-            $('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
-         },
-            wrap: true
-        });
-     });    
+
+	$(function() {
+		
+		$(".flatpickr").flatpickr(
+				{
+					minDate : "today",
+					mode : "range",
+					onChange : function(selectedDates) {
+						$('#first-input').val(
+								this.formatDate(selectedDates[0], "Y-m-d"));
+						$('#second-input').val(
+								this.formatDate(selectedDates[1], "Y-m-d"));
+					},
+					wrap : true
+				});
+		$('[data-clear]').click(function() {
+			$('#first-input').val('');
+			$('#second-input').val('');
+		});
+	
+	});
+	
 </script>
 
 <script>
-        $(function () {
-            $(".lnb, .lnbclose").hide();
-            $(".user").click(function () {
-                $(".lnb, .lnbclose").toggle();
-            })
+	$(function() {
+		$(".lnb, .lnbclose").hide();
+		$(".user").click(function() {
+			$(".lnb, .lnbclose").toggle();
+		})
 
-            $('.lnbclose').click(function () {
-                $('.lnb, .lnbclose').hide();
-            })
-        })
-    </script>
+		$('.lnbclose').click(function() {
+			$('.lnb, .lnbclose').hide();
+		})
+	})
+</script>
+<script>
+	const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
+	const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
+	let currentIdx = 0; //현재 슬라이드 index
+	const slideCount = slideImg.length; // 슬라이드 개수
+	const prev = document.querySelector('.prev'); //이전 버튼
+	const next = document.querySelector('.next'); //다음 버튼
+	const slideWidth = 400; //한개의 슬라이드 넓이
+	const slideMargin = 0; //슬라이드간의 margin 값
+
+	//전체 슬라이드 컨테이너 넓이 설정
+	slides.style.width = (slideWidth + slideMargin) * slideCount + 'px';
+
+	function moveSlide(num) {
+		slides.style.left = -num * (slideWidth + slideMargin) + 'px';
+		currentIdx = num;
+	}
+
+	prev.addEventListener('click', function() {
+		/*첫 번째 슬라이드로 표시 됐을때는 
+		이전 버튼 눌러도 아무런 반응 없게 하기 위해 
+		currentIdx !==0일때만 moveSlide 함수 불러옴 */
+
+		if (currentIdx !== 0) {
+			moveSlide(currentIdx - 1);
+		}
+	});
+
+	next.addEventListener('click', function() {
+		/* 마지막 슬라이드로 표시 됐을때는 
+		다음 버튼 눌러도 아무런 반응 없게 하기 위해
+		currentIdx !==slideCount - 1 일때만 
+		moveSlide 함수 불러옴 */
+		if (currentIdx !== slideCount - 1) {
+			moveSlide(currentIdx + 1);
+		}
+	});
+</script>
 <title>caRing</title>
 </head>
 
@@ -89,64 +136,228 @@
 		</div>
 	</header>
 
-	<div class="search">
-		<video muted loop autoplay>
-			<source src="img/road-42483.mp4">
-		</video>
+	<div class="bodywrap">
+		<div class="search">
+			<video muted loop autoplay>
+				<source src="img/road-42483.mp4">
+			</video>
 
-		<form action="/board/list" class="carSearch">
-			<div class="where">
-				<label>where</label><br> <input type="text" id="autocomplete"
-					name="location" placeholder="city, airport, adress or hotel">
-			</div>
-			<div class="flatpickr">
-				<div class="from">
-					<label>from</label><br> <input id="first-input"
-						name="rent_start" type="text" data-input>
+			<form action="/board/list" class="carSearch">
+				<div class="where">
+					<label>where</label><br> <input type="text" id="autocomplete"
+						name="location" placeholder="city, airport, adress or hotel">
 				</div>
-				<div class="until">
-					<label>until</label><br> <input id="second-input"
-						name="rent_end" type="text" data-input>
+				<div class="flatpickr">
+					<div class="from">
+						<label>from</label><br> <input id="first-input"
+							name="rent_start" type="text" value="" data-input>
+					</div>
+					<div class="until">
+						<label>until</label><br> <input id="second-input"
+							name="rent_end" type="text" data-input>
+					</div>
 				</div>
-			</div>
-			<div class="searchbt">
-				<button>
-					<i class="fa-solid fa-magnifying-glass"></i>
-				</button>
-			</div>
-			<input type="hidden" name="searchedLat" id="lats">
-			<input type="hidden" name="searchedLng" id="lngs">
+				<div class="searchbt">
+					<button>
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</div>
+				<input type="hidden" name="searchedLat" id="lats"> <input
+					type="hidden" name="searchedLng" id="lngs">
 			</form>
+		</div>
+		<!--search-->
 	</div>
-	<div class="bodywrap"></div>
-<script>
-	function initAutocomplete() {
-		var input = document.getElementById('autocomplete');
-		var searchBox = new google.maps.places.SearchBox(input);
-		var geocoder = new google.maps.Geocoder();
-				
-		findLatLng(geocoder);
-	}
-	
-	function findLatLng(geocoder) {
-		$("#autocomplete").change(function (){
-	        geocodeAddress(geocoder);
-     	});
-	}
-	function geocodeAddress(geocoder) {	
+	<!--bodywrap-->
 
-		var address = document.getElementById('autocomplete').value;
-		geocoder.geocode({'address' : address}, function(result, status) {
-			const lat = result[0].geometry.location.lat();
-			const lng = result[0].geometry.location.lng();
-			
-			document.getElementById("lats").value = lat;
-			document.getElementById("lngs").value = lng;
-		});
-	};
-</script>
+	<div class="main">
+		<p class="mainfont">Green Drive with Caring</p>
+		<div class="mainbox">
+			<p class="mainsmall">Explore the world's largest car sharing
+				marketplace Browse by make</p>
+			<div class="maint"></div>
+			<!--maint-->
+		</div>
+		<!--mainbox-->
+	</div>
+	<!--main-->
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&libraries=places&callback=initAutocomplete" async defer></script>
+	<div class="explanation">
+		<!--큰틀-->
+		<div class="carbon">
+			<!--글자 틀-->
+			<p class="font">탄소 중립 인증을 받은 Caring</p>
+			<div class="neutral">
+				<p class="drive">온실가스 감축 프로젝트를 통해 탄소 발자국이 균형을 이룬다는 사실을 알고 차량을
+					운전하고 공유하세요. 이제 Turo의 탄소 중립 여행은 탄소 중립 인증을 통해 검증되었습니다!</p>
+			</div>
+			<!--neutral-->
+		</div>
+		<!--carbon-->
+		<div class="photo">
+			<div class="basis">
+				<img src="/HTML/caring.jpg" alt="basisphoto">
+			</div>
+			<!--basis-->
+		</div>
+		<!--photo-->
+	</div>
+	<!--explantion-->
 
+	<div class="outdoors">
+		<!--큰틀-->
+
+		<div class="out" data-testid="scroller">
+			<!--글자틀-->
+			<div id="slideShow">
+				<ul class="slides">
+					<li><img src="/HTML/다운로드.png" alt=""></li>
+					<li><img src="/HTML/img.jpg" alt=""></li>
+					<li><img src="/HTML/다운로드.png" alt=""></li>
+					<li><img src="/HTML/img.jpg" alt=""></li>
+					<li><img src="/HTML/다운로드.png" alt=""></li>
+					<li><img src="/HTML/img.jpg" alt=""></li>
+				</ul>
+				<p class="controller">
+
+					<!-- &lang: 왼쪽 방향 화살표
+                        &rang: 오른쪽 방향 화살표 -->
+					<span class="prev">&lt;</span> <span class="next">&gt;</span>
+				</p>
+			</div>
+		</div>
+		<!--out-->
+	</div>
+	<!--outdoors-->
+	<script src="JS/slideShow.js"></script>
+
+	<div class="tool">
+		<div class="carbon">
+			<!--글자 틀-->
+			<p class="font">Turo is Carbon Neutral Certified</p>
+			<div class="neutral">
+				<p class="drive">내용을 입력해주세요</p>
+			</div>
+			<!--neutral-->
+		</div>
+		<!--carbon-->
+	</div>
+	<!--tool-->
+
+	<div class="additional">
+		<div class="questionbox">
+			<div class="question">
+				자주있는 질문
+				<div class="quesbox"></div>
+				<!--quesbox-->
+			</div>
+			<!--question-->
+		</div>
+		<!--questionbox-->
+
+		<div class="big">
+			<details>
+				<summary>Caring 어떤 회사인가요?</summary>
+				<p>"지구를 사랑하고 지속 가능한 미래를 위해 함께 나아가는 것"을 기업의 이념으로 하고 있는 자동차 렌탈 서비스
+					플랫폼입니다.</p>
+			</details>
+			<br> <br>
+			<details>
+				<summary>렌터카를 예약하려면 무엇이 필요하나요?</summary>
+				<p>Caring에서 차량을 예약하려면 Caring 계정을 생성하고 만 19이상의 유효한 운전면허증을 소지하고
+					Caring에서 운전할 수 있도록 승인을 받아야 합니다. 첫 여행을 예약할 때 운전면허증과 기타 정보를 입력하면 빠른
+					승인 절차를 거치게 됩니다. 대부분의 경우 즉시 승인이 완료되며 향후 모든 장거리 여행, 당일 여행 및 출장을 위한
+					준비가 완료됩니다!</p>
+			</details>
+			<br> <br>
+			<details>
+				<summary>취소 정책은 어떻게 되나요?</summary>
+				<p>여행 시작 24시간 전까지 취소하고 전액 환불받을 수 있습니다. 24시간 이내에 여행을 예약하신 경우, 예약
+					후 1시간 이내에 무료로 취소하실 수 있습니다. 무료 취소 기간이 끝난 후 취소하는 경우 소정의 취소 수수료가
+					부과됩니다.</p>
+				<br>
+				<p>드물지만 호스트가 예약을 취소하는 경우, 다른 차량을 예약할 수 있도록 즉시 알림을 보내드리거나 다른 차량을
+					찾을 수 있도록 도와드리겠습니다. 환불은 신속한 재예약을 위해 일시적으로 보류되거나, 호스트가 원하는 방식으로 은행
+					계좌로 환불될 수 있습니다.</p>
+			</details>
+			<br> <br>
+			<details>
+				<summary>차량은 어떻게 전달받나요?</summary>
+				<p>예, 많은 호스트가 공항, 기차역, 호텔과 같은 여행 거점이나 맞춤형 배송 장소로 숙소를 배달해 드립니다.
+					수백 개의 공항 근처의 편리한 위치에서 Caring를 통해 차량을 대여하실 수 있습니다. 렌트 카운터를 거치지 않고
+					호텔이나 휴가용 렌트카 숙소 또는 가까운 위치에서 차량을 픽업하고 반납할 수 있도록 배송 서비스를 이용하면 주말 여행이나
+					가족 휴가의 시간과 번거로움을 절약할 수 있습니다. 무료 배송 서비스를 제공하는 호스트도 있고, 자체 배송 수수료를
+					책정하는 호스트도 있습니다.</p>
+			</details>
+		</div>
+		<!--big-->
+		<div class="big1">
+			<details>
+				<summary>청소 및 안전 정책은 어떻게 되나요?</summary>
+				<p>강화된 청소 정책에 따라 호스트는 매 여행 전에 차량을 철저히 청소하고 소독해야 하므로, 게스트는 안전하고
+					편안하게 차량을 이용할 수 있습니다. 투로 호스트는 코로나19 또는 기타 바이러스의 확산을 방지하기 위해 강화된 안전
+					조치와 청소 방법에 대한 교육 자료를 이용할 수 있습니다.</p>
+			</details>
+			<br> <br>
+			<details>
+				<summary>서비스를 이용하려면 회원가입이 필요한가요?</summary>
+				<div>네, 서비스를 이용하기 위해서는 호스트와 유저 각각의 회원가입을 한 후, 이용이 가능 합니다.</div>
+			</details>
+			<br> <br>
+			<details>
+				<summary>사고가 발생하면 어떻게 되나요?</summary>
+				<p>긴급 상황이나 차량에 문제가 발생하면 연중무휴 24시간 이용 가능한 긴급 출동 서비스 센터로 전화하세요.
+					고객의 안전을 확인한 후 다시 출발할 수 있도록 도와드리겠습니다.</p>
+			</details>
+			<br> <br>
+			<details>
+				<summary>면허증은 등록이 필요한가요?</summary>
+				<p>네, 회원가입을 할 때, 반드시 필요한 부분이며, 등록이 되지 않을 시, 가입 및 이용에 제한이 있을 수
+					있습니다.</p>
+			</details>
+		</div>
+		<!--big1-->
+
+	</div>
+	<!--additional-->
+
+
+	<div class="space"></div>
+	<!--space-->
+
+
+	<script>
+		function initAutocomplete() {
+			var input = document.getElementById('autocomplete');
+			var searchBox = new google.maps.places.SearchBox(input);
+			var geocoder = new google.maps.Geocoder();
+
+			findLatLng(geocoder);
+		}
+
+		function findLatLng(geocoder) {
+			$("#autocomplete").change(function() {
+				geocodeAddress(geocoder);
+			});
+		}
+		function geocodeAddress(geocoder) {
+
+			var address = document.getElementById('autocomplete').value;
+			geocoder.geocode({
+				'address' : address
+			}, function(result, status) {
+				const lat = result[0].geometry.location.lat();
+				const lng = result[0].geometry.location.lng();
+
+				document.getElementById("lats").value = lat;
+				document.getElementById("lngs").value = lng;
+			});
+		};
+	</script>
+
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCohcEtokIbEDDmWarMHZTTWAW8sffjywM&libraries=places&callback=initAutocomplete"
+		async defer></script>
 </body>
+
 </html>

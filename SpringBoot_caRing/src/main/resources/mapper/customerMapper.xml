@@ -26,6 +26,29 @@
     <select id="customerEmailCheck" resultType="int">
         select count(customer_email) from customer where customer_email = #{customer_email}
     </select>
+    
+    
+    
+    <!-- bomi -->
+     
+    <update id="updateCustomer" parameterType="customer">
+      update customer
+      <set>
+         customer_password = #{customer_password},
+         customer_name = #{customer_name},
+         customer_phone = #{customer_phone},
+         license = #{license},
+         <if test="customer_img != null">
+            customer_img = #{customer_img},
+         </if>
+      </set>
+      where customer_email = #{customer_email}
+   </update>
+
+   <delete id="removeCustomer">
+      delete from customer where customer_email = #{customer_email}
+   </delete>
+ 
  
  </mapper>
 	

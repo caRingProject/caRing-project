@@ -4,131 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        @font-face {
-            font-family: 'ocr';
-            src: url('/font/OCR-B\ 10\ BT.ttf') format('truetype');
+   	<link rel="stylesheet" href="/css/customer_join.css">
+    <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+var idDuplicateChecker = 0;
+
+	function formCheck() {
+		
+		if(idDuplicateChecker == 0){
+            alert('아이디 중복체크를 해주세요');
+            $("#customer_email").focus();
+            return false;
         }
-        @font-face {
-		    font-family: 'Pretendard-Regular';
-		    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-		    font-weight: 400;
-		    font-style: normal;
+
+		let password = $("#customer_password");
+		let passwordcheck = $("#customer_passwordcheck")
+		if (password.val().length < 4 || password.val().length > 20) {
+			alert("패스워드는 4~20 자리 사이여야 합니다.");
+			$("#customer_password").focus();
+			return false;
+		}
+		
+		if (password.val() != passwordcheck.val()) {
+			alert("패스워드가 일치 하지 않습니다. 패스워드를 다시 확인해주세요.")
+			$("#customer_passwordcheck").focus();
+			return false;
 		}
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
+		let name = $("#customer_name");
+		if (name.val() == "") {
+			alert("이름을 입력해주세요")
+			$("#customer_name").focus();
+			return false;
+		}
+		
+		let phone = $("#customer_phone");
+		if (phone.val().length != 11){
+			alert("하이픈 (\"-\")를 제외한 숫자 11자리를 입력해주세요.")
+			$("#customer_phone").focus();
+			return false;
+		}
+		
+		let license = $("#license");
+		if (license.val().length != 12){
+			alert("하이픈 (\"-\")를 제외한 숫자 12자리를 입력해주세요.")
+			$("#license").focus();
+			return false;
+		}
+		
+		alert("회원가입이 완료 되었습니다. 로그인 창으로 이동합니다")
+		return true;
+	}
+	
+	function emailCheck() {
+		var customer_email = $('#customer_email').val();
 
-        a {
-            text-decoration: inherit;
-            color: inherit;
-        }
+		 if (customer_email.indexOf('@') === -1) {
+             alert("올바른 이메일 형식으로 입력해주세요.");
+             return;
+         }
+		 
+		$.ajax({
+			url : "/customer/emailCheck",
+			type : "post",
+			data : customer_email,
+			dataType : "json",
+			contentType : "application/json; charset=UTF-8",
+			success : function(cnt) {
+				if (cnt > 0) {
+					alert("사용 중인 이메일이 있습니다. 다시 입력해주세요");
+					$('#customer_email').val('');
+					$("#customer_email").focus();
+				} else {
+					alert("사용 가능한 이메일 입니다.");
+					$("#customer_password").focus();
+					idDuplicateChecker = 1;
+				}
+			},
+			error : function(error) {
+				alert("다시 입력해주세요");
+			}
+		});
+	};
+</script>
 
-        ul {
-            list-style: none;
-        }
-
-        body {
-            background-color: #dbcba0;
-            color: #6e7a77;
-        }
-
-        form {
-            width: 455px;
-            height: 1000px;
-            background-color: #fff;
-            margin: 0 auto;
-            text-align: center;
-            font-family: 'ocr';
-            color: #6e7a77;
-        }
-
-        h1 {
-            padding-top: 80px;
-            margin-bottom: 50px;
-        }
-
-        .info {
-            padding-left: 30px;
-            padding-right: 30px;
-            width: 290px;
-            border: 2px solid #6e7a77;
-        }
-
-        input {
-            width: 350px;
-            height: 50px;
-            border-radius: 25px;
-            border: none;
-            margin-bottom: 10px;
-        }
-        .loginbt {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 500;
-            margin-top: 20px;
-            border: 2px solid #6e7a77;
-            color: #6e7a77;
-            font-family: 'Pretendard-Regular';
-        }
-        a {
-            font-weight: 500;
-        }
-        .error {
-        	color: red;
-            font-family: 'Pretendard-Regular';
-            margin-bottom: 10px;
-        }
-        .emailwrap {
-            width: 380px;
-            height: 50px;
-            border-radius: 25px;
-            margin: 0 auto;
-            margin-bottom: 15px;
-        }
-        .email {
-            width: 238px;
-            border: 2px solid #6e7a77;
-            padding-left: 30px;
-        }
-        .bt {
-            width: 70px;
-            border: 2px solid #6e7a77;
-            color: #6e7a77;
-            font-family: 'Pretendard-Regular';
-        }
-    </style>
-    <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    
-    	<script>
-    	function emailCheck() {
-    		var id = $('#customer_email').val();
-            $.ajax({
-                url:"/customer/emailCheck",
-                type:"post",
-                data:{'customer_email':id},
-                success:function(cnt){ 
-                	console.log(cnt);
-                    if(cnt == 0){  
-                    	alert("사용 가능한 이메일 입니다.");
-                    } else { 
-                      	alert("사용 중인 이메일이 있습니다. 다시 입력해주세요");
-                        $('#customer_email').val('');
-                    }
-                },
-                error:function(){
-                    alert("에러입니다");
-                }
-            	});
-            };
-    	</script>
-    
-    <title>User Join</title>
+<title>User Join</title>
 </head>
 
 <body>
-   <form action="/customer/join" method="post" th:object="${customerJoinForm}">
+   <form action="/customer/join" method="post" th:object="${customerJoinForm}" onsubmit="return formCheck()">
       
       <h1>user join</h1>
       <div th:if="${#fields.hasGlobalErrors()}">
@@ -143,7 +108,7 @@
       <input type="password" placeholder="password" class="info" th:field="*{customer_password}"><br>
       <div th:errors="*{customer_password}" class="error"></div>
    
-      <input type="password" placeholder="password 확인" class="info"><br>
+      <input type="password" placeholder="password 확인" class="info" id="customer_passwordcheck"><br>
       
       <input type="text" placeholder="name" class="info" th:field="*{customer_name}"><br>
       <div th:errors="*{customer_name}" class="error"></div>
@@ -151,7 +116,7 @@
       <div th:if="${#fields.hasGlobalErrors()}">
          <p th:each="err: ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
       </div>
-      <input type="tel" placeholder="phone number (하이픈 제외 11자리)" class="info" th:field="*{customer_phone}"><br>
+      <input type="tel" placeholder="휴대전화 번호 (하이픈 제외 11자리)" class="info" th:field="*{customer_phone}"><br>
       <div th:errors="*{customer_phone}" class="error"></div>
       
       <input type="text" placeholder="면허증 번호 (하이픈 제외 12자리)" class="info" th:field="*{license}"><br>

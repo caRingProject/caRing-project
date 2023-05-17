@@ -51,6 +51,11 @@ public class ReservationController {
 			@RequestParam String rent_start, @RequestParam String rent_end, @RequestParam Long board_id,
 			@RequestParam Long carInfo_id, @RequestParam Long price) {
 
+		// Customer 로그인 확인용
+		if (loginCustomer == null) {
+			return "redirect:/customer/login";
+		}
+
 		Board board = boardMapper.findBoard(board_id);
 		Car car = boardMapper.findCarInfoByCarInfoId(carInfo_id);
 		BoardDTO boardDTO = new BoardDTO();
@@ -72,7 +77,7 @@ public class ReservationController {
 
 		// Customer 로그인 확인용
 		if (loginCustomer == null) {
-			return "redirect:/customer/customer_login";
+			return "redirect:/customer/login";
 		}
 
 //		if (result.hasErrors()) {
@@ -96,7 +101,7 @@ public class ReservationController {
 		log.info("reservation: {}", reservation);
 
 		reservationMapper.saveRe(reservation);
-		mailService.sendMail(loginCustomer.getCustomer_email());
+		mailService.reservationRequestMail(loginCustomer.getCustomer_email());
 
 		return "redirect:/reservation/reservationCheck"; // chat !!!
 	}

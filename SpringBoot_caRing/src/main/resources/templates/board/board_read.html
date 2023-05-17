@@ -2,246 +2,329 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/car_detail.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <title>car_detail</title>
-	
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/car_detail.css">
+<link rel="stylesheet" type="text/css"
+	href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<title>car_detail</title>
+
 </head>
 
 <body>
-    <header>
-        <h1>
-            <a href="/"> <img src="/img/logo.png" alt="caRing main logo"></a>
-        </h1>
+	<header>
+		<h1>
+			<a href="/"> <img src="/img/logo.png" alt="caRing main logo"></a>
+		</h1>
 
-        <div class="searchBar">
-            <form action="#" class="carSearch">
-                <div class="where">
-                    <label>Where</label> <input type="text" id="autocomplete"
-                        placeholder="city, airport, adress or hotel">
-                </div>
+		<div class="searchBar">
+			<form action="#" class="carSearch">
+				<div class="where">
+					<label>Where</label> <input type="text" id="autocomplete"
+						placeholder="city, airport, adress or hotel">
+				</div>
 
-                <div class="When">
-                    <label>When</label>
-                </div>
+				<div class="When">
+					<label>When</label>
+				</div>
 
-                <div class="flatpickr">
-                    <input type="text" placeholder="날짜를 선택해주세요" data-input>
-                    <a class="input-button" title="toggle" data-toggle>
-                        <i class="fa-solid fa-calendar-days"></i></a>
+				<div class="flatpickr">
+					<input type="text" placeholder="날짜를 선택해주세요" data-input> <a
+						class="input-button" title="toggle" data-toggle> <i
+						class="fa-solid fa-calendar-days"></i></a> <a class="input-button"
+						title="clear" data-clear> <i
+						class="fa-regular fa-circle-xmark"></i></a>
+				</div>
+			</form>
+		</div>
 
-                    <a class="input-button" title="clear" data-clear>
-                        <i class="fa-regular fa-circle-xmark"></i></a>
-                </div>
-            </form>
-        </div>
+		<div class="usermenu">
+			<a href="#"><img src="/img/user.png" alt="user logo"></a>
+		</div>
+	</header>
 
-        <div class="usermenu">
-            <a href="#"><img src="/img/user.png" alt="user logo"></a>
-        </div>
-    </header>
+	<div class="imgwrap">
+		<button class="btnleft">
+			<i class="fa-solid fa-angles-left"></i>
+		</button>
+		<div class="slide">
+			<div class="imgitem" th:each="path: ${paths}">
+				<img th:src="${path}" alt="car photo1">
+			</div>
+		</div>
+		<!--slide-->
+		<button class="btnright">
+			<i class="fa-solid fa-angles-right"></i>
+		</button>
+	</div>
 
-    <div class="imgwrap">
-        <button class="btnleft"><i class="fa-solid fa-angles-left"></i></button>
-        <div class="slide">
-            <div class="imgitem" th:each="path: ${paths}">
-                <img th:src="${path}" alt="car photo1">
-            </div>
-        </div><!--slide-->
-        <button class="btnright"><i class="fa-solid fa-angles-right"></i></button>
-    </div>
+	<div class="mainwrap">
+		<div class="carwrap">
+			<!--  <form action="#" class="calendar"> -->
+			<form th:action="@{/reservation/reservation}" class="calendar">
+				<p>
+					<span th:text="${board.price}"></span><span>₩</span>/일
+				</p>
+				<input type="hidden" name="price" th:field="${board.price}">
+				<input type="hidden" name="board_id" th:field="${board.board_id}">
+				<input type="hidden" name="carInfo_id" th:field="${car.carInfo_id}">
+				<div class="flatpickr">
+					<input name="rent_start" id="first-input" type="text"
+						placeholder="날짜를 선택해주세요" data-input> <input
+						name="rent_end" id="second-input" type="text"
+						placehWlder="날짜를 선택해주세요" data-input readonly> <a
+						class="input-button" title="toggle" data-toggle> <i
+						class="fa-solid fa-calendar-days"></i>
+					</a> <a class="input-button" title="clear" data-clear> <i
+						class="fa-regular fa-circle-xmark"></i>
+					</a>
+				</div>
+				<input type="submit" value="예약하기">
+			</form>
+			<div class="carInfo">
 
-    <div class="mainwrap">
-        <div class="carwrap">
-            <!--  <form action="#" class="calendar"> -->
-            <form th:action="@{/reservation/reservation}" class="calendar"> 
-                <p><span th:text="${board.price}"></span><span>₩</span>/일</p>
-                <input type="hidden" name="price" th:field="${board.price}">
-                <input type="hidden" name="board_id" th:field="${board.board_id}">
-                <input type="hidden" name="carInfo_id" th:field="${car.carInfo_id}">
-                <div class="flatpickr">
-	               <input name="rent_start" id="first-input" type="text" placeholder="날짜를 선택해주세요" data-input>
-	               <input name="rent_end" id="second-input" type="text" placehWlder="날짜를 선택해주세요" data-input>
-	                <a class="input-button" title="toggle" data-toggle> 
-	                <i class="fa-solid fa-calendar-days"></i>
-	               </a> <a class="input-button" title="clear" data-clear> 
-	               <i class="fa-regular fa-circle-xmark"></i>
-	               </a>
-	            </div>
-                <input type="submit" value="예약하기">
-            </form>
-            <div class="carInfo">
-            
-                <h3 class="titleh3" th:text="${board.title}"></h3>
-                
-                <div class="infowrap">
-                    
-                    <div class="carType info">
-                        <p class="carTypeP" th:text="${carType.carType_name}"></p>
-                        <input type="hidden" name="carType" th:value="${carType.carType_id}">
-                    </div><!--fuel-->
-                    
-                    <div class="fuel info">
-                        <p class="fuelP"  th:text="${fuel.fuel_name}"></p>
-                        <input type="hidden" name="fuel" th:value="${fuel.fuel_id}">
-                    </div><!--fuel-->
-                    
-                    <div class="seat info">
-                        <p th:text="${car.seat}"></p>
-                    </div><!--seat-->
-                    
-                </div><!--infowrap-->
-                <h3 class="featureh3">car feature</h3>
-                <div class="featurewrap">
-                    <div class="feature" th:if="${option.contains('1')}">
-                        <img src="https://img.icons8.com/ios-filled/100/null/east-direction.png" />
-                        <p>네비게이션</p>
-                    </div><!--feature-->
-                    <div class="feature" th:if="${option.contains('2')}">
-                        <img src="https://img.icons8.com/ios-filled/100/null/bluetooth.png" />
-                        <p>블루투스</p>
-                    </div><!--feature-->
-                    <div class="feature" th:if="${option.contains('3')}">
-                        <img src="https://img.icons8.com/ios-filled/100/null/baby-car-seat.png" />
-                        <p>베이비 카시트</p>
-                    </div><!--feature-->
-                    <div class="feature" th:if="${option.contains('4')}">
-                        <img src="https://img.icons8.com/ios-filled/100/null/smoking.png" />
-                        <p>흡연 가능</p>
-                    </div><!--feature-->
-                    <div class="feature" th:if="${option.contains('5')}">
-                        <img src="https://img.icons8.com/sf-black-filled/64/null/dog.png" />
-                        <p>반려동물 가능</p>
-                    </div><!--feature-->
-                    <div class="feature" th:if="${option.contains('6')}">
-                        <img src="https://img.icons8.com/ios-filled/100/null/gear-stick.png" />
-                        <p>수동</p>
-                    </div><!--feature-->
-                </div><!--featurewrap-->
-            </div><!--carInfo-->
-        </div><!--carwrap-->
+				<h3 class="titleh3" th:text="${board.title}"></h3>
 
-        <div class="explanation">
-            <h3>차 설명</h3>
-            <p th:text="${board.board_contents}">설명입니다</p>
-        </div><!--explanation-->
+				<div class="infowrap">
 
-        <div class="hostInfo">
-            <div class="hostProfile"></div>
-            <p th:text="${host.host_name}"></p>
-            <div class="rate">
-                <input id="rate" th:value="${rate}">
-                <span class="rateStar"></span>
-            </div>
-        </div><!--hostInfo-->
+					<div class="carType info">
+						<p class="carTypeP" th:text="${carType.carType_name}"></p>
+						<input type="hidden" name="carType"
+							th:value="${carType.carType_id}">
+					</div>
+					<!--fuel-->
 
-        <div class="reviewrap">
-            <div class="review">
-                <h3>차 설명</h3>
-                <p>설명입니다</p>
-            </div>
-            <div class="review">
-                <h3>차 설명</h3>
-                <p>설명입니다</p>
-            </div>
-            <div class="review">
-                <h3>차 설명</h3>
-                <p>설명입니다</p>
-            </div>
-        </div><!--rewiew-->
+					<div class="fuel info">
+						<p class="fuelP" th:text="${fuel.fuel_name}"></p>
+						<input type="hidden" name="fuel" th:value="${fuel.fuel_id}">
+					</div>
+					<!--fuel-->
 
-    </div><!--mainwrap-->
+					<div class="seat info">
+						<p th:text="${car.seat}"></p>
+					</div>
+					<!--seat-->
+
+				</div>
+				<!--infowrap-->
+				<h3 class="featureh3">car feature</h3>
+				<div class="featurewrap">
+					<div class="feature" th:if="${option.contains('1')}">
+						<img
+							src="https://img.icons8.com/ios-filled/100/null/east-direction.png" />
+						<p>네비게이션</p>
+					</div>
+					<!--feature-->
+					<div class="feature" th:if="${option.contains('2')}">
+						<img
+							src="https://img.icons8.com/ios-filled/100/null/bluetooth.png" />
+						<p>블루투스</p>
+					</div>
+					<!--feature-->
+					<div class="feature" th:if="${option.contains('3')}">
+						<img
+							src="https://img.icons8.com/ios-filled/100/null/baby-car-seat.png" />
+						<p>베이비 카시트</p>
+					</div>
+					<!--feature-->
+					<div class="feature" th:if="${option.contains('4')}">
+						<img src="https://img.icons8.com/ios-filled/100/null/smoking.png" />
+						<p>흡연 가능</p>
+					</div>
+					<!--feature-->
+					<div class="feature" th:if="${option.contains('5')}">
+						<img src="https://img.icons8.com/sf-black-filled/64/null/dog.png" />
+						<p>반려동물 가능</p>
+					</div>
+					<!--feature-->
+					<div class="feature" th:if="${option.contains('6')}">
+						<img
+							src="https://img.icons8.com/ios-filled/100/null/gear-stick.png" />
+						<p>수동</p>
+					</div>
+					<!--feature-->
+				</div>
+				<!--featurewrap-->
+			</div>
+			<!--carInfo-->
+		</div>
+		<!--carwrap-->
+
+		<div class="explanation">
+			<h3>차 설명</h3>
+			<p th:text="${board.board_contents}">설명입니다</p>
+		</div>
+		<!--explanation-->
+
+		<div class="hostInfo">
+			<div class="hostProfile">
+				<img th:src="${host.host_img}">
+			</div>
+			<p th:text="${host.host_name}"></p>
+			<div class="rate">
+				<input type="hidden" id="rate" th:value="${rate}"> <span
+					class="rateStar"></span>
+			</div>
+		</div>
+		<!--hostInfo-->
+
+		<div class="reviewrap">
+			<div class="review">
+				<h3>차 설명</h3>
+				<p>설명입니다</p>
+			</div>
+			<div class="review">
+				<h3>차 설명</h3>
+				<p>설명입니다</p>
+			</div>
+			<div class="review">
+				<h3>차 설명</h3>
+				<p>설명입니다</p>
+			</div>
+		</div>
+		<!--rewiew-->
+
+	</div>
+	<!--mainwrap-->
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        $(document).ready(function () {
-            if ($('.featurewrap').children().length > 4) {
-                $('.featurewrap').addClass('feature5');
-                $('.feature').addClass('featurePlus');
-            }
-            if ($('.featurewrap').children().length == 5 || $('.featurewrap').children().length == 2) {
-            	$('.featurewrap').append('<div class="featurePlus"></div>');
-            }
-            
-         // 모델에서 전달된 값을 읽어옵니다.
-            var carType = $('input[name=carType]').val();
-            console.log(carType);
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript"
+		src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<script src="https://kit.fontawesome.com/d1fa9340d9.js"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							if ($('.featurewrap').children().length > 4) {
+								$('.featurewrap').addClass('feature5');
+								$('.feature').addClass('featurePlus');
+							}
+							if ($('.featurewrap').children().length == 5
+									|| $('.featurewrap').children().length == 2) {
+								$('.featurewrap').append(
+										'<div class="featurePlus"></div>');
+							}
 
-            // switch-case 문을 사용하여 적절한 img 태그를 추가합니다.
-            switch (carType) {
-                case "1":
-                    $(".carTypeP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/suv-2.png"/><br>');
-                    break;
-                case "2":
-                	$(".carTypeP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/sedan.png"/><br>');
-                    break;
-                case "3":
-                	$(".carTypeP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/fiat-500.png"/><br>');
-                    break;
-                case "4":
-                	$(".carTypeP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/convertible.png"/><br>');
-                    break;
-                case "5":
-                	$(".carTypeP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/van.png"/><br>');
-                    break;
-                case "6":
-                	$(".carTypeP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/truck.png"/><br>');
-                    break;
-                default:
-                    // 적절한 img 태그를 추가하지 않을 경우, 기본 img 태그를 추가합니다.
-                    $(".carTypeP").prepend('<p>no image</p>');
-                    break;
-            }
-            
-            var fuel = $('input[name=fuel]').val();
-            console.log(carType);
+							// 모델에서 전달된 값을 읽어옵니다.
+							var carType = $('input[name=carType]').val();
+							console.log(carType);
 
-            // switch-case 문을 사용하여 적절한 img 태그를 추가합니다.
-            switch (carType) {
-                case "1":
-                    $(".fuelP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/petrol.png"/><br>');
-                    break;
-                case "2":
-                	$(".fuelP").prepend('<img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-petrol-outdoor-kiranshastry-solid-kiranshastry.png"/><br>');
-                    break;
-                case "3":
-                	$(".fuelP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/hybrid.png"/><br>');
-                    break;
-                case "4":
-                	$(".fuelP").prepend('<img src="https://img.icons8.com/ios-filled/100/null/electric-vehicle.png"/><br>');
-                    break;
-                default:
-                    // 적절한 img 태그를 추가하지 않을 경우, 기본 img 태그를 추가합니다.
-                    $(".fuelP").prepend('<p>no image</p>');
-                    break;
-            }
+							// switch-case 문을 사용하여 적절한 img 태그를 추가합니다.
+							switch (carType) {
+							case "1":
+								$(".carTypeP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/suv-2.png"/><br>');
+								break;
+							case "2":
+								$(".carTypeP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/truck.png"/><br>');
+								break;
+							case "3":
+								$(".carTypeP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/sedan.png"/><br>');
+								break;
+							case "4":
+								$(".carTypeP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/van.png"/><br>');
+								break;
+							case "5":
+								$(".carTypeP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/convertible.png"/><br>');
+								break;
+							case "6":
+								$(".carTypeP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/fiat-500.png"/><br>');
+								break;
+							default:
+								// 적절한 img 태그를 추가하지 않을 경우, 기본 img 태그를 추가합니다.
+								$(".carTypeP").prepend('<p>no image</p>');
+								break;
+							}
 
-        });
+							var fuel = $('input[name=fuel]').val();
+							console.log(carType);
 
-        $('.slide').slick({
-            infinite: true,
-            prevArrow: '.btnleft',
-            nextArrow : '.btnright'
-        });
-        
-        $(function(){
-            $(".flatpickr").flatpickr({
-     		   mode: "range",
-     		   onChange: function(selectedDates){
-     				$('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
-     				$('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
-     			},
-     		   wrap: true
-     	   });
-            
-            $('.rate').each(function() {
+							// switch-case 문을 사용하여 적절한 img 태그를 추가합니다.
+							switch (fuel) {
+							case "1":
+								$(".fuelP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/petrol.png"/><br>');
+								break;
+							case "2":
+								$(".fuelP")
+										.prepend(
+												'<img src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/null/external-petrol-outdoor-kiranshastry-solid-kiranshastry.png"/><br>');
+								break;
+							case "3":
+								$(".fuelP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/hybrid.png"/><br>');
+								break;
+							case "4":
+								$(".fuelP")
+										.prepend(
+												'<img src="https://img.icons8.com/ios-filled/100/null/electric-vehicle.png"/><br>');
+								break;
+							default:
+								// 적절한 img 태그를 추가하지 않을 경우, 기본 img 태그를 추가합니다.
+								$(".fuelP").prepend('<p>no image</p>');
+								break;
+							}
+
+						});
+
+		$('.slide').slick({
+			infinite : true,
+			prevArrow : '.btnleft',
+			nextArrow : '.btnright'
+		});
+
+		$(function() {
+			$(".flatpickr")
+					.flatpickr(
+							{
+								disable : [ {
+									from : "2023-05-20",
+									to : "2023-05-23"
+								} ],
+								enable : [ {
+									from : "today",
+									to : "[[${board.rent_end}]]"
+								} ],
+								mode : "range",
+								onChange : function(selectedDates) {
+									$('#first-input').val(
+											this.formatDate(selectedDates[0],
+													"Y-m-d"));
+									$('#second-input').val(
+											this.formatDate(selectedDates[1],
+													"Y-m-d"));
+
+								},
+								wrap : true
+
+							});
+
+			$('[data-clear]').click(function() {
+				$('#first-input').val('');
+				$('#second-input').val('');
+			});
+
+			$('.rate').each(function() {
 				var rate = $(this).find('#rate').val();
 				var rateText = $(this).find('.rateStar');
 				switch (status) {
@@ -262,8 +345,8 @@
 					break;
 				}
 			});
-        }); 
-    </script>
+		});
+	</script>
 </body>
 
 </html>
