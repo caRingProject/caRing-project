@@ -28,7 +28,6 @@
            $('#first-input').val('');
            $('#second-input').val('');
        });
-       
      });    
 </script>
 
@@ -95,10 +94,11 @@
 		<div class="searchBar" th:object="${boardSearchForm}">
 			<form action="/board/list" class="carSearch">
 				<div class="where">
-					<label>Where</label> <input type="text" id="autocomplete"
-						placeholder="city, airport, adress or hotel"
-						th:value="*{location}" name="location"> <input
-						type="hidden" name="searchedLat" th:value="*{searchedLat}"
+					<label>Where</label> 
+					<input type="text" id="autocomplete" placeholder="city, airport, adress or hotel"
+						th:value="*{location}" name="location"> 
+						
+					<input type="hidden" name="searchedLat" th:value="*{searchedLat}"
 						id="searchedLat"> <input type="hidden" name="searchedLng"
 						th:value="*{searchedLng}" id="searchedLng">
 
@@ -258,7 +258,7 @@
 
 			<th:block th:each="boardDTO: ${boardDTOs}">
 				<div class="car">
-					<a th:href="@{/board/read(board_id=${boardDTO.board.board_id})}">
+					<a th:href="@{/board/read(board_id=${boardDTO.board.board_id}, rent_start=${boardSearchForm.rent_start}, rent_end=${boardSearchForm.rent_end})}">
 						<div class="img">
 							<img th:src="${boardDTO.car.thumbnail}" alt="car list 1"
 								name="picture">
@@ -286,6 +286,8 @@
 		<script th:inline="javascript">
 	var boardDTO = [[${boardDTOs}]];
 	var array = Array.from(boardDTO);
+	var rent_start = [[${boardSearchForm.rent_start}]];
+	var rent_end = [[${boardSearchForm.rent_end}]];
 	var map;
 	var searchedLat = document.getElementById("searchedLat").value
 	var searchedLng = document.getElementById("searchedLng").value
@@ -337,25 +339,40 @@
 				var searchBox = new google.maps.places.SearchBox(input);
 				var currentInfowindow = null;
 				
+				input.addEventListener('keydown', function(event) {
+				      if (event.key === 'Enter') {
+				        event.preventDefault();
+				        var predictions = searchBox.getPlaces();
+				        if (predictions && predictions.length > 0) {
+				          var firstPrediction = predictions[0];
+				          input.value = firstPrediction.formatted_address;
+				        }
+				      }
+				    });
+				
 		        for(i = 0; i < document.getElementsByName('lat').length; i++) {
 	        		const lat = document.getElementsByName('lat')[i].value
 	            	const lng = document.getElementsByName('lng')[i].value
 	            	var price = document.getElementsByName('price')[i].value
 	                var title = document.getElementsByName('title')[i].value
 	                var picture = array[i].car.thumbnail
+	                const board_id = array[i].board.board_id
+	                
 	                
 	                const detail =
 	                    '<div id="detailBox">' +
-	                    '<div id="detailPhoto" th:object="boardDTO: ${boardDTOs}">' +
-	                    		'<img src=' + picture + '>' +
+	                    '<div id="detailPhoto">' +
+	                    '<a href="/board/read?board_id=' + board_id + '&rent_start=' + rent_start +'&rent_end=' + rent_end + '">' +
+	                    '<img src="' + picture + '">' +
+	                  	'</a>' +
 	                    '</div>'	+
 	                   
-	                    '<div class="carDetail" id="detailContent" th:object="boardDTO: ${boardDTOs}">' +
+	                    '<div class="carDetail" id="detailContent">' +
 	                    	'<p>' + 4.8 + '</p>' + '<p>' + '<span class="won">' + " " + "</span>" + 
 	                    	'<span>' + title + '</span>' + '</p>' +  
 	                    "</div>" +
 	                    '<div>' + "1 - Day : " + " " + price + "원" + '</div>' +
-	                    '</div>';
+	                    '</div>' + '</a>';
 	                    
 	                    
 					var marker = new google.maps.Marker({
@@ -364,7 +381,7 @@
 					});
 					
 					const infowindow = new google.maps.InfoWindow({
-		                  content: detail,
+						content: '<div>' + detail + '</div>',
 		                  maxWidth: 300,
 		                  maxHeight: 200,
 		               });
@@ -379,9 +396,9 @@
 					            currentInfowindow = infowindow;
 					        };
 					    })(infowindow, marker));
-				
 				}
-
+		        
+		  
 		        var geocoder = new google.maps.Geocoder();
 				findLatLng(geocoder);
 		}

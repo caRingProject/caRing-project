@@ -351,6 +351,25 @@
 	<select id="findBoardsByCarInfoId" resultType="board">
 		select * from board where carInfo_id = #{carInfo_id}
 	</select>
+	
+	<select id="findBoardIdByPeriod" resultType="long">
+		SELECT 
+			b.board_id
+		FROM 
+			board b
+		WHERE EXISTS (
+    		SELECT 
+    			1
+    		FROM 
+    			reservation r
+    		WHERE 
+    			b.board_id = r.board_id
+        	AND 
+        		r.rent_start <![CDATA[ < ]]>= #{rent_start}
+        	AND 
+        		r.rent_end >= #{rent_end}
+)
+	</select>
 
 
 </mapper>

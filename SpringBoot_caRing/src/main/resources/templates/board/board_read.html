@@ -4,40 +4,56 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css/car_detail.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="https://kit.fontawesome.com/d1fa9340d9.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>					
 <title>car_detail</title>
-
 </head>
+<script th:inline="javascript">
+var queryString = window.location.search;
+var params = new URLSearchParams(queryString);
+var rentStart = params.get('rent_start');
+var rentEnd = params.get('rent_end');
 
+
+   	$(function(){
+   	    var disabledDates = [];
+   		var reservationChecks = [[${reservationChecks}]];
+   		var array = Array.from(reservationChecks);
+   		for (var i = 0; i < array.length; i++) {
+   			var rent_start = array[i].rent_start;
+   			var rent_end = array[i].rent_end;
+   			disabledDates.push({
+   	         from: rent_start,
+   	         to: rent_end
+   	      });
+   		}
+   		
+       $(".flatpickr").flatpickr({
+           mode: "range",
+           onChange: function(selectedDates){
+            $('#first-input').val(this.formatDate(selectedDates[0], "Y-m-d"));
+            $('#second-input').val(this.formatDate(selectedDates[1], "Y-m-d"));
+         },
+            wrap: true,
+            disable: disabledDates
+        });
+       
+       $('[data-clear]').click(function() {
+           $('#first-input').val('');
+           $('#second-input').val('');
+       });
+   	});
+</script>
 <body>
 	<header>
 		<h1>
 			<a href="/"> <img src="/img/logo.png" alt="caRing main logo"></a>
 		</h1>
-
-		<div class="searchBar">
-			<form action="#" class="carSearch">
-				<div class="where">
-					<label>Where</label> <input type="text" id="autocomplete"
-						placeholder="city, airport, adress or hotel">
-				</div>
-
-				<div class="When">
-					<label>When</label>
-				</div>
-
-				<div class="flatpickr">
-					<input type="text" placeholder="날짜를 선택해주세요" data-input> <a
-						class="input-button" title="toggle" data-toggle> <i
-						class="fa-solid fa-calendar-days"></i></a> <a class="input-button"
-						title="clear" data-clear> <i
-						class="fa-regular fa-circle-xmark"></i></a>
-				</div>
-			</form>
-		</div>
 
 		<div class="usermenu">
 			<a href="#"><img src="/img/user.png" alt="user logo"></a>
@@ -189,19 +205,14 @@
 	<!--mainwrap-->
 
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-	<script type="text/javascript"
-		src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-	<script src="https://kit.fontawesome.com/d1fa9340d9.js"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 	<script>
 		$(document)
 				.ready(
 						function() {
+							$('#first-input').val(rentStart);
+							$('#second-input').val(rentEnd);
+							
 							if ($('.featurewrap').children().length > 4) {
 								$('.featurewrap').addClass('feature5');
 								$('.feature').addClass('featurePlus');
@@ -214,7 +225,6 @@
 
 							// 모델에서 전달된 값을 읽어옵니다.
 							var carType = $('input[name=carType]').val();
-							console.log(carType);
 
 							// switch-case 문을 사용하여 적절한 img 태그를 추가합니다.
 							switch (carType) {
@@ -255,7 +265,6 @@
 							}
 
 							var fuel = $('input[name=fuel]').val();
-							console.log(carType);
 
 							// switch-case 문을 사용하여 적절한 img 태그를 추가합니다.
 							switch (fuel) {
@@ -293,38 +302,8 @@
 			nextArrow : '.btnright'
 		});
 
-		$(function() {
-			$(".flatpickr")
-					.flatpickr(
-							{
-								disable : [ {
-									from : "2023-05-20",
-									to : "2023-05-23"
-								} ],
-								enable : [ {
-									from : "today",
-									to : "[[${board.rent_end}]]"
-								} ],
-								mode : "range",
-								onChange : function(selectedDates) {
-									$('#first-input').val(
-											this.formatDate(selectedDates[0],
-													"Y-m-d"));
-									$('#second-input').val(
-											this.formatDate(selectedDates[1],
-													"Y-m-d"));
 
-								},
-								wrap : true
-
-							});
-
-			$('[data-clear]').click(function() {
-				$('#first-input').val('');
-				$('#second-input').val('');
-			});
-
-			$('.rate').each(function() {
+		$('.rate').each(function() {
 				var rate = $(this).find('#rate').val();
 				var rateText = $(this).find('.rateStar');
 				switch (status) {
@@ -345,8 +324,8 @@
 					break;
 				}
 			});
-		});
 	</script>
+
 </body>
 
 </html>

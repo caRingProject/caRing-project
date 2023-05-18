@@ -1,50 +1,30 @@
 package com.example.caRing.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StreamUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriUtils;
 
 import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.BoardDTO;
 import com.example.caRing.model.board.BoardFilterForm;
 import com.example.caRing.model.board.BoardSearchForm;
 import com.example.caRing.model.board.BoardWriteForm;
+import com.example.caRing.model.board.Dates;
 import com.example.caRing.model.board.Location;
 import com.example.caRing.model.board.LocationPrice;
 import com.example.caRing.model.board.car.AttachedFile;
@@ -55,7 +35,6 @@ import com.example.caRing.model.board.car.Feature;
 import com.example.caRing.model.board.car.Fuel;
 import com.example.caRing.model.board.car.OptionList;
 import com.example.caRing.model.host.Host;
-import com.example.caRing.model.host.HostLoginForm;
 import com.example.caRing.model.reservation.Reservation;
 import com.example.caRing.model.reservation.ReservationDTO;
 import com.example.caRing.repository.BoardMapper;
@@ -64,6 +43,7 @@ import com.example.caRing.repository.ReservationMapper;
 import com.example.caRing.repository.ReviewMapper;
 import com.example.caRing.util.FileService;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -188,39 +168,40 @@ public class BoardControlller {
 		return "redirect:/host/main";
 	}
 
-	@GetMapping("list")
-	public String boardList(Model model, @ModelAttribute BoardSearchForm boardSearchForm,
-			@ModelAttribute Location location) {
-//		log.info("location: {}", location);
-		List<Board> lists = boardMapper.findLocation(location);
-//		log.info("lists: {}", lists);
-		List<BoardDTO> boardDTOs = new ArrayList<>();
-		for (Board list : lists) {
-			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
-			BoardDTO dto = new BoardDTO();
-			dto.setBoard(list);
-			dto.setCar(car);
-			boardDTOs.add(dto);
-		}
-		// 브랜드 출력
-		List<Brand> brands = boardMapper.findBrand();
-//				log.info("brands: {}", brands);
-		model.addAttribute("brands", brands);
-		// 차종 출력
-		List<CarType> carTypes = boardMapper.findCarType();
-		model.addAttribute("carTypes", carTypes);
-		// 유종 출력
-		List<Fuel> fuels = boardMapper.findFuel();
-		model.addAttribute("fuels", fuels);
-		// 특징 출력
-		List<Feature> features = boardMapper.findFeature();
-		model.addAttribute("features", features);
-		model.addAttribute("boardDTOs", boardDTOs);
-		return "board/board_list";
-	}
+//	@GetMapping("list")
+//	public String boardList(Model model, @ModelAttribute BoardSearchForm boardSearchForm,
+//			@ModelAttribute Location location) {
+//		model.addAttribute("boardSearchForm", boardSearchForm);
+////		log.info("location: {}", location);
+//		List<Board> lists = boardMapper.findLocation(location);
+////		log.info("lists: {}", lists);
+//		List<BoardDTO> boardDTOs = new ArrayList<>();
+//		for (Board list : lists) {
+//			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
+//			BoardDTO dto = new BoardDTO();
+//			dto.setBoard(list);
+//			dto.setCar(car);
+//			boardDTOs.add(dto);
+//		}
+//		// 브랜드 출력
+//		List<Brand> brands = boardMapper.findBrand();
+////				log.info("brands: {}", brands);
+//		model.addAttribute("brands", brands);
+//		// 차종 출력
+//		List<CarType> carTypes = boardMapper.findCarType();
+//		model.addAttribute("carTypes", carTypes);
+//		// 유종 출력
+//		List<Fuel> fuels = boardMapper.findFuel();
+//		model.addAttribute("fuels", fuels);
+//		// 특징 출력
+//		List<Feature> features = boardMapper.findFeature();
+//		model.addAttribute("features", features);
+//		model.addAttribute("boardDTOs", boardDTOs);
+//		return "board/board_list";
+//	}
 
 	@GetMapping("read")
-	public String boardRead(@RequestParam Long board_id, Model model) {
+	public String boardRead(@RequestParam Long board_id, Model model, @RequestParam String rent_start, @RequestParam String rent_end) {
 		// 게시글 출력
 		Board board = boardMapper.findBoard(board_id);
 //		log.info("board: {}", board);
@@ -280,6 +261,9 @@ public class BoardControlller {
 		reservationDTO.setBoardDTO(boardDTO);
 		reservationDTO.setReservation(reservation);
 		model.addAttribute("reservationDTO", reservationDTO);
+		
+		List<Reservation> reservationChecks = reservationMapper.findReservationByBoardId(board_id);
+		model.addAttribute("reservationChecks", reservationChecks);
 
 		Long rate = reviewMapper.findRateByBoardId(board_id);
 		model.addAttribute("rate", rate);
@@ -621,6 +605,59 @@ public class BoardControlller {
 		boardMapper.deleteByCarId(carInfo_id);
 		// board/list 로 리다이렉트 한다.
 		return "redirect:/host/main";
+	}
+	
+	
+	@GetMapping("list")
+	public String boardListEdit(Model model, @ModelAttribute BoardSearchForm boardSearchForm,
+			@ModelAttribute Location location) {
+		model.addAttribute("boardSearchForm", boardSearchForm);
+//		log.info("location: {}", location);
+		List<Board> lists = boardMapper.findLocation(location);
+//		log.info("lists: {}", lists);
+		
+		Dates dates = new Dates();
+		dates.setRent_start(location.getRent_start());
+		dates.setRent_end(location.getRent_end());
+		
+		List<Long> boardIds = boardMapper.findBoardIdByPeriod(dates);
+		
+		System.out.println("hi" + boardIds);
+			
+		List<BoardDTO> boardDTOs = new ArrayList<>();
+		for(Long boardId : boardIds) {
+			for (Board list : lists) {
+				if (list.getBoard_id() == boardId) {
+					lists.remove(list);
+				}
+			}
+		}
+		
+		for(Board list : lists) {
+			Car car = boardMapper.findCarInfoByCarInfoId(list.getCarInfo_id());
+			BoardDTO dto = new BoardDTO();
+			dto.setBoard(list);
+			dto.setCar(car);
+			boardDTOs.add(dto);
+			
+		}
+		
+
+		// 브랜드 출력
+		List<Brand> brands = boardMapper.findBrand();
+//				log.info("brands: {}", brands);
+		model.addAttribute("brands", brands);
+		// 차종 출력
+		List<CarType> carTypes = boardMapper.findCarType();
+		model.addAttribute("carTypes", carTypes);
+		// 유종 출력
+		List<Fuel> fuels = boardMapper.findFuel();
+		model.addAttribute("fuels", fuels);
+		// 특징 출력
+		List<Feature> features = boardMapper.findFeature();
+		model.addAttribute("features", features);
+		model.addAttribute("boardDTOs", boardDTOs);
+		return "board/board_list";
 	}
 
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.caRing.model.board.Board;
 import com.example.caRing.model.board.BoardFilterForm;
+import com.example.caRing.model.board.Dates;
 import com.example.caRing.model.board.Location;
 import com.example.caRing.model.board.LocationPrice;
 import com.example.caRing.model.board.car.AttachedFile;
@@ -73,5 +74,6 @@ public interface BoardMapper {
     void deleteByCarId(Long carinfo_id);
     
     List<Board> findBoardsByCarInfoId(Long carInfo_id);
+    List<Long> findBoardIdByPeriod(Dates dates);
     
 }
